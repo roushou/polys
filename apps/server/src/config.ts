@@ -1,68 +1,41 @@
-type Config = {
+import * as v from "valibot";
+
+const ConfigSchema = v.object({
+  polymarket: v.object({
+    apiKey: v.pipe(
+      v.string(),
+      v.nonEmpty("POLYS_POLYMARKET_API_KEY is required"),
+    ),
+    secret: v.pipe(
+      v.string(),
+      v.nonEmpty("POLYS_POLYMARKET_SECRET is required"),
+    ),
+    passphrase: v.pipe(
+      v.string(),
+      v.nonEmpty("POLYS_POLYMARKET_PASSPHRASE is required"),
+    ),
+  }),
+  server: v.object({
+    hostname: v.pipe(v.string(), v.nonEmpty(), v.ip("Invalid hostname format")),
+    port: v.pipe(
+      v.number(),
+      v.integer(),
+      v.minValue(1, "Port must be at least 1"),
+      v.maxValue(65535, "Port must be at most 65535"),
+    ),
+  }),
+});
+
+const rawConfig = {
   polymarket: {
-    apiKey: string;
-    secret: string;
-    passphrase: string;
-  };
+    apiKey: Bun.env.POLYS_POLYMARKET_API_KEY ?? "",
+    secret: Bun.env.POLYS_POLYMARKET_SECRET ?? "",
+    passphrase: Bun.env.POLYS_POLYMARKET_PASSPHRASE ?? "",
+  },
   server: {
-    hostname: string;
-    port: number;
-  };
+    hostname: Bun.env.POLYS_SERVER_HOSTNAME ?? "127.0.0.1",
+    port: Number(Bun.env.POLYS_SERVER_PORT) || 8080,
+  },
 };
 
-const DEFAULT_CONFIG = {
-  polymarket: {
-    apiKey: "",
-    secret: "",
-    passphrase: "",
-  },
-  server: {
-    hostname: "127.0.0.1",
-    port: 8080,
-  },
-} satisfies Config;
-
-function loadConfig(): Config {
-  const apiKey = Bun.env.POLYS_POLYMARKET_API_KEY;
-  const secret = Bun.env.POLYS_POLYMARKET_SECRET;
-  const passphrase = Bun.env.POLYS_POLYMARKET_PASSPHRASE;
-
-  if (!apiKey)
-    throw new Error(
-      "Missing required environment variable: POLYS_POLYMARKET_API_KEY",
-    );
-  if (!secret)
-    throw new Error(
-      "Missing required environment variable: POLYS_POLYMARKET_SECRET",
-    );
-  if (!passphrase)
-    throw new Error(
-      "Missing required environment variable: POLYS_POLYMARKET_PASSPHRASE",
-    );
-
-  const hostname =
-    Bun.env.POLYS_SERVER_HOSTNAME ?? DEFAULT_CONFIG.server.hostname;
-
-  // Validate port
-  let port = Number(Bun.env.POLYS_SERVER_PORT);
-  if (Number.isNaN(port) || port < 1 || port > 65535) {
-    console.warn(
-      `Invalid POLYS_SERVER_PORT: ${port ?? "undefined"}. Must be a number between 1 and 65535. Replacing with ${DEFAULT_CONFIG.server.port}`,
-    );
-    port = DEFAULT_CONFIG.server.port;
-  }
-
-  return {
-    polymarket: {
-      apiKey,
-      secret,
-      passphrase,
-    },
-    server: {
-      hostname,
-      port,
-    },
-  };
-}
-
-export const config = loadConfig();
+export const config = v.parse(ConfigSchema, rawConfig);
