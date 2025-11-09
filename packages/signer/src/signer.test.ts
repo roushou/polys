@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Signer, type Method } from "./signer";
+import { type Method, Signer } from "./signer";
 
 // Test credentials - using base64-encoded "test-secret-key"
 const testCredentials = {
@@ -518,7 +518,7 @@ describe("Signer", () => {
   describe("Edge Cases", () => {
     test("should handle very long paths (>1000 characters)", () => {
       const signer = new Signer(testCredentials);
-      const longPath = "/api/" + "a".repeat(1500);
+      const longPath = `/api/${"a".repeat(1500)}`;
       const payload = signer.createHeaderPayload({
         method: "GET",
         path: longPath,

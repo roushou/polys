@@ -1,2 +1,2 @@
-export { Signer } from "./signer";
 export type { Credentials, HeaderPayload } from "./signer";
+export { Signer } from "./signer";
