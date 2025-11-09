@@ -1,5 +1,22 @@
+import * as v from "valibot";
 import { config } from "./config";
 import { withAuth } from "./middleware/auth";
+
+
+const SignSchema = v.object({
+  path: v.pipe(v.string(), v.nonEmpty()),
+  method: v.union([
+    v.literal("GET"),
+    v.literal("POST"),
+    v.literal("PUT"),
+    v.literal("DELETE"),
+    v.literal("PATCH"),
+    v.literal("HEAD"),
+    v.literal("OPTIONS"),
+  ]),
+  body: v.optional(v.string()),
+  timestamp: v.optional(v.number()),
+});
 
 const server = Bun.serve({
   hostname: config.server.hostname,
@@ -22,8 +39,14 @@ const server = Bun.serve({
     },
 
     "/api/sign": {
-      POST: withAuth((_req, token) => {
         return Response.json({ message: "ok", token });
+      POST: withAuth((req, _token) => {
+        const validation = v.safeParse(SignSchema, req.body);
+        if (!validation.success) {
+          return new Response("bad request", { status: 400 });
+        }
+
+        const { method, path, body, timestamp } = validation.output;
       }),
     },
   },
