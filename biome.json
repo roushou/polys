@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!static/global.css"]
+    "includes": ["**"]
   },
   "formatter": {
     "enabled": true,
@@ -16,7 +16,10 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "style": {
+        "useNodejsImportProtocol": "off"
+      }
     }
   },
   "javascript": {
