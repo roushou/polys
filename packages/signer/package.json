@@ -1,6 +1,7 @@
 {
   "name": "@polys/signer",
   "version": "0.1.0",
+  "description": "HMAC-SHA256 signature generator for Polymarket API authentication",
   "license": "MIT",
   "private": true,
   "type": "module",
@@ -9,7 +10,29 @@
     "email": "hello@kenji.sh",
     "url": "https://kenji.sh"
   },
+  "keywords": [
+    "polymarket",
+    "hmac",
+    "signature",
+    "authentication",
+    "crypto",
+    "api"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/roushou/polys",
+    "directory": "packages/signer"
+  },
+  "bugs": {
+    "url": "https://github.com/roushou/polys/issues"
+  },
+  "homepage": "https://github.com/roushou/polys#readme",
   "exports": {
     ".": "./src/signer.ts"
-  }
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ]
 }
