@@ -1,0 +1,10 @@
+{
+  "name": "@polys/server",
+  "version": "0.1.0",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot run ./src/app.ts"
+  }
+}
