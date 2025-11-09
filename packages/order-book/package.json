@@ -1,0 +1,42 @@
+{
+  "name": "@polys/order-book",
+  "version": "0.1.0",
+  "description": "TypeScript client for the Polymarket CLOB (Central Limit Order Book) API",
+  "license": "MIT",
+  "type": "module",
+  "author": {
+    "name": "Kenji Lau",
+    "email": "hello@kenji.sh",
+    "url": "https://kenji.sh"
+  },
+  "keywords": [
+    "polymarket",
+    "order-book",
+    "clob",
+    "trading",
+    "prediction-markets",
+    "crypto",
+    "websocket"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/roushou/polys",
+    "directory": "packages/order-book"
+  },
+  "bugs": {
+    "url": "https://github.com/roushou/polys/issues"
+  },
+  "homepage": "https://github.com/roushou/polys#readme",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@polys/signer": "workspace:*",
+    "ky": "^1.14.0"
+  }
+}
