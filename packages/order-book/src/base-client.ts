@@ -1,5 +1,5 @@
 import type { ConnectedWalletClient, Credentials } from "@polys/signer";
-import ky, { type HTTPError, type KyInstance, type Options } from "ky";
+import ky, { type HTTPError, type KyInstance } from "ky";
 import { createL1Headers, createL2Headers } from "./auth/headers.ts";
 import {
   ApiError,
@@ -124,11 +124,6 @@ export class BaseClient {
   }): Promise<T> {
     const { body, params } = options;
 
-    // Prepare headers
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-
     // Build full path with query params for signature
     const searchParams = new URLSearchParams();
     if (params) {
@@ -138,8 +133,11 @@ export class BaseClient {
         }
       }
     }
-    const search = searchParams.toString();
-    const fullPath = search ? `${path}?${search}` : path;
+
+    // Prepare headers
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
 
     // Add authentication headers based on auth type
     // auth === "none" requires no additional headers
@@ -168,26 +166,15 @@ export class BaseClient {
       Object.assign(headers, l2Headers);
     }
 
-    const kyOptions: Options = {
-      method: method.toLowerCase() as Lowercase<typeof method>,
-      headers,
-    };
-
-    if (body !== undefined) {
-      kyOptions.json = body;
-    }
-
-    if (params) {
-      kyOptions.searchParams = params as Record<
-        string,
-        string | number | boolean
-      >;
-    }
-
     try {
       // remove leading slash because Ky doesn't like it when using prefixUrl
       const normalizedPath = path.replace(/^\//, "");
-      const response = await this.api(normalizedPath, kyOptions);
+      const response = await this.api(normalizedPath, {
+        method,
+        headers,
+        json: body,
+        searchParams,
+      });
       const data = await response.json<T>();
 
       if (this.debug) {
