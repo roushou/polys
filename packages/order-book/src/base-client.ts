@@ -158,8 +158,8 @@ export class BaseClient {
         credentials: this.credentials,
         headerArgs: {
           method,
-          requestPath: fullPath,
           body: JSON.stringify(body),
+          requestPath: path,
         },
       });
 
