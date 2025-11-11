@@ -1,5 +1,5 @@
 import type { Account, Chain, Transport, WalletClient } from "viem";
-import { createWalletClient, http } from "viem";
+import { createWalletClient, http, isHex, toHex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { polygon, polygonAmoy } from "viem/chains";
 
@@ -11,11 +11,18 @@ export function createConnectedWallet({
   privateKey,
   chain,
 }: {
-  privateKey: `0x${string}`;
+  privateKey: string;
   chain: SupportedChain;
 }) {
+  const normalized = isHex(privateKey) ? privateKey : `0x${privateKey}`;
+  if (normalized.length !== 66) {
+    throw new Error(
+      "Invalid private key: must be 32 bytes (64 hex characters)",
+    );
+  }
+
   return createWalletClient({
-    account: privateKeyToAccount(privateKey),
+    account: privateKeyToAccount(toHex(normalized)),
     chain: chain === "polygon" ? polygon : polygonAmoy,
     transport: http(),
   });
