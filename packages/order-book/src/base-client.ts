@@ -136,7 +136,11 @@ export class BaseClient {
 
     // Prepare headers
     const headers: Record<string, string> = {
+      Accept: "*/*",
+      "Accept-Encoding": "gzip",
+      Connection: "keep-alive",
       "Content-Type": "application/json",
+      "User-Agent": "@polys/order-book",
     };
 
     // Add authentication headers based on auth type
