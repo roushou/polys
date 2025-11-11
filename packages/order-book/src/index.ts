@@ -22,9 +22,13 @@ export type {
   TickerResponse,
 } from "./requests/book.ts";
 export type {
+  GetPriceHistoryParams,
   ListMarketsResponse,
   Market,
+  MarketPrice,
   MarketToken,
+  MidpointResponse,
+  PriceResponse,
 } from "./requests/market.ts";
 export type {
   CancelResponse,
@@ -36,7 +40,6 @@ export type {
   OrderType,
   SignedOrder,
 } from "./requests/order.ts";
-export type { MidpointResponse, PriceResponse } from "./requests/pricing.ts";
 export type {
   ListTradesParams,
   Trade,

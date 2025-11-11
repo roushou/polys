@@ -1,4 +1,5 @@
 import type { BaseClient } from "../base-client.ts";
+import type { OrderSide } from "./order.ts";
 
 export class MarketRequests {
   constructor(private readonly client: BaseClient) {}
@@ -42,6 +43,83 @@ export class MarketRequests {
     } while (nextCursor);
 
     return markets;
+  }
+
+  /**
+   * Get the market price for a specific token and side
+   */
+  async getPrice(
+    tokenId: string,
+    side: "BUY" | "SELL",
+  ): Promise<PriceResponse> {
+    return this.client.request<PriceResponse>({
+      method: "GET",
+      path: "/price",
+      auth: { kind: "none" },
+      options: {
+        params: { token_id: tokenId, side },
+      },
+    });
+  }
+
+  /**
+   * Get market prices for multiple tokens and sides
+   */
+  async getPrices(
+    params: { tokenId: string; side: OrderSide }[],
+  ): Promise<PriceResponse> {
+    // TODO: use correct type
+    return this.client.request<PriceResponse>({
+      method: "POST",
+      path: "/prices",
+      auth: { kind: "none" },
+      options: {
+        body: params.map((param) => ({
+          token_id: param.tokenId,
+          side: param.side,
+        })),
+      },
+    });
+  }
+
+  /**
+   * Get midpoint price for a specific token
+   */
+  async getMidpoint(tokenId: string): Promise<MidpointResponse> {
+    return this.client.request<MidpointResponse>({
+      method: "GET",
+      path: "/midpoint",
+      auth: { kind: "none" },
+      options: {
+        params: { token_id: tokenId },
+      },
+    });
+  }
+
+  /**
+   * Get historical price data for a given market token
+   */
+  async getPriceHistory(params: GetPriceHistoryParams): Promise<MarketPrice[]> {
+    const response = await this.client.request<Array<{ p: number; t: number }>>(
+      {
+        method: "GET",
+        path: "/prices-history",
+        auth: { kind: "none" },
+        options: {
+          params: {
+            market: params.market,
+            startTs: params.startTimestamp,
+            endTs: params.endTimestamp,
+            fidelity: params.fidelity,
+            interval: params.interval,
+          },
+        },
+      },
+    );
+    return response.map((data) => ({
+      price: data.p,
+      timestamp: data.t,
+    }));
   }
 }
 
@@ -87,4 +165,25 @@ export type ListMarketsResponse = {
   next_cursor?: string;
   limit: number;
   count: number;
+};
+
+export type PriceResponse = {
+  price: string;
+};
+
+export type MidpointResponse = {
+  mid: string;
+};
+
+export type GetPriceHistoryParams = {
+  market: string;
+  startTimestamp?: number;
+  endTimestamp?: number;
+  fidelity?: number;
+  interval?: "1m" | "1w" | "1d" | "6h" | "12h" | "1h" | "max";
+};
+
+export type MarketPrice = {
+  price: number;
+  timestamp: number;
 };

@@ -4,7 +4,6 @@ import { AuthRequests } from "./requests/auth.ts";
 import { BookRequests } from "./requests/book.ts";
 import { MarketRequests } from "./requests/market.ts";
 import { OrderRequests } from "./requests/order.ts";
-import { PricingRequests } from "./requests/pricing.ts";
 import { TradeRequests } from "./requests/trade.ts";
 
 /**
@@ -43,8 +42,6 @@ export class OrderBookClient extends BaseClient {
 
   public readonly book: BookRequests;
 
-  public readonly pricing: PricingRequests;
-
   public readonly trade: TradeRequests;
 
   public readonly market: MarketRequests;
@@ -58,7 +55,6 @@ export class OrderBookClient extends BaseClient {
 
     this.auth = new AuthRequests(this);
     this.book = new BookRequests(this);
-    this.pricing = new PricingRequests(this);
     this.trade = new TradeRequests(this);
     this.market = new MarketRequests(this);
     this.order = new OrderRequests(this);
