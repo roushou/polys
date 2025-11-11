@@ -4,7 +4,7 @@ import { polygon, polygonAmoy } from "viem/chains";
 
 export type ConnectedWalletClient = WalletClient<Transport, Chain, Account>;
 
-export type SupportedChain = "polygon" | "polygon-amoi";
+export type SupportedChain = "polygon" | "polygon-amoy";
 
 export function createConnectedWallet({
   account,
