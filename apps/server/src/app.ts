@@ -1,4 +1,4 @@
-import { Signer } from "@polys/signer";
+import { Signer } from "@dicedhq/signer";
 import * as v from "valibot";
 
 import { config } from "./config.ts";

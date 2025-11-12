@@ -1,4 +1,4 @@
-import type { Credentials } from "@polys/signer";
+import type { Credentials } from "@dicedhq/signer";
 import type { BaseClient } from "../base-client.ts";
 
 export class AuthRequests {

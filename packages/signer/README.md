@@ -1,4 +1,4 @@
-# @polys/signer
+# @dicedhq/signer
 
 HMAC-SHA256 signature generator for Polymarket API authentication.
 
@@ -12,7 +12,7 @@ HMAC-SHA256 signature generator for Polymarket API authentication.
 ## Installation
 
 ```bash
-bun add @polys/signer
+bun add @dicedhq/signer
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ bun add @polys/signer
 ### Basic Example
 
 ```typescript
-import { Signer } from "@polys/signer";
+import { Signer } from "@dicedhq/signer";
 
 const signer = new Signer({
   key: "your-api-key",

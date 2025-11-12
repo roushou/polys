@@ -1,4 +1,4 @@
-import type { ConnectedWalletClient, Credentials } from "@polys/signer";
+import type { ConnectedWalletClient, Credentials } from "@dicedhq/signer";
 import ky, { type HTTPError, type KyInstance } from "ky";
 import { createL1Headers } from "./auth/layer-1.ts";
 import { createL2Headers } from "./auth/layer-2.ts";
@@ -142,7 +142,7 @@ export class BaseClient {
       "Accept-Encoding": "gzip",
       Connection: "keep-alive",
       "Content-Type": "application/json",
-      "User-Agent": "@polys/order-book",
+      "User-Agent": "@dicedhq/polymarket",
     };
 
     // Add authentication headers based on auth type

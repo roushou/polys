@@ -1,5 +1,5 @@
 {
-  "name": "@polys/signer",
+  "name": "@dicedhq/signer",
   "version": "0.1.0",
   "description": "HMAC-SHA256 signature generator for Polymarket API authentication",
   "license": "MIT",
@@ -20,13 +20,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/roushou/polys",
+    "url": "https://github.com/roushou/dicedhq",
     "directory": "packages/signer"
   },
   "bugs": {
-    "url": "https://github.com/roushou/polys/issues"
+    "url": "https://github.com/roushou/dicedhq/issues"
   },
-  "homepage": "https://github.com/roushou/polys#readme",
+  "homepage": "https://github.com/roushou/dicedhq#readme",
   "exports": {
     ".": "./src/index.ts"
   },

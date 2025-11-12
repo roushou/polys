@@ -1,4 +1,4 @@
-import { type ConnectedWalletClient, signClobAuth } from "@polys/signer";
+import { type ConnectedWalletClient, signClobAuth } from "@dicedhq/signer";
 import type { Hex } from "viem";
 
 /**

@@ -1,4 +1,4 @@
-import type { ConnectedWalletClient } from "@polys/signer";
+import type { ConnectedWalletClient } from "@dicedhq/signer";
 import type { Hex } from "viem";
 import type { Order, OrderSide } from "../api/order.ts";
 import { getContractForChain } from "./contracts.ts";

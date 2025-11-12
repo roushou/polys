@@ -1,5 +1,5 @@
-import type { Credentials, Method } from "@polys/signer";
-import { createHmacSignature } from "@polys/signer";
+import type { Credentials, Method } from "@dicedhq/signer";
+import { createHmacSignature } from "@dicedhq/signer";
 
 /**
  * L2 header payload for API key-based authentication

@@ -1,6 +1,6 @@
-# @polys/order-book
+# @dicedhqhq/polymarket
 
-A TypeScript client for the Polymarket CLOB (Central Limit Order Book) API.
+A TypeScript client for the Polymarket API.
 
 > [!WARNING]
 > This is currently work-in-progress so the API may change and some features may be missing
@@ -19,7 +19,7 @@ A TypeScript client for the Polymarket CLOB (Central Limit Order Book) API.
 ## Installation
 
 ```bash
-npm install @polys/order-book
+npm install @dicedhqhq/polymarket
 ```
 
 ## License
