@@ -1,0 +1,13 @@
+{
+  "name": "@dicedhq/example-create-order",
+  "version": "0.1.0",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run ./src/index.ts"
+  },
+  "dependencies": {
+    "@dicedhq/polymarket": "workspace:*"
+  }
+}

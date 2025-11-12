@@ -10,7 +10,7 @@
     "dev": "bun --hot run ./src/app.ts"
   },
   "dependencies": {
-    "@dicedhq/signer": "workspace:*",
+    "@dicedhq/polymarket": "workspace:*",
     "valibot": "^1.1.0"
   }
 }

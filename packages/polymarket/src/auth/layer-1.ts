@@ -1,5 +1,6 @@
-import { type ConnectedWalletClient, signClobAuth } from "@dicedhq/signer";
 import type { Hex } from "viem";
+import { signClobAuth } from "../core/eip712.ts";
+import type { ConnectedWalletClient } from "../wallet/wallet.ts";
 
 /**
  * L1 header payload for wallet-based authentication

@@ -1,4 +1,4 @@
-import { createHmacSignature } from "./sign/hmac.ts";
+import { createHmacSignature } from "../core/hmac.ts";
 
 /**
  * Credentials required for HMAC signature generation

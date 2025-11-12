@@ -1,5 +1,5 @@
-import type { Credentials, Method } from "@dicedhq/signer";
-import { createHmacSignature } from "@dicedhq/signer";
+import { createHmacSignature } from "../core/hmac.ts";
+import type { Credentials, Method } from "../signer/signer.ts";
 
 /**
  * L2 header payload for API key-based authentication

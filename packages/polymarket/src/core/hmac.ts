@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import type { Method } from "../signer.ts";
 
 /**
  * Creates an HMAC-SHA256 signature using the provided secret and request details
@@ -20,7 +19,7 @@ export function createHmacSignature({
 }: {
   secret: string;
   timestamp: number;
-  method: Method;
+  method: string;
   requestPath: string;
   body: string | undefined;
 }): string {

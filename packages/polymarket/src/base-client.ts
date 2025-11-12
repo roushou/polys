@@ -1,4 +1,3 @@
-import type { ConnectedWalletClient, Credentials } from "@dicedhq/signer";
 import ky, { type HTTPError, type KyInstance } from "ky";
 import { createL1Headers } from "./auth/layer-1.ts";
 import { createL2Headers } from "./auth/layer-2.ts";
@@ -10,6 +9,8 @@ import {
   TimeoutError,
   ValidationError,
 } from "./errors.ts";
+import type { Credentials } from "./signer/signer.ts";
+import type { ConnectedWalletClient } from "./wallet/wallet.ts";
 
 const DEFAULT_BASE_URL = "https://clob.polymarket.com";
 const DEFAULT_TIMEOUT_MS = 30000;

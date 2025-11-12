@@ -1,5 +1,5 @@
-import type { Credentials } from "@dicedhq/signer";
 import type { BaseClient } from "../base-client.ts";
+import type { Credentials } from "../signer/signer.ts";
 
 export class AuthRequests {
   constructor(private readonly client: BaseClient) {}

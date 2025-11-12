@@ -1,4 +1,4 @@
-import { Signer } from "@dicedhq/signer";
+import { Signer } from "@dicedhq/polymarket";
 import * as v from "valibot";
 
 import { config } from "./config.ts";

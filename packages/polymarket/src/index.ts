@@ -45,7 +45,8 @@ export {
   TimeoutError,
   ValidationError,
 } from "./errors.ts";
-
+export type { Credentials, HeaderPayload, Method } from "./signer/signer.ts";
+export { Signer } from "./signer/signer.ts";
 export {
   calculateFees,
   calculateMidpoint,
@@ -64,3 +65,5 @@ export {
   validatePrice,
   validateSize,
 } from "./utils.ts";
+export type { ConnectedWalletClient, SupportedChain } from "./wallet/wallet.ts";
+export { createConnectedWallet } from "./wallet/wallet.ts";

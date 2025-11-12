@@ -16,7 +16,7 @@
       "name": "@dicedhq/server",
       "version": "0.1.0",
       "dependencies": {
-        "@dicedhq/signer": "workspace:*",
+        "@dicedhq/polymarket": "workspace:*",
         "valibot": "^1.1.0",
       },
     },
@@ -24,15 +24,7 @@
       "name": "@dicedhq/polymarket",
       "version": "0.1.0",
       "dependencies": {
-        "@dicedhq/signer": "workspace:*",
         "ky": "^1.14.0",
-        "viem": "^2.38.6",
-      },
-    },
-    "packages/signer": {
-      "name": "@dicedhq/signer",
-      "version": "0.1.0",
-      "dependencies": {
         "viem": "^2.38.6",
       },
     },
@@ -61,8 +53,6 @@
     "@dicedhq/polymarket": ["@dicedhq/polymarket@workspace:packages/polymarket"],
 
     "@dicedhq/server": ["@dicedhq/server@workspace:apps/server"],
-
-    "@dicedhq/signer": ["@dicedhq/signer@workspace:packages/signer"],
 
     "@noble/ciphers": ["@noble/ciphers@1.3.0", "", {}, "sha512-2I0gnIVPtfnMw9ee9h1dJG7tp81+8Ob3OJb3Mv37rx5L40/b0i7djjCVvGOVqc9AEIQyvyu1i6ypKdFw8R8gQw=="],
 
