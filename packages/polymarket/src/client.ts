@@ -1,9 +1,9 @@
 import { AccountRequests } from "./api/account.ts";
+import { AuthRequests } from "./api/auth.ts";
 import { BookRequests } from "./api/book.ts";
 import { MarketRequests } from "./api/market.ts";
 import { OrderRequests } from "./api/order.ts";
 import { TradeRequests } from "./api/trade.ts";
-import { AuthRequests } from "./auth/api-keys.ts";
 import { BaseClient, type ClientConfig } from "./base-client.ts";
 
 /**

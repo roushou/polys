@@ -1,6 +1,5 @@
 import ky, { type HTTPError, type KyInstance } from "ky";
-import { createL1Headers } from "./auth/layer-1.ts";
-import { createL2Headers } from "./auth/layer-2.ts";
+import { createL1Headers, createL2Headers } from "./core/headers.ts";
 import {
   ApiError,
   AuthenticationError,

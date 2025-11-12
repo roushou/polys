@@ -19,23 +19,25 @@ export type {
   CreateOrderParams,
   ListOrderParams,
   OpenOrder,
+  Order,
   OrderResponse,
   OrderSide,
   OrderType,
+  SignedOrder,
 } from "./api/order.ts";
 export type {
   ListTradesParams,
   Trade,
   TradesResponse,
 } from "./api/trade.ts";
-export { createL1Headers, type L1HeaderPayload } from "./auth/layer-1.ts";
-export {
-  createL2Headers,
-  type L2HeaderArgs,
-  type L2HeaderPayload,
-} from "./auth/layer-2.ts";
 export type { ClientConfig } from "./base-client.ts";
 export { OrderBookClient } from "./client.ts";
+export type {
+  L1HeaderPayload,
+  L2HeaderArgs,
+  L2HeaderPayload,
+} from "./core/headers.ts";
+export { createL1Headers, createL2Headers } from "./core/headers.ts";
 export {
   ApiError,
   AuthenticationError,
