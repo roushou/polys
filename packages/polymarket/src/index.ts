@@ -31,7 +31,7 @@ export type {
   TradesResponse,
 } from "./api/trade.js";
 export type { ClientConfig } from "./base-client.js";
-export { OrderBookClient } from "./client.js";
+export { Polymarket } from "./client.js";
 export type {
   L1HeaderPayload,
   L2HeaderArgs,

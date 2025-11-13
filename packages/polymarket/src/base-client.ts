@@ -70,7 +70,7 @@ export class BaseClient {
         beforeRequest: [
           (request) => {
             if (this.debug) {
-              console.log(`[OrderBookClient] ${request.method} ${request.url}`);
+              console.log(`[CLOB] ${request.method} ${request.url}`);
             }
           },
         ],
@@ -78,7 +78,7 @@ export class BaseClient {
           async ({ request, retryCount }) => {
             if (this.debug) {
               console.log(
-                `[OrderBookClient] Retry attempt ${retryCount} for ${request.url}`,
+                `[CLOB] Retry attempt ${retryCount} for ${request.url}`,
               );
             }
           },
@@ -87,7 +87,7 @@ export class BaseClient {
           (request, _options, response) => {
             if (this.debug) {
               console.log(
-                `[OrderBookClient] Response ${response.status} from ${request.url}`,
+                `[CLOB] Response ${response.status} from ${request.url}`,
               );
             }
             return response;
@@ -185,7 +185,7 @@ export class BaseClient {
       const data = await response.json<T>();
 
       if (this.debug) {
-        console.log("[OrderBookClient] Response data:", data);
+        console.log("[CLOB] Response data:", data);
       }
 
       return data;

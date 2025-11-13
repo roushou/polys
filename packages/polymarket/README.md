@@ -14,7 +14,6 @@ A TypeScript client for the Polymarket API.
 - [x] **Automatic Retries**: Built-in retry logic for failed requests
 - [x] **Rate Limiting**: Automatic handling of rate limit errors
 - [x] **Authentication**: HMAC-SHA256 signature authentication for private endpoints
-- [x] **Utility Functions**: Helper functions for price calculations, validations, and more
 
 ## Installation
 

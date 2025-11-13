@@ -1,4 +1,4 @@
-import { createConnectedWallet, OrderBookClient } from "@dicedhq/polymarket";
+import { createConnectedWallet, Polymarket } from "@dicedhq/polymarket";
 
 const wallet = createConnectedWallet({
   privateKey: process.env.DICED_PRIVATE_KEY!,
@@ -11,7 +11,7 @@ const credentials = {
   passphrase: process.env.DICED_POLYMARKET_PASSPHRASE!,
 };
 
-const client = new OrderBookClient({
+const client = new Polymarket({
   wallet,
   credentials,
   debug: true,
