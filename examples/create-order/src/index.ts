@@ -1,14 +1,14 @@
 import { createConnectedWallet, Polymarket } from "@dicedhq/polymarket";
 
 const wallet = createConnectedWallet({
-  privateKey: process.env.DICED_PRIVATE_KEY!,
+  privateKey: process.env.POLYS_PRIVATE_KEY!,
   chain: "polygon",
 });
 
 const credentials = {
-  key: process.env.DICED_POLYMARKET_API_KEY!,
-  secret: process.env.DICED_POLYMARKET_SECRET!,
-  passphrase: process.env.DICED_POLYMARKET_PASSPHRASE!,
+  key: process.env.POLYS_POLYMARKET_API_KEY!,
+  secret: process.env.POLYS_POLYMARKET_SECRET!,
+  passphrase: process.env.POLYS_POLYMARKET_PASSPHRASE!,
 };
 
 const client = new Polymarket({

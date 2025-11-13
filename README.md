@@ -1,4 +1,4 @@
-# Diced
+# Polys
 
 This is an unofficial TypeScript toolkit to build apps on top of Polymarket API.
 

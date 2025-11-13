@@ -4,15 +4,15 @@ const ConfigSchema = v.object({
   polymarket: v.object({
     apiKey: v.pipe(
       v.string(),
-      v.nonEmpty("DICED_POLYMARKET_API_KEY is required"),
+      v.nonEmpty("POLYS_POLYMARKET_API_KEY is required"),
     ),
     secret: v.pipe(
       v.string(),
-      v.nonEmpty("DICED_POLYMARKET_SECRET is required"),
+      v.nonEmpty("POLYS_POLYMARKET_SECRET is required"),
     ),
     passphrase: v.pipe(
       v.string(),
-      v.nonEmpty("DICED_POLYMARKET_PASSPHRASE is required"),
+      v.nonEmpty("POLYS_POLYMARKET_PASSPHRASE is required"),
     ),
   }),
   server: v.object({
@@ -28,13 +28,13 @@ const ConfigSchema = v.object({
 
 const rawConfig = {
   polymarket: {
-    apiKey: Bun.env.DICED_POLYMARKET_API_KEY ?? "",
-    secret: Bun.env.DICED_POLYMARKET_SECRET ?? "",
-    passphrase: Bun.env.DICED_POLYMARKET_PASSPHRASE ?? "",
+    apiKey: Bun.env.POLYS_POLYMARKET_API_KEY ?? "",
+    secret: Bun.env.POLYS_POLYMARKET_SECRET ?? "",
+    passphrase: Bun.env.POLYS_POLYMARKET_PASSPHRASE ?? "",
   },
   server: {
-    hostname: Bun.env.DICED_SERVER_HOSTNAME ?? "127.0.0.1",
-    port: Number(Bun.env.DICED_SERVER_PORT) || 8080,
+    hostname: Bun.env.POLYS_SERVER_HOSTNAME ?? "127.0.0.1",
+    port: Number(Bun.env.POLYS_SERVER_PORT) || 8080,
   },
 };
 

@@ -1,4 +1,4 @@
-# @dicedhq/server
+# Polys server
 
 High-performance signing server for Polymarket API built with Bun.
 
@@ -29,13 +29,13 @@ Re-use `.env.example` file and update it with your Polymarket credentials.
 
 ```bash
 # Required
-DICED_POLYMARKET_API_KEY=your_api_key
-DICED_POLYMARKET_SECRET=your_base64_secret
-DICED_POLYMARKET_PASSPHRASE=your_passphrase
+POLYS_POLYMARKET_API_KEY=your_api_key
+POLYS_POLYMARKET_SECRET=your_base64_secret
+POLYS_POLYMARKET_PASSPHRASE=your_passphrase
 
 # Optional (with defaults)
-DICED_SERVER_HOSTNAME=127.0.0.1
-DICED_SERVER_PORT=8080
+POLYS_SERVER_HOSTNAME=127.0.0.1
+POLYS_SERVER_PORT=8080
 ```
 
 ## Usage

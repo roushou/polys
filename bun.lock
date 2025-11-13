@@ -13,7 +13,7 @@
       },
     },
     "apps/server": {
-      "name": "@dicedhq/server",
+      "name": "@dicedhq/polys-server",
       "version": "0.1.0",
       "dependencies": {
         "@dicedhq/polymarket": "workspace:*",
@@ -64,7 +64,7 @@
 
     "@dicedhq/polymarket": ["@dicedhq/polymarket@workspace:packages/polymarket"],
 
-    "@dicedhq/server": ["@dicedhq/server@workspace:apps/server"],
+    "@dicedhq/polys-server": ["@dicedhq/polys-server@workspace:apps/server"],
 
     "@noble/ciphers": ["@noble/ciphers@1.3.0", "", {}, "sha512-2I0gnIVPtfnMw9ee9h1dJG7tp81+8Ob3OJb3Mv37rx5L40/b0i7djjCVvGOVqc9AEIQyvyu1i6ypKdFw8R8gQw=="],
 

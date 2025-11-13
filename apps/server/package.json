@@ -1,5 +1,5 @@
 {
-  "name": "@dicedhq/server",
+  "name": "@dicedhq/polys-server",
   "version": "0.1.0",
   "description": "High-performance signing server for Polymarket API built with Bun",
   "license": "MIT",

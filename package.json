@@ -1,5 +1,5 @@
 {
-  "name": "dicedhq",
+  "name": "polys",
   "version": "0.1.0",
   "license": "MIT",
   "private": true,
@@ -15,7 +15,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:server": "bun run --filter='@dicedhq/server' dev",
+    "dev:server": "bun run --filter='@dicedhq/polys-server' dev",
     "format": "biome format --write",
     "format:check": "biome format",
     "lint": "biome lint --write",
