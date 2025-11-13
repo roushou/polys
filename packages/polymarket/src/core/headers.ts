@@ -1,8 +1,8 @@
 import type { Hex } from "viem";
-import { signClobAuth } from "../core/eip712.ts";
-import { createHmacSignature } from "../core/hmac.ts";
-import type { Credentials, Method } from "../signer/signer.ts";
-import type { ConnectedWalletClient } from "../wallet/wallet.ts";
+import { signClobAuth } from "../core/eip712.js";
+import { createHmacSignature } from "../core/hmac.js";
+import type { Credentials, Method } from "../signer/signer.js";
+import type { ConnectedWalletClient } from "../wallet/wallet.js";
 
 /**
  * L1 header payload for wallet-based authentication

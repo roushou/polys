@@ -1,5 +1,5 @@
-import type { BaseClient } from "../base-client.ts";
-import type { Credentials } from "../signer/signer.ts";
+import type { BaseClient } from "../base-client.js";
+import type { Credentials } from "../signer/signer.js";
 
 export class AuthRequests {
   constructor(private readonly client: BaseClient) {}

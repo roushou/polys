@@ -1,7 +1,7 @@
 import type { Hex } from "viem";
-import type { Order, OrderSide } from "../api/order.ts";
-import type { ConnectedWalletClient } from "../wallet/wallet.ts";
-import { getContractForChain } from "./contracts.ts";
+import type { Order, OrderSide } from "../api/order.js";
+import type { ConnectedWalletClient } from "../wallet/wallet.js";
+import { getContractForChain } from "./contracts.js";
 
 export type SignatureType = "eoa" | "poly-proxy" | "poly-gnosis-safe";
 

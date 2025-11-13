@@ -1,5 +1,5 @@
 import ky, { type HTTPError, type KyInstance } from "ky";
-import { createL1Headers, createL2Headers } from "./core/headers.ts";
+import { createL1Headers, createL2Headers } from "./core/headers.js";
 import {
   ApiError,
   AuthenticationError,
@@ -7,9 +7,9 @@ import {
   RateLimitError,
   TimeoutError,
   ValidationError,
-} from "./errors.ts";
-import type { Credentials } from "./signer/signer.ts";
-import type { ConnectedWalletClient } from "./wallet/wallet.ts";
+} from "./errors.js";
+import type { Credentials } from "./signer/signer.js";
+import type { ConnectedWalletClient } from "./wallet/wallet.js";
 
 const DEFAULT_BASE_URL = "https://clob.polymarket.com";
 const DEFAULT_TIMEOUT_MS = 30000;

@@ -1,4 +1,4 @@
-import type { BaseClient } from "../base-client.ts";
+import type { BaseClient } from "../base-client.js";
 
 export class AccountRequests {
   constructor(private readonly client: BaseClient) {}

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { type Method, Signer } from "./signer.ts";
+import { type Method, Signer } from "./signer.js";
 
 // Test credentials - using base64-encoded "test-secret-key"
 const testCredentials = {

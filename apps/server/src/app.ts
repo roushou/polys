@@ -1,8 +1,8 @@
 import { Signer } from "@dicedhq/polymarket";
 import * as v from "valibot";
 
-import { config } from "./config.ts";
-import { withAuth } from "./middleware/auth.ts";
+import { config } from "./config.js";
+import { withAuth } from "./middleware/auth.js";
 
 const signer = new Signer({
   key: config.polymarket.apiKey,

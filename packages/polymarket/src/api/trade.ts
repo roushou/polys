@@ -1,5 +1,5 @@
-import type { BaseClient } from "../base-client.ts";
-import type { OrderSide } from "./order.ts";
+import type { BaseClient } from "../base-client.js";
+import type { OrderSide } from "./order.js";
 
 export class TradeRequests {
   constructor(private readonly client: BaseClient) {}

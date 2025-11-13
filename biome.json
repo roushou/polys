@@ -18,7 +18,12 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "useImportExtensions": "error"
+        "useImportExtensions": {
+          "level": "error",
+          "options": {
+            "forceJsExtensions": true
+          }
+        }
       },
       "style": {
         "useNodejsImportProtocol": "off"

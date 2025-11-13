@@ -1,8 +1,8 @@
 import { type Hex, zeroAddress } from "viem";
-import type { BaseClient } from "../base-client.ts";
-import { type SignatureType, signOrder } from "../core/eip712.ts";
-import { roundTo } from "../utils.ts";
-import type { MarketRequests, TickSize } from "./market.ts";
+import type { BaseClient } from "../base-client.js";
+import { type SignatureType, signOrder } from "../core/eip712.js";
+import { roundTo } from "../utils.js";
+import type { MarketRequests, TickSize } from "./market.js";
 
 export class OrderRequests {
   constructor(

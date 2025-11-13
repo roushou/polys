@@ -1,10 +1,10 @@
-import { AccountRequests } from "./api/account.ts";
-import { AuthRequests } from "./api/auth.ts";
-import { BookRequests } from "./api/book.ts";
-import { MarketRequests } from "./api/market.ts";
-import { OrderRequests } from "./api/order.ts";
-import { TradeRequests } from "./api/trade.ts";
-import { BaseClient, type ClientConfig } from "./base-client.ts";
+import { AccountRequests } from "./api/account.js";
+import { AuthRequests } from "./api/auth.js";
+import { BookRequests } from "./api/book.js";
+import { MarketRequests } from "./api/market.js";
+import { OrderRequests } from "./api/order.js";
+import { TradeRequests } from "./api/trade.js";
+import { BaseClient, type ClientConfig } from "./base-client.js";
 
 /**
  * Client for interacting with the Polymarket CLOB API

@@ -1,9 +1,9 @@
-export type { BalanceAllowanceResponse } from "./api/account.ts";
+export type { BalanceAllowanceResponse } from "./api/account.js";
 export type {
   OrderBookSummary,
   OrderLevel,
   TickerResponse,
-} from "./api/book.ts";
+} from "./api/book.js";
 export type {
   GetPriceHistoryParams,
   ListMarketsResponse,
@@ -13,7 +13,7 @@ export type {
   MidpointResponse,
   PriceResponse,
   TickSize,
-} from "./api/market.ts";
+} from "./api/market.js";
 export type {
   CancelResponse,
   CreateOrderParams,
@@ -24,20 +24,20 @@ export type {
   OrderSide,
   OrderType,
   SignedOrder,
-} from "./api/order.ts";
+} from "./api/order.js";
 export type {
   ListTradesParams,
   Trade,
   TradesResponse,
-} from "./api/trade.ts";
-export type { ClientConfig } from "./base-client.ts";
-export { OrderBookClient } from "./client.ts";
+} from "./api/trade.js";
+export type { ClientConfig } from "./base-client.js";
+export { OrderBookClient } from "./client.js";
 export type {
   L1HeaderPayload,
   L2HeaderArgs,
   L2HeaderPayload,
-} from "./core/headers.ts";
-export { createL1Headers, createL2Headers } from "./core/headers.ts";
+} from "./core/headers.js";
+export { createL1Headers, createL2Headers } from "./core/headers.js";
 export {
   ApiError,
   AuthenticationError,
@@ -46,8 +46,8 @@ export {
   RateLimitError,
   TimeoutError,
   ValidationError,
-} from "./errors.ts";
-export type { Credentials, HeaderPayload, Method } from "./signer/signer.ts";
-export { Signer } from "./signer/signer.ts";
-export type { ConnectedWalletClient, SupportedChain } from "./wallet/wallet.ts";
-export { createConnectedWallet } from "./wallet/wallet.ts";
+} from "./errors.js";
+export type { Credentials, HeaderPayload, Method } from "./signer/signer.js";
+export { Signer } from "./signer/signer.js";
+export type { ConnectedWalletClient, SupportedChain } from "./wallet/wallet.js";
+export { createConnectedWallet } from "./wallet/wallet.js";
