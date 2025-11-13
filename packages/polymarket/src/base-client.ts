@@ -175,7 +175,9 @@ export class BaseClient {
 
     try {
       // remove leading slash because Ky doesn't like it when using prefixUrl
-      const normalizedPath = path.replace(/^\//, "");
+      const normalizedPath = path.startsWith("/")
+        ? path.replace(/^\//, "")
+        : path;
       const response = await this.api(normalizedPath, {
         method,
         headers,
