@@ -62,5 +62,8 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Build packages
+        run: bun run build
+
       - name: Type check
-        run: bun --bun tsc --noEmit
+        run: bun run typecheck

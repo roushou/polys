@@ -15,8 +15,7 @@
     "clob",
     "trading",
     "prediction-markets",
-    "crypto",
-    "websocket"
+    "crypto"
   ],
   "repository": {
     "type": "git",
@@ -27,16 +26,28 @@
     "url": "https://github.com/roushou/dicedhq/issues"
   },
   "homepage": "https://github.com/roushou/dicedhq#readme",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   },
   "files": [
     "src",
+    "dist",
     "README.md",
     "LICENSE"
   ],
+  "scripts": {
+    "build": "tsgo"
+  },
   "dependencies": {
     "ky": "^1.14.0",
     "viem": "^2.38.6"
+  },
+  "devDependencies": {
+    "@typescript/native-preview": "^7.0.0-dev.20251112.1"
   }
 }

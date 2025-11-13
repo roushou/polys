@@ -13,7 +13,7 @@ export function createConnectedWallet({
 }: {
   privateKey: string;
   chain: SupportedChain;
-}) {
+}): ConnectedWalletClient {
   const normalized = isHex(privateKey) ? privateKey : toHex(privateKey);
   if (normalized.length !== 66) {
     throw new Error(
