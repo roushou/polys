@@ -1,4 +1,5 @@
 import ky, { type HTTPError, type KyInstance } from "ky";
+import { Attributor, type AttributorConfig } from "./attributor/attributor.js";
 import { createL1Headers, createL2Headers } from "./core/headers.js";
 import {
   ApiError,
@@ -25,6 +26,9 @@ export type ClientConfig = {
   /** L2 API credentials (key, secret, passphrase) */
   credentials: Credentials;
 
+  /** Attributor of orders */
+  attributor?: AttributorConfig;
+
   /** Base URL for the CLOB API */
   baseUrl?: string;
 
@@ -40,8 +44,9 @@ export type ClientConfig = {
 
 export class BaseClient {
   public readonly wallet: ConnectedWalletClient;
+  public readonly credentials: Credentials;
+  public readonly attributor?: Attributor;
 
-  protected readonly credentials: Credentials;
   protected readonly debug: boolean;
 
   private readonly api: KyInstance;
@@ -49,6 +54,7 @@ export class BaseClient {
   constructor({
     wallet,
     credentials,
+    attributor,
     baseUrl = DEFAULT_BASE_URL,
     timeoutMs = DEFAULT_TIMEOUT_MS,
     maxRetries = DEFAULT_MAX_RETRIES,
@@ -56,6 +62,7 @@ export class BaseClient {
   }: ClientConfig) {
     this.wallet = wallet;
     this.credentials = credentials;
+    this.attributor = attributor ? new Attributor(attributor) : undefined;
     this.debug = debug;
     this.api = ky.create({
       prefixUrl: baseUrl,
@@ -116,7 +123,8 @@ export class BaseClient {
     auth:
       | { kind: "none" }
       | { kind: "l1"; nonce: number; timestamp?: number }
-      | { kind: "l2"; headerArgs?: unknown };
+      | { kind: "l2"; headerArgs?: unknown }
+      | { kind: "l2-with-attribution"; headerArgs?: unknown };
     options?: {
       body?: unknown;
       params?: Record<string, string | number | boolean | undefined>;
@@ -158,7 +166,7 @@ export class BaseClient {
     if (auth.kind === "l2") {
       // L2 authentication (HMAC signature with API keys)
       const l2Headers = createL2Headers({
-        address: this.wallet.account?.address,
+        address: this.wallet.account.address,
         credentials: this.credentials,
         headerArgs: {
           method,
@@ -171,6 +179,39 @@ export class BaseClient {
       });
 
       Object.assign(headers, l2Headers);
+    }
+    if (auth.kind === "l2-with-attribution") {
+      // L2 authentication (HMAC signature with API keys)
+      const l2Headers = createL2Headers({
+        address: this.wallet.account.address,
+        credentials: this.credentials,
+        headerArgs: {
+          method,
+          requestPath: path,
+          body:
+            auth.headerArgs !== undefined
+              ? JSON.stringify(auth.headerArgs)
+              : undefined,
+        },
+      });
+
+      Object.assign(headers, l2Headers);
+
+      if (this.attributor) {
+        console.log(`[CLOB] Sending to attributor ${this.attributor.url}`);
+
+        const attributorHeaders = await this.attributor.sign({
+          method,
+          path,
+          body:
+            auth.headerArgs !== undefined
+              ? JSON.stringify(auth.headerArgs)
+              : undefined,
+          timestamp: undefined,
+        });
+
+        Object.assign(headers, attributorHeaders);
+      }
     }
 
     try {

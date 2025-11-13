@@ -1,6 +1,6 @@
 export type { BalanceAllowanceResponse } from "./api/account.js";
 export type {
-  OrderBookSummary,
+  OrderBook,
   OrderLevel,
   TickerResponse,
 } from "./api/book.js";

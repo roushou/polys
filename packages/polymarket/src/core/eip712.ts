@@ -20,7 +20,7 @@ export async function signOrder(
       name: "Polymarket CTF Exchange",
       version: "1",
       chainId: BigInt(wallet.chain.id),
-      // TODO: allow to switch between negRiskExchange or not
+      // TODO: allow to switch between negRiskExchange or risk exchange
       verifyingContract: contract.negRiskExchange as Hex,
     },
     // EIP-712 Type definitions for Polymarket orders

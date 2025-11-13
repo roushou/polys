@@ -67,7 +67,7 @@ export class OrderRequests {
     ]);
 
     // Build the unsigned order
-    const address = this.client.wallet.account.address;
+    const maker = this.client.wallet.account.address;
     const amounts = this.calculateOrderAmounts({
       price: params.price,
       side: params.side,
@@ -75,8 +75,8 @@ export class OrderRequests {
       tickSize,
     });
     const order: Order = {
-      signer: address,
-      maker: address,
+      signer: maker,
+      maker: maker,
       taker: params.taker === "public" ? zeroAddress : params.taker,
       tokenId: params.tokenId,
       nonce: nonce.toString(),
@@ -96,37 +96,37 @@ export class OrderRequests {
   }
 
   /**
-   * Get the current nonce for the wallet
-   */
-  private async getNonce(): Promise<bigint> {
-    const { account } = this.client.wallet;
-    return account.getNonce ? await account.getNonce() : 0n;
-  }
-
-  /**
-   * Generate a random salt for order uniqueness
-   */
-  private generateSalt(): bigint {
-    return BigInt(Math.round(Math.random() * Date.now()));
-  }
-
-  /**
    * Post an order to the order book
    */
-  async postOrder(order: SignedOrder): Promise<OrderResponse> {
+  async postOrder({ order }: { order: SignedOrder }): Promise<OrderResponse> {
+    const payload = {
+      owner: this.client.credentials.key,
+      // TODO:
+      orderType: "GTC", // GTC
+      order: {
+        salt: parseInt(order.salt, 10),
+        maker: order.maker,
+        signer: order.signer,
+        taker: order.taker,
+        tokenId: order.tokenId,
+        makerAmount: order.makerAmount,
+        takerAmount: order.takerAmount,
+        expiration: order.expiration,
+        nonce: order.nonce,
+        feeRateBps: order.feeRateBps,
+        side: order.side === "BUY" ? "0" : "1",
+        signatureType: 0,
+        signature: order.signature,
+      },
+    };
     return this.client.request<OrderResponse>({
       method: "POST",
       path: "/order",
       auth: {
-        kind: "l2",
-        headerArgs: {
-          deferExec: false,
-          order,
-        },
+        kind: "l2-with-attribution",
+        headerArgs: payload,
       },
-      options: {
-        body: order,
-      },
+      options: { body: payload },
     });
   }
 
@@ -135,7 +135,9 @@ export class OrderRequests {
    */
   async createAndPostOrder(params: CreateOrderParams): Promise<OrderResponse> {
     const signedOrder = await this.createOrder(params);
-    return this.postOrder(signedOrder);
+    return this.postOrder({
+      order: signedOrder,
+    });
   }
 
   /**
@@ -174,6 +176,21 @@ export class OrderRequests {
         kind: "l2",
       },
     });
+  }
+
+  /**
+   * Get the current nonce for the wallet
+   */
+  private async getNonce(): Promise<bigint> {
+    const { account } = this.client.wallet;
+    return account.getNonce ? await account.getNonce() : 0n;
+  }
+
+  /**
+   * Generate a random salt for order uniqueness
+   */
+  private generateSalt(): bigint {
+    return BigInt(Math.round(Math.random() * Date.now()));
   }
 
   private calculateOrderAmounts({

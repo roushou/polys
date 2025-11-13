@@ -38,8 +38,9 @@ const server = Bun.serve({
     },
 
     "/api/sign": {
-      POST: withAuth((req, _token) => {
-        const validation = v.safeParse(SignSchema, req.body);
+      POST: withAuth(async (req, _token) => {
+        const json = await req.json();
+        const validation = v.safeParse(SignSchema, json);
         if (!validation.success) {
           return new Response("bad request", { status: 400 });
         }

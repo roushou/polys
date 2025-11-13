@@ -43,24 +43,23 @@ export class Signer {
     method,
     path,
     body,
-    timestamp,
+    timestamp = Math.floor(Date.now() / 1000),
   }: {
     method: Method;
     path: string;
     body: string | undefined;
     timestamp: number | undefined;
   }): HeaderPayload {
-    const ts = timestamp ?? Math.floor(Date.now() / 1000);
     const signature = createHmacSignature({
       secret: this.credentials.secret,
-      timestamp: ts,
+      timestamp,
       method,
       requestPath: path,
       body,
     });
 
     return {
-      timestamp: ts,
+      timestamp,
       signature,
       key: this.credentials.key,
       passphrase: this.credentials.passphrase,

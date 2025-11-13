@@ -7,8 +7,8 @@ export class BookRequests {
   /**
    * Get order book for a specific token
    */
-  async getOrderBook(tokenId: string): Promise<OrderBookSummary> {
-    return this.client.request<OrderBookSummary>({
+  async getOrderBook(tokenId: string): Promise<OrderBook> {
+    return this.client.request<OrderBook>({
       method: "GET",
       path: "/book",
       auth: { kind: "none" },
@@ -23,8 +23,8 @@ export class BookRequests {
    */
   async getOrderBooks(
     params: { tokenId: string; side: OrderSide }[],
-  ): Promise<OrderBookSummary[]> {
-    return this.client.request<OrderBookSummary[]>({
+  ): Promise<OrderBook[]> {
+    return this.client.request<OrderBook[]>({
       method: "POST",
       path: "/books",
       auth: { kind: "none" },
@@ -57,7 +57,7 @@ export type OrderLevel = {
   size: string;
 };
 
-export type OrderBookSummary = {
+export type OrderBook = {
   market: string;
   asset_id: string;
   bids: OrderLevel[];
