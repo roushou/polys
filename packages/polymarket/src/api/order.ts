@@ -77,7 +77,7 @@ export class OrderRequests {
     const order: Order = {
       signer: maker,
       maker: maker,
-      taker: params.taker === "public" ? zeroAddress : params.taker,
+      taker: params.taker === "anyone" ? zeroAddress : params.taker,
       tokenId: params.tokenId,
       nonce: nonce.toString(),
       salt: this.generateSalt().toString(),
@@ -288,13 +288,15 @@ export type ListOrderParams = {
   assetId?: string;
 };
 
+type Taker = Hex | "anyone";
+
 export type CreateOrderParams = {
   tokenId: string;
   price: number;
   side: OrderSide;
   size: number;
   expiration: number;
-  taker: Hex | "public";
+  taker: Taker;
 };
 
 export type CancelResponse = {
