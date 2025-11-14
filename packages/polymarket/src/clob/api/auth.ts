@@ -1,8 +1,8 @@
-import type { BaseClient } from "../base-client.js";
+import type { BaseClobClient } from "../client/base.js";
 import type { Credentials } from "../signer/signer.js";
 
 export class AuthApi {
-  constructor(private readonly client: BaseClient) {}
+  constructor(private readonly client: BaseClobClient) {}
 
   /**
    * List all credentials associated with a Polygon address

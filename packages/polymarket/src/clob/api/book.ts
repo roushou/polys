@@ -1,8 +1,8 @@
-import type { BaseClient } from "../base-client.js";
+import type { BaseClobClient } from "../client/base.js";
 import type { OrderSide } from "./order.js";
 
 export class BookApi {
-  constructor(private readonly client: BaseClient) {}
+  constructor(private readonly client: BaseClobClient) {}
 
   /**
    * Get order book for a specific token

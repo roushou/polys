@@ -1,6 +1,6 @@
 import type { Hex } from "viem";
-import type { Order, OrderSide } from "../api/order.js";
-import type { ConnectedWalletClient } from "../wallet/wallet.js";
+import type { Order, OrderSide } from "../clob/api/order.js";
+import type { ConnectedWalletClient } from "../clob/wallet/wallet.js";
 import { getContractForChain } from "./contracts.js";
 
 export type SignatureType = "eoa" | "poly-proxy" | "poly-gnosis-safe";

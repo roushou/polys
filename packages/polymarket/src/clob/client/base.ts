@@ -1,6 +1,5 @@
 import ky, { type HTTPError, type KyInstance } from "ky";
-import { Attributor, type AttributorConfig } from "./attributor/attributor.js";
-import { createL1Headers, createL2Headers } from "./core/headers.js";
+import { createL1Headers, createL2Headers } from "../../core/headers.js";
 import {
   ApiError,
   AuthenticationError,
@@ -8,9 +7,10 @@ import {
   RateLimitError,
   TimeoutError,
   ValidationError,
-} from "./errors.js";
-import type { Credentials } from "./signer/signer.js";
-import type { ConnectedWalletClient } from "./wallet/wallet.js";
+} from "../../errors.js";
+import { Attributor, type AttributorConfig } from "../attributor/attributor.js";
+import type { Credentials } from "../signer/signer.js";
+import type { ConnectedWalletClient } from "../wallet/wallet.js";
 
 const DEFAULT_BASE_URL = "https://clob.polymarket.com";
 const DEFAULT_TIMEOUT_MS = 30000;
@@ -19,7 +19,7 @@ const DEFAULT_MAX_RETRIES = 3;
 /**
  * Configuration for the CLOB client
  */
-export type ClientConfig = {
+export type ClobClientConfig = {
   /** Wallet to use for L1 authentication */
   wallet: ConnectedWalletClient;
 
@@ -42,7 +42,7 @@ export type ClientConfig = {
   debug?: boolean;
 };
 
-export class BaseClient {
+export class BaseClobClient {
   public readonly wallet: ConnectedWalletClient;
   public readonly credentials: Credentials;
   public readonly attributor?: Attributor;
@@ -59,7 +59,7 @@ export class BaseClient {
     timeoutMs = DEFAULT_TIMEOUT_MS,
     maxRetries = DEFAULT_MAX_RETRIES,
     debug = false,
-  }: ClientConfig) {
+  }: ClobClientConfig) {
     this.wallet = wallet;
     this.credentials = credentials;
     this.attributor = attributor ? new Attributor(attributor) : undefined;

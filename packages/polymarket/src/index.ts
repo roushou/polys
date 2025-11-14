@@ -1,9 +1,10 @@
-export type { BalanceAllowanceResponse } from "./api/account.js";
+export { Polymarket } from "./client.js";
+export type { BalanceAllowanceResponse } from "./clob/api/account.js";
 export type {
   OrderBook,
   OrderLevel,
   TickerResponse,
-} from "./api/book.js";
+} from "./clob/api/book.js";
 export type {
   GetPriceHistoryParams,
   ListMarketsResponse,
@@ -13,7 +14,7 @@ export type {
   MidpointResponse,
   PriceResponse,
   TickSize,
-} from "./api/market.js";
+} from "./clob/api/market.js";
 export type {
   CancelResponse,
   CreateOrderAndPostParams,
@@ -25,14 +26,25 @@ export type {
   OrderResponse,
   OrderSide,
   SignedOrder,
-} from "./api/order.js";
+} from "./clob/api/order.js";
 export type {
   ListTradesParams,
   Trade,
   TradesResponse,
-} from "./api/trade.js";
-export type { ClientConfig } from "./base-client.js";
-export { Polymarket } from "./client.js";
+} from "./clob/api/trade.js";
+export type { ClobClientConfig } from "./clob/client/base.js";
+export { ClobClient } from "./clob/client/client.js";
+export type {
+  Credentials,
+  HeaderPayload,
+  Method,
+} from "./clob/signer/signer.js";
+export { Signer } from "./clob/signer/signer.js";
+export type {
+  ConnectedWalletClient,
+  SupportedChain,
+} from "./clob/wallet/wallet.js";
+export { createConnectedWallet } from "./clob/wallet/wallet.js";
 export type {
   L1HeaderPayload,
   L2HeaderArgs,
@@ -48,7 +60,3 @@ export {
   TimeoutError,
   ValidationError,
 } from "./errors.js";
-export type { Credentials, HeaderPayload, Method } from "./signer/signer.js";
-export { Signer } from "./signer/signer.js";
-export type { ConnectedWalletClient, SupportedChain } from "./wallet/wallet.js";
-export { createConnectedWallet } from "./wallet/wallet.js";

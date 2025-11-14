@@ -12,16 +12,18 @@ const credentials = {
 };
 
 const client = new Polymarket({
-  wallet,
-  credentials,
-  attributor: {
-    url: "http://127.0.0.1:8080/api/sign",
-    token: "token1234",
+  clob: {
+    wallet,
+    credentials,
+    attributor: {
+      url: "http://127.0.0.1:8080/api/sign",
+      token: "token1234",
+    },
+    debug: true,
   },
-  debug: true,
 });
 
-const order = await client.order.postOrder({
+const order = await client.clob.order.postOrder({
   kind: "GTC",
   order: {
     signer: "0xC352DA08885e1f005dd717E624D3156b5E95Ad31",
@@ -43,7 +45,7 @@ const order = await client.order.postOrder({
 });
 console.log(order);
 
-// const order = await client.order.createOrder({
+// const order = await client.clob.order.createOrder({
 //   price: 1,
 //   side: "BUY",
 //   size: 2,

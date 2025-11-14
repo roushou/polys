@@ -1,7 +1,7 @@
-import type { BaseClient } from "../base-client.js";
+import type { BaseClobClient } from "../client/base.js";
 
 export class AccountApi {
-  constructor(private readonly client: BaseClient) {}
+  constructor(private readonly client: BaseClobClient) {}
 
   /**
    * Get balance and allowance for a token
