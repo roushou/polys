@@ -1,6 +1,6 @@
 import type { BaseClient } from "../base-client.js";
 
-export class AccountRequests {
+export class AccountApi {
   constructor(private readonly client: BaseClient) {}
 
   /**

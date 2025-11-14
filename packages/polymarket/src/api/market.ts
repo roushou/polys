@@ -1,7 +1,7 @@
 import type { BaseClient } from "../base-client.js";
 import type { OrderSide } from "./order.js";
 
-export class MarketRequests {
+export class MarketApi {
   constructor(private readonly client: BaseClient) {}
 
   /**

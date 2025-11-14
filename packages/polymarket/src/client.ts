@@ -1,32 +1,32 @@
-import { AccountRequests } from "./api/account.js";
-import { AuthRequests } from "./api/auth.js";
-import { BookRequests } from "./api/book.js";
-import { MarketRequests } from "./api/market.js";
-import { OrderRequests } from "./api/order.js";
-import { TradeRequests } from "./api/trade.js";
+import { AccountApi } from "./api/account.js";
+import { AuthApi } from "./api/auth.js";
+import { BookApi } from "./api/book.js";
+import { MarketApi } from "./api/market.js";
+import { OrderApi } from "./api/order.js";
+import { TradeApi } from "./api/trade.js";
 import { BaseClient, type ClientConfig } from "./base-client.js";
 
 export class Polymarket extends BaseClient {
-  public readonly account: AccountRequests;
+  public readonly account: AccountApi;
 
-  public readonly auth: AuthRequests;
+  public readonly auth: AuthApi;
 
-  public readonly book: BookRequests;
+  public readonly book: BookApi;
 
-  public readonly market: MarketRequests;
+  public readonly market: MarketApi;
 
-  public readonly order: OrderRequests;
+  public readonly order: OrderApi;
 
-  public readonly trade: TradeRequests;
+  public readonly trade: TradeApi;
 
   constructor(config: ClientConfig) {
     super(config);
 
-    this.account = new AccountRequests(this);
-    this.auth = new AuthRequests(this);
-    this.book = new BookRequests(this);
-    this.market = new MarketRequests(this);
-    this.order = new OrderRequests(this, this.market);
-    this.trade = new TradeRequests(this);
+    this.account = new AccountApi(this);
+    this.auth = new AuthApi(this);
+    this.book = new BookApi(this);
+    this.market = new MarketApi(this);
+    this.order = new OrderApi(this, this.market);
+    this.trade = new TradeApi(this);
   }
 }

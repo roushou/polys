@@ -1,7 +1,7 @@
 import type { BaseClient } from "../base-client.js";
 import type { Credentials } from "../signer/signer.js";
 
-export class AuthRequests {
+export class AuthApi {
   constructor(private readonly client: BaseClient) {}
 
   /**

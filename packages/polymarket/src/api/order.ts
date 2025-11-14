@@ -2,12 +2,12 @@ import { type Hex, zeroAddress } from "viem";
 import type { BaseClient } from "../base-client.js";
 import { type SignatureType, signOrder } from "../core/eip712.js";
 import { roundTo } from "../utils.js";
-import type { MarketRequests, TickSize } from "./market.js";
+import type { MarketApi, TickSize } from "./market.js";
 
-export class OrderRequests {
+export class OrderApi {
   constructor(
     private readonly client: BaseClient,
-    private readonly market: MarketRequests,
+    private readonly market: MarketApi,
   ) {}
 
   /**
