@@ -16,13 +16,14 @@ export type {
 } from "./api/market.js";
 export type {
   CancelResponse,
+  CreateOrderAndPostParams,
   CreateOrderParams,
   ListOrderParams,
   OpenOrder,
   Order,
+  OrderKind,
   OrderResponse,
   OrderSide,
-  OrderType,
   SignedOrder,
 } from "./api/order.js";
 export type {

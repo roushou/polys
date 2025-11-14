@@ -22,6 +22,7 @@ const client = new Polymarket({
 });
 
 const order = await client.order.postOrder({
+  kind: "GTC",
   order: {
     signer: "0xC352DA08885e1f005dd717E624D3156b5E95Ad31",
     maker: "0xC352DA08885e1f005dd717E624D3156b5E95Ad31",

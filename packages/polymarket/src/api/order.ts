@@ -98,11 +98,16 @@ export class OrderApi {
   /**
    * Post an order to the order book
    */
-  async postOrder({ order }: { order: SignedOrder }): Promise<OrderResponse> {
+  async postOrder({
+    order,
+    kind,
+  }: {
+    order: SignedOrder;
+    kind: OrderKind;
+  }): Promise<OrderResponse> {
     const payload = {
       owner: this.client.credentials.key,
-      // TODO:
-      orderType: "GTC", // GTC
+      orderType: kind,
       order: {
         salt: parseInt(order.salt, 10),
         maker: order.maker,
@@ -133,10 +138,13 @@ export class OrderApi {
   /**
    * Create and post an order in one step
    */
-  async createAndPostOrder(params: CreateOrderParams): Promise<OrderResponse> {
-    const signedOrder = await this.createOrder(params);
+  async createAndPostOrder(
+    params: CreateOrderAndPostParams,
+  ): Promise<OrderResponse> {
+    const signedOrder = await this.createOrder(params.order);
     return this.postOrder({
       order: signedOrder,
+      kind: params.kind,
     });
   }
 
@@ -259,7 +267,7 @@ export type OpenOrder = {
   size: string;
   original_size: string;
   price: string;
-  type: OrderType;
+  type: OrderKind;
   fee_rate_bps: string;
   status: string;
   created_at?: string;
@@ -273,7 +281,7 @@ export type OpenOrder = {
 export type OrderSide = "BUY" | "SELL";
 
 // Good till cancelled | Fill or kill | Good till date | Fill and kill
-export type OrderType = "GTC" | "FOK" | "GTD" | "FAK";
+export type OrderKind = "GTC" | "FOK" | "GTD" | "FAK";
 
 export type OrderResponse = {
   success: boolean;
@@ -297,6 +305,11 @@ export type CreateOrderParams = {
   size: number;
   expiration: number;
   taker: Taker;
+};
+
+export type CreateOrderAndPostParams = {
+  kind: OrderKind;
+  order: CreateOrderParams;
 };
 
 export type CancelResponse = {
