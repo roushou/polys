@@ -27,6 +27,13 @@
         "@dicedhq/polymarket": "workspace:*",
       },
     },
+    "examples/gamma-markets": {
+      "name": "@dicedhq/example-gamma-markets",
+      "version": "0.1.0",
+      "dependencies": {
+        "@dicedhq/polymarket": "workspace:*",
+      },
+    },
     "packages/polymarket": {
       "name": "@dicedhq/polymarket",
       "version": "0.1.0",
@@ -61,6 +68,8 @@
     "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.3.4", "", { "os": "win32", "cpu": "x64" }, "sha512-FGCijXecmC4IedQ0esdYNlMpx0Jxgf4zceCaMu6fkjWyjgn50ZQtMiqZZQ0Q/77yqPxvtkgZAvt5uGw0gAAjig=="],
 
     "@dicedhq/example-create-order": ["@dicedhq/example-create-order@workspace:examples/create-order"],
+
+    "@dicedhq/example-gamma-markets": ["@dicedhq/example-gamma-markets@workspace:examples/gamma-markets"],
 
     "@dicedhq/polymarket": ["@dicedhq/polymarket@workspace:packages/polymarket"],
 

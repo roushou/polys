@@ -19,8 +19,8 @@ const client = new Polymarket({
       url: "http://127.0.0.1:8080/api/sign",
       token: "token1234",
     },
-    debug: true,
   },
+  debug: true,
 });
 
 const order = await client.clob.order.postOrder({

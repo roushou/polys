@@ -1,3 +1,4 @@
+// CLOB
 export { Polymarket } from "./client.js";
 export type { BalanceAllowanceResponse } from "./clob/api/account.js";
 export type {
@@ -60,3 +61,14 @@ export {
   TimeoutError,
   ValidationError,
 } from "./errors.js";
+
+// GAMMA
+export type { Event, EventWithMarkets } from "./gamma/api/event.js";
+export type {
+  ClobReward,
+  GammaReward,
+  Market as GammaMarket,
+} from "./gamma/api/market.js";
+export type { ListTagsParams, RelatedTag, Tag } from "./gamma/api/tags.js";
+export type { GammaClientConfig } from "./gamma/client/base.js";
+export { GammaClient } from "./gamma/client/client.js";
