@@ -104,7 +104,7 @@ export class MarketApi {
 /**
  * Parse a raw market response from the API into a properly typed Market
  */
-function parseMarket(raw: MarketRaw): Market {
+export function parseMarket(raw: MarketRaw): Market {
   return {
     ...raw,
     outcomes: JSON.parse(raw.outcomes),
@@ -117,7 +117,7 @@ function parseMarket(raw: MarketRaw): Market {
 /**
  * Raw market response from the Gamma API (before parsing)
  */
-type MarketRaw = {
+export type MarketRaw = {
   id: string;
   question: string;
   conditionId: string;

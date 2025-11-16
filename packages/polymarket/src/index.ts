@@ -63,7 +63,7 @@ export {
 } from "./errors.js";
 
 // GAMMA
-export type { Event, EventWithMarkets } from "./gamma/api/event.js";
+export type { Event } from "./gamma/api/event.js";
 export type {
   ClobReward,
   GammaReward,

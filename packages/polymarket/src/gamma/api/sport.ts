@@ -7,8 +7,8 @@ export class SportApi {
    * List all sports metadata
    * Returns comprehensive metadata for sports including tag IDs, images, resolution sources, and series information
    */
-  async list(): Promise<GammaSportsMetadata[]> {
-    return this.client.request<GammaSportsMetadata[]>({
+  async list(): Promise<SportsMetadata[]> {
+    return this.client.request<SportsMetadata[]>({
       method: "GET",
       path: "/sports",
     });
@@ -17,7 +17,7 @@ export class SportApi {
   /**
    * List sports metadata by sport identifier
    */
-  async listBySport(sport: string): Promise<GammaSportsMetadata | undefined> {
+  async listBySport(sport: string): Promise<SportsMetadata | undefined> {
     const allSports = await this.list();
     return allSports.find((s) => s.sport === sport);
   }
@@ -26,7 +26,7 @@ export class SportApi {
    * List sports metadata by tag ID
    * Returns all sports that contain the specified tag ID
    */
-  async listByTag(tagId: string): Promise<GammaSportsMetadata[]> {
+  async listByTag(tagId: string): Promise<SportsMetadata[]> {
     const allSports = await this.list();
     return allSports.filter((s) => s.tags?.includes(tagId));
   }
@@ -35,16 +35,13 @@ export class SportApi {
    * List sports metadata by series identifier
    * Returns all sports that match the specified series
    */
-  async listBySeries(series: string): Promise<GammaSportsMetadata[]> {
+  async listBySeries(series: string): Promise<SportsMetadata[]> {
     const allSports = await this.list();
     return allSports.filter((s) => s.series === series);
   }
 }
 
-/**
- * Sports metadata from the Gamma API
- */
-export type GammaSportsMetadata = {
+export type SportsMetadata = {
   /** The sport identifier or abbreviation */
   sport: string;
 

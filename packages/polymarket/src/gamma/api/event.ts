@@ -1,16 +1,28 @@
 import type { GammaBaseClient } from "../client/base.js";
+import { type Market, type MarketRaw, parseMarket } from "./market.js";
 import type { Tag } from "./tags.js";
 
 export class EventApi {
   constructor(private readonly client: GammaBaseClient) {}
 
   /**
+   * Get a specific event by id
+   */
+  async getById(id: string): Promise<Event> {
+    const raw = await this.client.request<EventRaw>({
+      method: "GET",
+      path: `/events/${id}`,
+    });
+    return transformEventWithMarkets(raw);
+  }
+
+  /**
    * Get a specific event by slug
    */
-  async get(slug: string): Promise<EventWithMarkets> {
-    const raw = await this.client.request<EventWithMarketsRaw>({
+  async getBySlug(slug: string): Promise<Event> {
+    const raw = await this.client.request<EventRaw>({
       method: "GET",
-      path: `/events/${slug}`,
+      path: `/events/slug/${slug}`,
     });
     return transformEventWithMarkets(raw);
   }
@@ -20,21 +32,23 @@ export class EventApi {
    */
   async list({
     active,
-    archived,
     closed,
+    tag_id,
     limit = 10,
     offset = 0,
+    ascending = true,
   }: {
     active: boolean;
-    archived: boolean;
     closed: boolean;
+    tag_id?: string;
     limit?: number;
     offset?: number;
-  }): Promise<EventWithMarkets[]> {
-    const raw = await this.client.request<EventWithMarketsRaw[]>({
+    ascending?: boolean;
+  }): Promise<Event[]> {
+    const raw = await this.client.request<EventRaw[]>({
       method: "GET",
       path: "/events",
-      params: { limit, offset, active, closed, archived },
+      params: { active, closed, tag_id, limit, offset, ascending },
     });
     return raw.map(transformEventWithMarkets);
   }
@@ -43,7 +57,7 @@ export class EventApi {
 /**
  * Transform a raw event with markets from snake_case to camelCase
  */
-function transformEventWithMarkets(raw: EventWithMarketsRaw): EventWithMarkets {
+function transformEventWithMarkets(raw: EventRaw): Event {
   return {
     id: raw.id,
     ticker: raw.ticker,
@@ -93,27 +107,7 @@ function transformEventWithMarkets(raw: EventWithMarketsRaw): EventWithMarkets {
     elapsed: raw.elapsed,
     live: raw.live,
     ended: raw.ended,
-    markets: raw.markets?.map((market) => ({
-      conditionId: market.condition_id,
-      questionId: market.question_id,
-      question: market.question,
-      description: market.description,
-      marketSlug: market.market_slug,
-      outcomes: market.outcomes,
-      outcomePrices: market.outcomePrices,
-      clobTokenIds: market.clobTokenIds,
-      image: market.image,
-      icon: market.icon,
-      active: market.active,
-      closed: market.closed,
-      archived: market.archived,
-      enableOrderBook: market.enable_order_book,
-      category: market.category,
-      endDateIso: market.end_date_iso,
-      volume: market.volume,
-      volume24hr: market.volume24hr,
-      liquidity: market.liquidity,
-    })),
+    markets: raw.markets?.map(parseMarket),
   };
 }
 
@@ -166,12 +160,13 @@ export type Event = {
   elapsed: string;
   live: boolean;
   ended: boolean;
+  markets?: Market[];
 };
 
 /**
  * Raw event with markets response from the API (before transformation)
  */
-type EventWithMarketsRaw = {
+type EventRaw = {
   id: string;
   ticker: string;
   title: string;
@@ -220,50 +215,5 @@ type EventWithMarketsRaw = {
   elapsed: string;
   live: boolean;
   ended: boolean;
-  markets?: Array<{
-    condition_id: string;
-    question_id: string;
-    question: string;
-    description?: string;
-    market_slug?: string;
-    outcomes: string[];
-    outcomePrices: string;
-    clobTokenIds: string;
-    image?: string;
-    icon?: string;
-    active?: boolean;
-    closed?: boolean;
-    archived?: boolean;
-    enable_order_book?: boolean;
-    category?: string;
-    end_date_iso?: string;
-    volume?: string;
-    volume24hr?: string;
-    liquidity?: string;
-  }>;
-};
-
-export type EventWithMarkets = Event & {
-  /** Markets associated with this event */
-  markets?: Array<{
-    conditionId: string;
-    questionId: string;
-    question: string;
-    description?: string;
-    marketSlug?: string;
-    outcomes: string[];
-    outcomePrices: string;
-    clobTokenIds: string;
-    image?: string;
-    icon?: string;
-    active?: boolean;
-    closed?: boolean;
-    archived?: boolean;
-    enableOrderBook?: boolean;
-    category?: string;
-    endDateIso?: string;
-    volume?: string;
-    volume24hr?: string;
-    liquidity?: string;
-  }>;
+  markets?: Array<MarketRaw>;
 };

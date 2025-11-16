@@ -56,7 +56,6 @@ for (const market of clobMarkets) {
 // Example 3: Get events
 console.log("\n\n4. Getting events...");
 const events = await client.gamma.event.list({
-  archived: false,
   active: true,
   closed: false,
   limit: 2,
