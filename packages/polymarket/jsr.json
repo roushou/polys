@@ -1,0 +1,9 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "name": "@dicedhq/polymarket",
+  "version": "0.1.4",
+  "exports": "./src/index.ts",
+  "publish": {
+    "exclude": ["**/*.test.ts"]
+  }
+}

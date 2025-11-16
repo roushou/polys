@@ -1,6 +1,6 @@
 {
   "name": "@dicedhq/polymarket",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "TypeScript client for the Polymarket API",
   "license": "MIT",
   "type": "module",

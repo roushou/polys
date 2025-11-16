@@ -26,7 +26,12 @@ export class Attributor {
     path: string;
     body: string | undefined;
     timestamp: string | undefined;
-  }) {
+  }): Promise<{
+    POLY_BUILDER_API_KEY: string;
+    POLY_BUILDER_PASSPHRASE: string;
+    POLY_BUILDER_SIGNATURE: string;
+    POLY_BUILDER_TIMESTAMP: string;
+  }> {
     const response = await ky.post<HeaderPayload>(this.url, {
       json: { path, method, body, timestamp },
       headers: {
