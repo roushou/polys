@@ -118,130 +118,181 @@ function parseMarket(raw: MarketRaw): Market {
  * Raw market response from the Gamma API (before parsing)
  */
 type MarketRaw = {
-  condition_id: string;
-  question_id: string;
+  id: string;
   question: string;
-  description: string;
-  market_slug?: string;
-  outcomes: string; // stringified JSON array
-  outcomePrices?: string; // stringified JSON array
-  clobTokenIds: string; // stringified JSON array
-  events?: Event[];
-  tags?: string[];
+  conditionId: string;
+  slug: string;
+  twitterCardImage?: string;
+  endDate?: string;
+  category?: string;
+  liquidity?: string;
   image?: string;
   icon?: string;
+  description?: string;
+  outcomes: string; // stringified JSON array
+  outcomePrices?: string; // stringified JSON array
+  volume?: string;
   active?: boolean;
+  marketType?: string;
   closed?: boolean;
+  marketMakerAddress?: string;
+  updatedBy?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  closedTime?: string;
+  mailchimpTag?: string;
   archived?: boolean;
-  enable_order_book?: boolean;
-  category?: string;
-  end_date_iso?: string;
-  game_start_time?: string;
+  restricted?: boolean;
+  volumeNum?: number;
+  liquidityNum?: number;
+  endDateIso?: string;
+  hasReviewedDates?: boolean;
+  readyForCron?: boolean;
+  volume24hr?: number;
+  volume1wk?: number;
+  volume1mo?: number;
+  volume1yr?: number;
+  clobTokenIds: string; // stringified JSON array
+  fpmmLive?: boolean;
+  volume1wkAmm?: number;
+  volume1moAmm?: number;
+  volume1yrAmm?: number;
+  volume1wkClob?: number;
+  volume1moClob?: number;
+  volume1yrClob?: number;
+  events?: Event[];
+  creator?: string;
+  ready?: boolean;
+  funded?: boolean;
+  cyom?: boolean;
+  competitive?: number;
+  pagerDutyNotificationEnabled?: boolean;
+  approved?: boolean;
+  rewardsMinSize?: number;
+  rewardsMaxSpread?: number;
+  spread?: number;
+  oneDayPriceChange?: number;
+  oneHourPriceChange?: number;
+  oneWeekPriceChange?: number;
+  oneMonthPriceChange?: number;
+  oneYearPriceChange?: number;
+  lastTradePrice?: number;
+  bestBid?: number;
+  bestAsk?: number;
+  clearBookOnStart?: boolean;
+  manualActivation?: boolean;
+  negRiskOther?: boolean;
+  umaResolutionStatuses?: string;
+  pendingDeployment?: boolean;
+  deploying?: boolean;
+  rfqEnabled?: boolean;
+  holdingRewardsEnabled?: boolean;
+  feesEnabled?: boolean;
   rewards?: string; // stringified JSON
   clobRewards?: ClobReward[];
-  volume?: string;
-  volume24hr?: string;
-  liquidity?: string;
+  tags?: string[];
 };
 
 /**
  * Parsed market with properly typed fields
  */
 export type Market = {
-  /** Condition ID for the market */
-  condition_id: string;
-
-  /** Associated question ID */
-  question_id: string;
-
-  /** Question text */
+  id: string;
   question: string;
-
-  /** Market description */
-  description: string;
-
-  /** Market slug for URLs */
-  market_slug?: string;
-
-  /** Market outcomes (parsed from JSON) */
-  outcomes: string[];
-
-  /** Outcome prices (parsed from JSON) */
-  outcomePrices: string[];
-
-  /** CLOB token IDs (parsed from JSON) */
-  clobTokenIds: string[];
-
-  /** Associated events */
-  events?: Event[];
-
-  /** Market tags */
-  tags?: string[];
-
-  /** Market image URL */
-  image?: string;
-
-  /** Market icon URL */
-  icon?: string;
-
-  /** Whether the market is active */
-  active?: boolean;
-
-  /** Whether the market is closed */
-  closed?: boolean;
-
-  /** Whether the market is archived */
-  archived?: boolean;
-
-  /** Whether order book is enabled */
-  enable_order_book?: boolean;
-
-  /** Market category */
+  conditionId: string;
+  slug: string;
+  twitterCardImage?: string;
+  endDate?: string;
   category?: string;
-
-  /** End date in ISO format */
-  end_date_iso?: string;
-
-  /** Game start time */
-  game_start_time?: string;
-
-  /** Reward configuration (parsed from JSON) */
-  rewards?: GammaReward;
-
-  /** CLOB rewards configuration */
-  clobRewards?: ClobReward[];
-
-  /** Volume in USD */
-  volume?: string;
-
-  /** Volume in last 24h */
-  volume24hr?: string;
-
-  /** Liquidity */
   liquidity?: string;
+  image?: string;
+  icon?: string;
+  description?: string;
+  outcomes: string[];
+  outcomePrices: string[];
+  volume?: string;
+  active?: boolean;
+  marketType?: string;
+  closed?: boolean;
+  marketMakerAddress?: string;
+  updatedBy?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  closedTime?: string;
+  mailchimpTag?: string;
+  archived?: boolean;
+  restricted?: boolean;
+  volumeNum?: number;
+  liquidityNum?: number;
+  endDateIso?: string;
+  hasReviewedDates?: boolean;
+  readyForCron?: boolean;
+  volume24hr?: number;
+  volume1wk?: number;
+  volume1mo?: number;
+  volume1yr?: number;
+  clobTokenIds: string[];
+  fpmmLive?: boolean;
+  volume1wkAmm?: number;
+  volume1moAmm?: number;
+  volume1yrAmm?: number;
+  volume1wkClob?: number;
+  volume1moClob?: number;
+  volume1yrClob?: number;
+  events?: Event[];
+  creator?: string;
+  ready?: boolean;
+  funded?: boolean;
+  cyom?: boolean;
+  competitive?: number;
+  pagerDutyNotificationEnabled?: boolean;
+  approved?: boolean;
+  rewardsMinSize?: number;
+  rewardsMaxSpread?: number;
+  spread?: number;
+  oneDayPriceChange?: number;
+  oneHourPriceChange?: number;
+  oneWeekPriceChange?: number;
+  oneMonthPriceChange?: number;
+  oneYearPriceChange?: number;
+  lastTradePrice?: number;
+  bestBid?: number;
+  bestAsk?: number;
+  clearBookOnStart?: boolean;
+  manualActivation?: boolean;
+  negRiskOther?: boolean;
+  umaResolutionStatuses?: string;
+  pendingDeployment?: boolean;
+  deploying?: boolean;
+  rfqEnabled?: boolean;
+  holdingRewardsEnabled?: boolean;
+  feesEnabled?: boolean;
+  rewards?: GammaReward;
+  clobRewards?: ClobReward[];
+  tags?: string[];
 };
 
 export type GammaReward = {
-  min_size?: string;
-  max_spread?: string;
-  event_start_date?: string;
-  event_end_date?: string;
+  minSize?: string;
+  maxSpread?: string;
+  eventStartDate?: string;
+  eventEndDate?: string;
   rates?: number[] | null;
 };
 
 export type ClobReward = {
   /** Token ID */
-  token_id: string;
+  tokenId: string;
 
   /** Reward type */
-  reward_type: string;
+  rewardType: string;
 
   /** Reward amount */
   amount: string;
 
   /** Minimum size */
-  min_size?: string;
+  minSize?: string;
 
   /** Maximum spread */
-  max_spread?: string;
+  maxSpread?: string;
 };

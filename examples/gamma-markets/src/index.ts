@@ -23,8 +23,8 @@ const currentMarkets = await client.gamma.market.listCurrent({ limit: 3 });
 console.log(`Found ${currentMarkets.length} current markets:\n`);
 for (const market of currentMarkets) {
   console.log(`- ${market.question}`);
-  console.log(`  ID: ${market.condition_id}`);
-  console.log(`  Slug: ${market.market_slug}`);
+  console.log(`  ID: ${market.conditionId}`);
+  console.log(`  Slug: ${market.slug}`);
   console.log(`  Outcomes: ${market.outcomes.join(", ")}`);
   console.log("");
 }
