@@ -46,7 +46,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsgo"
+    "build": "tsgo",
+    "prepublishOnly": "bun run build",
+    "publish:npm": "npm publish --access public"
   },
   "dependencies": {
     "ky": "^1.14.0",
