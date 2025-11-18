@@ -34,8 +34,19 @@
         "@dicedhq/polymarket": "workspace:*",
       },
     },
-    "packages/polymarket": {
-      "name": "@dicedhq/polymarket",
+    "packages/clob": {
+      "name": "@dicedhq/clob",
+      "version": "0.1.0",
+      "dependencies": {
+        "ky": "^1.14.0",
+        "viem": "catalog:",
+      },
+      "devDependencies": {
+        "@typescript/native-preview": "^7.0.0-dev.20251112.1",
+      },
+    },
+    "packages/gamma": {
+      "name": "@dicedhq/gamma",
       "version": "0.1.0",
       "dependencies": {
         "ky": "^1.14.0",
@@ -45,6 +56,22 @@
         "@typescript/native-preview": "^7.0.0-dev.20251112.1",
       },
     },
+    "packages/polymarket": {
+      "name": "@dicedhq/polymarket",
+      "version": "0.1.4",
+      "dependencies": {
+        "@dicedhq/clob": "workspace:*",
+        "@dicedhq/gamma": "workspace:*",
+        "ky": "^1.14.0",
+        "viem": "catalog:",
+      },
+      "devDependencies": {
+        "@typescript/native-preview": "^7.0.0-dev.20251112.1",
+      },
+    },
+  },
+  "catalog": {
+    "viem": "^2.38.6",
   },
   "packages": {
     "@adraffy/ens-normalize": ["@adraffy/ens-normalize@1.11.1", "", {}, "sha512-nhCBV3quEgesuf7c7KYfperqSS14T8bYuvJ8PcLJp6znkZpFc0AuW4qBtr8eKVyPPe/8RSr7sglCWPU5eaxwKQ=="],
@@ -67,9 +94,13 @@
 
     "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.3.4", "", { "os": "win32", "cpu": "x64" }, "sha512-FGCijXecmC4IedQ0esdYNlMpx0Jxgf4zceCaMu6fkjWyjgn50ZQtMiqZZQ0Q/77yqPxvtkgZAvt5uGw0gAAjig=="],
 
+    "@dicedhq/clob": ["@dicedhq/clob@workspace:packages/clob"],
+
     "@dicedhq/example-create-order": ["@dicedhq/example-create-order@workspace:examples/create-order"],
 
     "@dicedhq/example-gamma-markets": ["@dicedhq/example-gamma-markets@workspace:examples/gamma-markets"],
+
+    "@dicedhq/gamma": ["@dicedhq/gamma@workspace:packages/gamma"],
 
     "@dicedhq/polymarket": ["@dicedhq/polymarket@workspace:packages/polymarket"],
 

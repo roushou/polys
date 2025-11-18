@@ -1,20 +1,25 @@
 # @dicedhq/polymarket
 
-A TypeScript client for the Polymarket API with support for both CLOB (order book) and Gamma (market data) endpoints.
+A TypeScript client for the Polymarket API that combines both CLOB (order book) and Gamma (market data) clients in a single package for convenience.
 
 > [!WARNING]
 > This is currently work-in-progress so the API may change and some features may be missing
 
 ## Features
 
-- [x] **CLOB API Support**: Trade on Polymarket's order book
-- [x] **Gamma API Support**: Access market data, events, and sports information
+- [x] **Unified API**: Access both CLOB and Gamma APIs from a single client
+- [x] **CLOB API Support**: Trade on Polymarket's order book via [@dicedhq/clob](../clob)
+- [x] **Gamma API Support**: Access market data, events, and sports information via [@dicedhq/gamma](../gamma)
 - [x] **Type-Safe**: Comprehensive TypeScript types for all API responses and requests
 - [x] **Error Handling**: Robust error handling with custom error types
 - [x] **Automatic Retries**: Built-in retry logic for failed requests
 - [x] **Rate Limiting**: Automatic handling of rate limit errors
 - [x] **Authentication**: HMAC-SHA256 signature authentication for private endpoints
 - [ ] **Real-time WebSocket Support**: Subscribe to live order book and trade updates (coming soon)
+
+> **Note**: If you only need CLOB or Gamma functionality, you can install the individual packages:
+> - `npm install @dicedhq/clob` - For CLOB API only
+> - `npm install @dicedhq/gamma` - For Gamma API only
 
 ## Installation
 
@@ -127,10 +132,14 @@ const client = new Polymarket({
 
 ### Standalone Clients
 
-You can also use the CLOB and Gamma clients independently:
+You can also use the CLOB and Gamma clients independently by installing the separate packages:
 
 ```typescript
-import { ClobClient, GammaClient } from "@dicedhq/polymarket";
+// Install separate packages
+// npm install @dicedhq/clob @dicedhq/gamma
+
+import { ClobClient } from "@dicedhq/clob";
+import { GammaClient } from "@dicedhq/gamma";
 
 // CLOB client only
 const clobClient = new ClobClient({

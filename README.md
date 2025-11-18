@@ -7,19 +7,41 @@ An unofficial TypeScript toolkit to build apps on top of Polymarket API.
 
 This repository contains a TypeScript implementation for interacting with Polymarket, including:
 
-- **[@dicedhq/polymarket](./packages/polymarket)** - TypeScript client library for both CLOB (order book) and Gamma (market data) APIs
+- **[@dicedhq/clob](./packages/clob)** - TypeScript client library for CLOB (order book) API
+- **[@dicedhq/gamma](./packages/gamma)** - TypeScript client library for Gamma (market data) API
+- **[@dicedhq/polymarket](./packages/polymarket)** - Unified client that combines both CLOB and Gamma
 - **[@dicedhq/polys-server](./apps/server)** - High-performance signing server built with Bun
 
 ## Packages
 
-### [@dicedhq/polymarket](./packages/polymarket)
+### [@dicedhq/clob](./packages/clob)
 
-A comprehensive TypeScript client for the Polymarket API with support for:
+TypeScript client for the Polymarket CLOB (Central Limit Order Book) API:
 
-- **CLOB API**: Trading on Polymarket's order book (markets, orders, trades)
-- **Gamma API**: Market data, events, sports information, and tags
+- Trading on Polymarket's order book (markets, orders, trades)
 - Type-safe API with comprehensive TypeScript types
 - Built-in error handling, retries, and rate limiting
+- HMAC-SHA256 authentication for private endpoints
+
+```bash
+npm install @dicedhq/clob
+```
+
+### [@dicedhq/gamma](./packages/gamma)
+
+TypeScript client for the Polymarket Gamma API:
+
+- Market data, events, sports information, and tags
+- Type-safe API with comprehensive TypeScript types
+- Built-in error handling, retries, and rate limiting
+
+```bash
+npm install @dicedhq/gamma
+```
+
+### [@dicedhq/polymarket](./packages/polymarket)
+
+Unified client that combines both CLOB and Gamma APIs for convenience:
 
 ```bash
 npm install @dicedhq/polymarket

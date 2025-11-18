@@ -1,24 +1,22 @@
-import type { ClobClientConfig } from "./clob/client/base.js";
-import { ClobClient } from "./clob/client/client.js";
-import type { GammaClientConfig } from "./gamma/client/base.js";
-import { GammaClient } from "./gamma/client/client.js";
+import { Clob, type ClobConfig } from "@dicedhq/clob";
+import { Gamma, type GammaConfig } from "@dicedhq/gamma";
 
 export type PolymarketConfig = {
-  clob: Omit<ClobClientConfig, "debug">;
-  gamma?: Omit<GammaClientConfig, "debug">;
+  clob: Omit<ClobConfig, "debug">;
+  gamma?: Omit<GammaConfig, "debug">;
   debug?: boolean;
 };
 
 export class Polymarket {
-  public readonly clob: ClobClient;
-  public readonly gamma: GammaClient;
+  public readonly clob: Clob;
+  public readonly gamma: Gamma;
 
   constructor(config: PolymarketConfig) {
-    this.clob = new ClobClient({
+    this.clob = new Clob({
       ...config.clob,
       debug: config.debug,
     });
-    this.gamma = new GammaClient({
+    this.gamma = new Gamma({
       ...config.gamma,
       debug: config.debug,
     });

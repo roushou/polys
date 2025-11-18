@@ -9,11 +9,16 @@
     "email": "hello@kenji.sh",
     "url": "https://kenji.sh"
   },
-  "workspaces": [
-    "apps/*",
-    "examples/*",
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "examples/*",
+      "packages/*"
+    ],
+    "catalog": {
+      "viem": "^2.38.6"
+    }
+  },
   "scripts": {
     "dev:server": "bun run --filter='@dicedhq/polys-server' dev",
     "format": "biome format --write",
