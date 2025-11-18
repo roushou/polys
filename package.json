@@ -29,7 +29,8 @@
     "check:force": "biome check --write --unsafe",
     "check:types": "tsc --noEmit",
     "ci": "biome ci",
-    "build": "bun run --filter='@dicedhq/*' build"
+    "build": "bun run --filter='@dicedhq/*' build",
+    "clean-up": "bun scripts/clean-up.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.4",
