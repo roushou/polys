@@ -58,6 +58,6 @@
     "@typescript/native-preview": "^7.0.0-dev.20251112.1"
   },
   "peerDependencies": {
-    "viem": "catalog:"
+    "viem": "^2.38.6"
   }
 }

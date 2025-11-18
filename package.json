@@ -14,10 +14,7 @@
       "apps/*",
       "examples/*",
       "packages/*"
-    ],
-    "catalog": {
-      "viem": "^2.38.6"
-    }
+    ]
   },
   "scripts": {
     "dev:server": "bun run --filter='@dicedhq/polys-server' dev",

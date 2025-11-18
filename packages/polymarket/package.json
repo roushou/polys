@@ -53,8 +53,7 @@
   "dependencies": {
     "@dicedhq/clob": "workspace:*",
     "@dicedhq/gamma": "workspace:*",
-    "ky": "^1.14.0",
-    "viem": "catalog:"
+    "ky": "^1.14.0"
   },
   "devDependencies": {
     "@typescript/native-preview": "^7.0.0-dev.20251112.1"

@@ -36,7 +36,7 @@
     },
     "packages/clob": {
       "name": "@dicedhq/clob",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "ky": "^1.14.0",
       },
@@ -44,7 +44,7 @@
         "@typescript/native-preview": "^7.0.0-dev.20251112.1",
       },
       "peerDependencies": {
-        "viem": "catalog:",
+        "viem": "^2.38.6",
       },
     },
     "packages/gamma": {
@@ -64,15 +64,11 @@
         "@dicedhq/clob": "workspace:*",
         "@dicedhq/gamma": "workspace:*",
         "ky": "^1.14.0",
-        "viem": "catalog:",
       },
       "devDependencies": {
         "@typescript/native-preview": "^7.0.0-dev.20251112.1",
       },
     },
-  },
-  "catalog": {
-    "viem": "^2.38.6",
   },
   "packages": {
     "@adraffy/ens-normalize": ["@adraffy/ens-normalize@1.11.1", "", {}, "sha512-nhCBV3quEgesuf7c7KYfperqSS14T8bYuvJ8PcLJp6znkZpFc0AuW4qBtr8eKVyPPe/8RSr7sglCWPU5eaxwKQ=="],
