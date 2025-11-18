@@ -18,7 +18,7 @@ A TypeScript client for the Polymarket CLOB (Central Limit Order Book) API for t
 ## Installation
 
 ```bash
-npm install @dicedhq/clob
+npm install @dicedhq/clob viem
 ```
 
 ## Quick Start

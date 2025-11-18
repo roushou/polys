@@ -1,6 +1,6 @@
 {
   "name": "@dicedhq/clob",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Polymarket Clob TypeScript library",
   "license": "MIT",
   "type": "module",
@@ -47,15 +47,17 @@
   "scripts": {
     "build": "tsgo",
     "prepublishOnly": "bun run build",
-    "publish:npm": "npm publish --access public",
+    "publish:npm": "bun publish --access public",
     "publish:jsr": "bunx jsr publish",
     "publish:dry-run": "npm publish --dry-run && bunx jsr publish --dry-run"
   },
   "dependencies": {
-    "ky": "^1.14.0",
-    "viem": "catalog:"
+    "ky": "^1.14.0"
   },
   "devDependencies": {
     "@typescript/native-preview": "^7.0.0-dev.20251112.1"
+  },
+  "peerDependencies": {
+    "viem": "catalog:"
   }
 }

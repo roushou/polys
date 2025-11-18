@@ -24,7 +24,7 @@ TypeScript client for the Polymarket CLOB (Central Limit Order Book) API:
 - HMAC-SHA256 authentication for private endpoints
 
 ```bash
-npm install @dicedhq/clob
+npm install @dicedhq/clob viem
 ```
 
 ### [@dicedhq/gamma](./packages/gamma)
@@ -44,7 +44,7 @@ npm install @dicedhq/gamma
 Unified client that combines both CLOB and Gamma APIs for convenience:
 
 ```bash
-npm install @dicedhq/polymarket
+npm install @dicedhq/polymarket viem
 ```
 
 See the [package documentation](./packages/polymarket/README.md) for detailed usage examples.

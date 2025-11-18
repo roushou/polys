@@ -39,10 +39,12 @@
       "version": "0.1.0",
       "dependencies": {
         "ky": "^1.14.0",
-        "viem": "catalog:",
       },
       "devDependencies": {
         "@typescript/native-preview": "^7.0.0-dev.20251112.1",
+      },
+      "peerDependencies": {
+        "viem": "catalog:",
       },
     },
     "packages/gamma": {
@@ -50,7 +52,6 @@
       "version": "0.1.0",
       "dependencies": {
         "ky": "^1.14.0",
-        "viem": "^2.38.6",
       },
       "devDependencies": {
         "@typescript/native-preview": "^7.0.0-dev.20251112.1",

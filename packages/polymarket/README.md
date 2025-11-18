@@ -18,13 +18,13 @@ A TypeScript client for the Polymarket API that combines both CLOB (order book) 
 - [ ] **Real-time WebSocket Support**: Subscribe to live order book and trade updates (coming soon)
 
 > **Note**: If you only need CLOB or Gamma functionality, you can install the individual packages:
-> - `npm install @dicedhq/clob` - For CLOB API only
+> - `npm install @dicedhq/clob viem` - For CLOB API only
 > - `npm install @dicedhq/gamma` - For Gamma API only
 
 ## Installation
 
 ```bash
-npm install @dicedhq/polymarket
+npm install @dicedhq/polymarket viem
 ```
 
 ## Quick Start
