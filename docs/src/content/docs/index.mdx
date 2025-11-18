@@ -1,0 +1,126 @@
+---
+title: Polys
+description: An unofficial TypeScript toolkit to build apps on top of Polymarket API.
+template: splash
+hero:
+  tagline: A modern TypeScript toolkit for building applications on Polymarket
+  actions:
+    - text: Get Started
+      link: /guides/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/roushou/polys
+      icon: external
+      variant: minimal
+      attrs:
+        rel: noopener noreferrer
+        target: _blank
+---
+
+import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Features
+
+<CardGrid stagger>
+	<Card title="Type-Safe" icon="approve-check">
+		Comprehensive TypeScript types for all API operations. Catch errors at compile time, not runtime.
+	</Card>
+	<Card title="Modular Design" icon="setting">
+		Use the unified client or install only what you need. Smaller bundle sizes for specialized applications.
+	</Card>
+	<Card title="Order Attribution" icon="puzzle">
+		High-performance signing server built with Bun keeps your Builder credentials secure and server-side. [Learn more →](/order-attribution/overview)
+	</Card>
+	<Card title="Developer Experience" icon="star">
+		Intuitive API design with detailed documentation, comprehensive examples, and helpful error messages.
+	</Card>
+</CardGrid>
+
+## Packages
+
+<CardGrid>
+	<Card title="@dicedhq/polymarket" icon="star">
+		Unified client combining both CLOB and Gamma APIs for convenience.
+    <Tabs>
+      <TabItem label="npm">
+        ```bash
+        npm install @dicedhq/polymarket viem
+        ```
+      </TabItem>
+      <TabItem label="yarn">
+        ```bash
+        yarn add @dicedhq/polymarket viem
+        ```
+      </TabItem>
+      <TabItem label="pnpm">
+        ```bash
+        pnpm add @dicedhq/polymarket viem
+        ```
+      </TabItem>
+      <TabItem label="bun">
+        ```bash
+        bun add @dicedhq/polymarket viem
+        ```
+      </TabItem>
+    </Tabs>
+	</Card>
+	<Card title="@dicedhq/clob" icon="seti:plan">
+		TypeScript client for CLOB API - trade on Polymarket's order book.
+    <Tabs>
+      <TabItem label="npm">
+        ```bash
+        npm install @dicedhq/clob viem
+        ```
+      </TabItem>
+      <TabItem label="yarn">
+        ```bash
+        yarn add @dicedhq/clob viem
+        ```
+      </TabItem>
+      <TabItem label="pnpm">
+        ```bash
+        pnpm add @dicedhq/clob viem
+        ```
+      </TabItem>
+      <TabItem label="bun">
+        ```bash
+        bun add @dicedhq/clob viem
+        ```
+      </TabItem>
+    </Tabs>
+	</Card>
+	<Card title="@dicedhq/gamma" icon="seti:hex">
+		TypeScript client for Gamma API - access market data and events.
+    <Tabs>
+      <TabItem label="npm">
+        ```bash
+        npm install @dicedhq/gamma
+        ```
+      </TabItem>
+      <TabItem label="yarn">
+        ```bash
+        yarn add @dicedhq/gamma
+        ```
+      </TabItem>
+      <TabItem label="pnpm">
+        ```bash
+        pnpm add @dicedhq/gamma
+        ```
+      </TabItem>
+      <TabItem label="bun">
+        ```bash
+        bun add @dicedhq/gamma
+        ```
+      </TabItem>
+    </Tabs>
+	</Card>
+</CardGrid>
+
+## Apps
+
+<Card title="@dicedhq/polys-server" icon="seti:json">
+  **High-performance signing server** built with Bun for secure production deployments.
+
+  [Deployment Guide →](/order-attribution/overview)
+</Card>

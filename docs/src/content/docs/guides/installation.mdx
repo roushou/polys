@@ -1,0 +1,129 @@
+---
+title: Installation
+description: Install Polys packages in your project
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- **Bun** >= 1.3.x
+
+## Choose Your Package
+
+Three packages are provided that you can use independently or together:
+
+- **@dicedhq/clob** - TypeScript client for the CLOB (order book) API
+- **@dicedhq/gamma** - TypeScript client for the Gamma (market data) API
+- **@dicedhq/polymarket** - Polymarket client combining both CLOB and Gamma APIs
+
+## Polymarket Client
+
+The unified client is recommended if you need access to both trading and market data APIs.
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install @dicedhq/polymarket viem
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add @dicedhq/polymarket viem
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add @dicedhq/polymarket viem
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add @dicedhq/polymarket viem
+    ```
+  </TabItem>
+</Tabs>
+
+### What's Included
+
+- Full access to CLOB API for trading operations
+- Full access to Gamma API for market data
+- Single initialization and configuration
+
+## Individual Packages
+
+Install only the APIs you need for smaller bundle sizes and more granular dependency management.
+
+### CLOB Client
+
+For trading operations on Polymarket's order book:
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install @dicedhq/clob viem
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add @dicedhq/clob viem
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add @dicedhq/clob viem
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add @dicedhq/clob viem
+    ```
+  </TabItem>
+</Tabs>
+
+**Features:**
+- Create, list, and cancel orders
+- Query order book data
+- Manage positions and view trades
+- Order attribution
+
+### Gamma Client
+
+For read-only access to market data and events:
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install @dicedhq/gamma
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add @dicedhq/gamma
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add @dicedhq/gamma
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add @dicedhq/gamma
+    ```
+  </TabItem>
+</Tabs>
+
+**Features:**
+- Query current markets and prices
+- Access events and sports information
+- Browse tags and categories
+
+## Next Steps
+
+- [Getting Started Guide](/guides/getting-started) - Initialize clients and make your first API call
+- [CLOB API Reference](/reference/clob/overview) - Learn about trading operations
+- [Gamma API Reference](/reference/gamma/overview) - Explore market data APIs
+- [Examples](https://github.com/roushou/polys/tree/main/examples) - View complete code examples
