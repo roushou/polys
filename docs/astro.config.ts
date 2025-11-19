@@ -4,6 +4,7 @@ import mermaid from "astro-mermaid";
 import starlightThemeRapide from "starlight-theme-rapide";
 
 export default defineConfig({
+  site: "https://polys.kenji.sh",
   integrations: [
     starlight({
       title: "Polys",
