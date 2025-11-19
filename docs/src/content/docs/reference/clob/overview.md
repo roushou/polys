@@ -1,0 +1,136 @@
+---
+title: CLOB Overview
+description: Overview of the CLOB (Central Limit Order Book) API client
+---
+
+The CLOB (Central Limit Order Book) API client provides access to Polymarket's order book for trading operations. It supports creating orders, managing positions, querying market data, and more.
+
+## Installation
+
+```bash
+npm install @dicedhq/clob viem
+```
+
+## Client Initialization
+
+### Basic Setup
+
+```typescript
+import { Clob, createConnectedWallet } from "@dicedhq/clob";
+import type { Credentials } from "@dicedhq/clob";
+
+const wallet = createConnectedWallet({
+  privateKey: process.env.PRIVATE_KEY,
+  chain: "polygon",
+});
+
+const credentials: Credentials = {
+  key: process.env.POLYMARKET_API_KEY,
+  secret: process.env.POLYMARKET_SECRET,
+  passphrase: process.env.POLYMARKET_PASSPHRASE,
+};
+
+const client = new Clob({
+  wallet,
+  credentials,
+});
+```
+
+### With Builder Program Attribution
+
+:::tip[Polymarket Builder Program]
+If you're part of the [Polymarket Builder Program](https://docs.polymarket.com/#builder-program), use the signing server for order attribution to earn rebates on trading volume. The server signs orders with your builder credentials securely server-side.
+:::
+
+```typescript
+const client = new Clob({
+  wallet,
+  credentials,
+  attributor: {
+    url: "https://your-signing-server.com/api/sign",
+    token: process.env.SIGNING_SERVER_TOKEN,
+  },
+});
+```
+
+**Benefits:**
+- **Earn Rebates**: Orders attributed to your Builder Program account
+- **Security**: Builder credentials never exposed in client code
+- **High Performance**: Built with Bun for high-throughput signing
+- **Easy Deployment**: Simple Docker setup available
+
+See the [Order Attribution Guide](/order-attribution/overview) for complete setup and deployment instructions.
+
+## Configuration Options
+
+```typescript
+interface ClobConfig {
+  wallet: ConnectedWallet;      // Wallet for signing transactions
+  credentials: Credentials;      // API credentials
+  attributor?: AttributorConfig; // Optional signing server
+  debug?: boolean;              // Enable debug logging
+  retries?: number;             // Number of automatic retries
+}
+
+interface Credentials {
+  key: string;       // API key
+  secret: string;    // API secret
+  passphrase: string; // API passphrase
+}
+
+interface AttributorConfig {
+  url: string;  // Signing server endpoint URL
+  token: string; // Bearer token for authentication
+}
+```
+
+## Wallet Configuration
+
+Create a connected wallet for signing transactions:
+
+```typescript
+import { createConnectedWallet } from "@dicedhq/clob";
+
+const wallet = createConnectedWallet({
+  privateKey: process.env.PRIVATE_KEY,
+  chain: "polygon", // or "polygon-amoy" for testnet
+});
+```
+
+**Supported chains:**
+- `polygon` - Polygon mainnet
+- `polygon-amoy` - Polygon Amoy testnet
+
+## Available Operations
+
+The CLOB client provides the following operation groups:
+
+- **[Markets](/reference/clob/markets)** - Query available markets and market data
+- **[Order Book](/reference/clob/order-book)** - Access order book data
+- **[Orders](/reference/clob/orders)** - Create, list, and cancel orders
+- **[Positions](/reference/clob/positions)** - View your current positions
+- **[Trades](/reference/clob/trades)** - Query trade history
+
+## Features
+
+- **Type-Safe**: Comprehensive TypeScript types for all API responses and requests
+- **Error Handling**: Robust error handling with custom error types
+- **Automatic Retries**: Built-in retry logic for failed requests
+- **Rate Limiting**: Automatic handling of rate limit errors
+- **Authentication**: HMAC-SHA256 signature authentication for private endpoints
+
+## Requirements
+
+- Node.js >= 22.x or Bun >= 1.3.x
+- TypeScript >= 5.x (for development)
+
+## Examples
+
+Check out the [create-order example](https://github.com/roushou/polys/tree/main/examples/create-order) for a complete working example.
+
+## See Also
+
+- [Getting Started Guide](/guides/getting-started)
+- [Order Attribution Guide](/order-attribution/overview) - Set up Builder Program order attribution
+- [Gamma API Reference](/reference/gamma/overview)
+- [Error Handling Guide](/guides/error-handling)

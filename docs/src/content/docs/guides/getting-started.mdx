@@ -1,0 +1,193 @@
+---
+title: Getting Started
+description: Learn how to install and set up your project
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Polys is an unofficial TypeScript toolkit for building applications on top of the Polymarket API. It provides three main packages that you can use independently or together:
+
+- **@dicedhq/polymarket** - Typescript client combining both CLOB and Gamma APIs
+- **@dicedhq/clob** - TypeScript client for the CLOB (order book) API
+- **@dicedhq/gamma** - TypeScript client for the Gamma (market data) API
+
+## Installation
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install @dicedhq/polymarket viem
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```bash
+    yarn add @dicedhq/polymarket viem
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add @dicedhq/polymarket viem
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add @dicedhq/polymarket viem
+    ```
+  </TabItem>
+</Tabs>
+
+Check out the [Installation Guide](/guides/installation) for more detailed instructions.
+
+## Quick Start
+
+### Using the Polymarket Client
+
+```typescript
+import { Polymarket, createConnectedWallet } from "@dicedhq/polymarket";
+import type { Credentials } from "@dicedhq/polymarket";
+
+// Create a wallet for signing transactions
+const wallet = createConnectedWallet({
+  privateKey: process.env.PRIVATE_KEY,
+  chain: "polygon",
+});
+
+// Set up credentials for authenticated endpoints
+const credentials: Credentials = {
+  key: process.env.POLYMARKET_API_KEY,
+  secret: process.env.POLYMARKET_SECRET,
+  passphrase: process.env.POLYMARKET_PASSPHRASE,
+};
+
+// Initialize the client
+const client = new Polymarket({
+  clob: {
+    wallet,
+    credentials,
+  },
+});
+
+// Access CLOB API
+const markets = await client.clob.market.list();
+
+// Access Gamma API
+const events = await client.gamma.event.list({ limit: 10 });
+```
+
+### Using the CLOB client
+
+```typescript
+import { Clob, createConnectedWallet } from "@dicedhq/clob";
+import type { Credentials } from "@dicedhq/clob";
+
+const wallet = createConnectedWallet({
+  privateKey: process.env.PRIVATE_KEY,
+  chain: "polygon",
+});
+
+const credentials: Credentials = {
+  key: process.env.POLYMARKET_API_KEY,
+  secret: process.env.POLYMARKET_SECRET,
+  passphrase: process.env.POLYMARKET_PASSPHRASE,
+};
+
+const client = new Clob({
+  wallet,
+  credentials,
+});
+
+// Create and post an order
+const order = await client.order.createOrder({
+  price: 0.5,
+  side: "BUY",
+  size: 10,
+  tokenId: "your-token-id",
+  expiration: 1000000000,
+  taker: "public",
+});
+```
+
+### Using the Gamma Client
+
+```typescript
+import { Gamma } from "@dicedhq/gamma";
+
+// No authentication required for read-only access
+const client = new Gamma();
+
+// Get current active markets
+const markets = await client.market.listCurrent({ limit: 10 });
+
+// Get sports information
+const sports = await client.sport.list();
+```
+
+## Builder Program & Order Attribution
+
+If you're part of the [Polymarket Builder Program](https://docs.polymarket.com/#builder-program), use the signing server to attribute orders to your account and earn rebates on trading volume.
+
+:::tip[Builder Program Benefits]
+The signing server enables order attribution for the Polymarket Builder Program. It securely signs orders with your builder credentials server-side, allowing Polymarket to attribute orders posted by your app to your builder account.
+:::
+
+```typescript
+import { Polymarket, createConnectedWallet } from "@dicedhq/polymarket";
+
+const wallet = createConnectedWallet({
+  privateKey: process.env.PRIVATE_KEY,
+  chain: "polygon",
+});
+
+const credentials = {
+  key: process.env.POLYMARKET_API_KEY,
+  secret: process.env.POLYMARKET_SECRET,
+  passphrase: process.env.POLYMARKET_PASSPHRASE,
+};
+
+// Configure client to use signing server
+const client = new Polymarket({
+  clob: {
+    wallet,
+    credentials,
+    attributor: {
+      url: "https://your-signing-server.com/api/sign",
+      token: process.env.SIGNING_SERVER_TOKEN,
+    },
+  },
+});
+```
+
+**Benefits:**
+- **Earn Rebates**: Attribute orders to your Builder Program account
+- **Security**: Builder credentials never exposed in client code
+- **Performance**: Built with Bun for high-throughput order signing
+- **Easy deployment**: Simple Docker setup for production
+
+Learn more about setup and deployment in the [Order Attribution Guide](/order-attribution/overview).
+
+## Environment Variables
+
+For security, store sensitive credentials in environment variables:
+
+```bash
+# .env file
+PRIVATE_KEY=your_wallet_private_key
+POLYMARKET_API_KEY=your_api_key
+POLYMARKET_SECRET=your_api_secret
+POLYMARKET_PASSPHRASE=your_passphrase
+
+# For production with signing server
+SIGNING_SERVER_TOKEN=your_secure_bearer_token
+```
+
+:::caution
+Never commit your private keys or API credentials to version control. Always use environment variables or secure secret management solutions.
+:::
+
+## Next Steps
+
+- **Production Setup**: [Set up Order Attribution](/order-attribution/overview) for Builder Program rebates
+- **API Reference**: Learn about [CLOB API](/reference/clob/overview) for trading operations
+- **Market Data**: Explore [Gamma API](/reference/gamma/overview) for market data
+- **Best Practices**: Check out the [error handling guide](/guides/error-handling)
+- **Examples**: See [code examples](https://github.com/roushou/polys/tree/main/examples) in the repository
