@@ -8,6 +8,45 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Polys",
+      description:
+        "A TypeScript library for interacting with Polymarket APIs. Build trading bots, analyze markets, and access prediction market data.",
+      defaultLocale: "root",
+      locales: {
+        root: {
+          label: "English",
+          lang: "en",
+        },
+      },
+      head: [
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image",
+            content: "https://polys.kenji.sh/og.png",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:type",
+            content: "website",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            name: "twitter:card",
+            content: "summary_large_image",
+          },
+        },
+        {
+          tag: "meta",
+          attrs: {
+            name: "twitter:image",
+            content: "https://polys.kenji.sh/og.png",
+          },
+        },
+      ],
       social: [
         {
           icon: "github",
