@@ -1,3 +1,5 @@
+import { config } from "../config.js";
+
 export function withAuth(
   handler: (req: Request, token: string) => Response | Promise<Response>,
 ) {
@@ -14,6 +16,11 @@ export function withAuth(
 
     const token = parts[1];
     if (!token) {
+      return new Response("unauthorized", { status: 401 });
+    }
+
+    // Verify token against configured valid tokens
+    if (!config.server.apiTokens.includes(token)) {
       return new Response("unauthorized", { status: 401 });
     }
 

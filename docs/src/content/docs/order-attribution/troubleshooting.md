@@ -25,7 +25,7 @@ This guide helps you diagnose and solve common issues with the signing server an
    POLYS_POLYMARKET_API_KEY=test \
    POLYS_POLYMARKET_SECRET=test \
    POLYS_POLYMARKET_PASSPHRASE=test \
-   POLYS_BEARER_TOKEN=test \
+   POLYS_API_TOKENS=test \
    ./server
    ```
 
@@ -139,13 +139,13 @@ This guide helps you diagnose and solve common issues with the signing server an
 
 1. **Verify token matches:**
    ```bash
-   # Server side
-   echo $POLYS_BEARER_TOKEN
+   # Server side (comma-separated list)
+   echo $POLYS_API_TOKENS
 
-   # Client side
+   # Client side (single token that's in the server's list)
    echo $SIGNING_SERVER_TOKEN
 
-   # Should be identical
+   # Client token must be one of the tokens in the server's comma-separated list
    ```
 
 2. **Check Authorization header:**
@@ -160,14 +160,19 @@ This guide helps you diagnose and solve common issues with the signing server an
      -d '{"method":"GET","path":"/markets"}'
    ```
 
-3. **Regenerate bearer token:**
+3. **Regenerate API token:**
    ```bash
    # Generate new token
    openssl rand -base64 32
 
-   # Update on both server and client
-   export POLYS_BEARER_TOKEN=new_token
+   # Add to server's token list (supports multiple tokens)
+   export POLYS_API_TOKENS=old_token,new_token
+
+   # Update client to use new token
    export SIGNING_SERVER_TOKEN=new_token
+
+   # After all clients are updated, remove old token from server
+   export POLYS_API_TOKENS=new_token
    ```
 
 ### API Credential Errors
@@ -196,8 +201,9 @@ This guide helps you diagnose and solve common issues with the signing server an
 3. **Test credentials separately:**
    ```bash
    # Test signing endpoint with known-good request
+   # Use any token from your POLYS_API_TOKENS list
    curl -X POST http://localhost:8080/api/sign \
-     -H "Authorization: Bearer $POLYS_BEARER_TOKEN" \
+     -H "Authorization: Bearer your_token_here" \
      -H "Content-Type: application/json" \
      -d '{"method":"GET","path":"/markets"}'
    ```

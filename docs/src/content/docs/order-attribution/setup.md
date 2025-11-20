@@ -53,8 +53,8 @@ POLYS_POLYMARKET_API_KEY=your_api_key
 POLYS_POLYMARKET_SECRET=your_base64_secret
 POLYS_POLYMARKET_PASSPHRASE=your_passphrase
 
-# Required - Server Authentication
-POLYS_BEARER_TOKEN=your_secure_bearer_token
+# Required - Server Authentication (comma-separated list)
+POLYS_API_TOKENS=token1,token2,token3
 
 # Optional - Server Configuration
 POLYS_SERVER_HOSTNAME=127.0.0.1
@@ -79,9 +79,10 @@ POLYS_SERVER_PORT=8080
 - Your Polymarket API passphrase
 - Set when creating your API credentials
 
-**`POLYS_BEARER_TOKEN`**
-- Bearer token for authenticating requests to the signing server
-- Clients must include this in the `Authorization` header
+**`POLYS_API_TOKENS`**
+- Comma-separated list of bearer tokens for authenticating requests to the signing server
+- Clients must include one of these tokens in the `Authorization` header
+- Supports multiple tokens for token rotation or multiple clients
 
 #### Optional Variables
 
@@ -95,9 +96,9 @@ POLYS_SERVER_PORT=8080
 - Default: `8080`
 - Choose an available port on your system
 
-### Generating a Secure Bearer Token
+### Generating Secure API Tokens
 
-Generate a cryptographically secure bearer token:
+Generate cryptographically secure API tokens:
 
 ```bash
 # Using OpenSSL (recommended)
@@ -110,7 +111,16 @@ bun -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
 
-Use the generated token as your `POLYS_BEARER_TOKEN`.
+You can generate multiple tokens and add them to `POLYS_API_TOKENS` as a comma-separated list:
+
+```bash
+POLYS_API_TOKENS=token1_here,token2_here,token3_here
+```
+
+This allows you to:
+- Rotate tokens without downtime (add new token, update clients, remove old token)
+- Issue different tokens for different clients or environments
+- Revoke individual tokens without affecting others
 
 ## Verification
 

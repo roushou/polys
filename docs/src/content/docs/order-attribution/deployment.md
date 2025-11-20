@@ -77,9 +77,10 @@ RestartSec=10
 WantedBy=multi-user.target
 EOF
 
-# Create .env file on server
+# Create .env file on server with your configuration
+# Add: POLYS_POLYMARKET_API_KEY, POLYS_POLYMARKET_SECRET,
+#      POLYS_POLYMARKET_PASSPHRASE, POLYS_API_TOKENS
 sudo nano /opt/polys-server/.env
-# Add your environment variables
 
 # Start the service
 sudo systemctl daemon-reload
@@ -126,7 +127,7 @@ docker run -p 8080:8080 \
   -e POLYS_POLYMARKET_API_KEY=your_key \
   -e POLYS_POLYMARKET_SECRET=your_secret \
   -e POLYS_POLYMARKET_PASSPHRASE=your_passphrase \
-  -e POLYS_BEARER_TOKEN=your_token \
+  -e POLYS_API_TOKENS=token1,token2,token3 \
   polys-server
 ```
 
@@ -146,7 +147,7 @@ services:
       - POLYS_POLYMARKET_API_KEY=${POLYS_POLYMARKET_API_KEY}
       - POLYS_POLYMARKET_SECRET=${POLYS_POLYMARKET_SECRET}
       - POLYS_POLYMARKET_PASSPHRASE=${POLYS_POLYMARKET_PASSPHRASE}
-      - POLYS_BEARER_TOKEN=${POLYS_BEARER_TOKEN}
+      - POLYS_API_TOKENS=${POLYS_API_TOKENS}
       - POLYS_SERVER_HOSTNAME=0.0.0.0
       - POLYS_SERVER_PORT=8080
     restart: unless-stopped
@@ -246,7 +247,7 @@ railway init
 railway variables set POLYS_POLYMARKET_API_KEY=your_key
 railway variables set POLYS_POLYMARKET_SECRET=your_secret
 railway variables set POLYS_POLYMARKET_PASSPHRASE=your_passphrase
-railway variables set POLYS_BEARER_TOKEN=your_token
+railway variables set POLYS_API_TOKENS=token1,token2,token3
 
 # Deploy
 railway up

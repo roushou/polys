@@ -32,6 +32,7 @@ Re-use `.env.example` file and update it with your Polymarket credentials.
 POLYS_POLYMARKET_API_KEY=your_api_key
 POLYS_POLYMARKET_SECRET=your_base64_secret
 POLYS_POLYMARKET_PASSPHRASE=your_passphrase
+POLYS_API_TOKENS=token1,token2,token3
 
 # Optional (with defaults)
 POLYS_SERVER_HOSTNAME=127.0.0.1
