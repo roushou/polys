@@ -9,6 +9,7 @@ This repository contains a TypeScript implementation for interacting with Polyma
 
 - **[@dicedhq/clob](./packages/clob)** - TypeScript client library for CLOB (order book) API
 - **[@dicedhq/gamma](./packages/gamma)** - TypeScript client library for Gamma (market data) API
+- **[@dicedhq/data](./packages/data)** - TypeScript client library for Data API (user positions, trades, activity)
 - **[@dicedhq/polymarket](./packages/polymarket)** - Unified client that combines both CLOB and Gamma
 - **[@dicedhq/polys-server](./apps/server)** - High-performance signing server built with Bun
 

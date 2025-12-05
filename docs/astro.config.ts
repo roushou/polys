@@ -103,6 +103,16 @@ export default defineConfig({
                 { label: "Tags", slug: "reference/gamma/tags" },
               ],
             },
+            {
+              label: "Data",
+              collapsed: true,
+              items: [
+                { label: "Overview", slug: "reference/data/overview" },
+                { label: "Users", slug: "reference/data/users" },
+                { label: "Holders", slug: "reference/data/holders" },
+                { label: "Builders", slug: "reference/data/builders" },
+              ],
+            },
           ],
         },
       ],
