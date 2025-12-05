@@ -47,6 +47,16 @@
         "viem": "^2.38.6",
       },
     },
+    "packages/data": {
+      "name": "@dicedhq/data",
+      "version": "0.1.0",
+      "dependencies": {
+        "ky": "^1.14.0",
+      },
+      "devDependencies": {
+        "@typescript/native-preview": "^7.0.0-dev.20251112.1",
+      },
+    },
     "packages/gamma": {
       "name": "@dicedhq/gamma",
       "version": "0.1.0",
@@ -62,6 +72,7 @@
       "version": "0.1.4",
       "dependencies": {
         "@dicedhq/clob": "workspace:*",
+        "@dicedhq/data": "workspace:*",
         "@dicedhq/gamma": "workspace:*",
         "ky": "^1.14.0",
       },
@@ -92,6 +103,8 @@
     "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.3.4", "", { "os": "win32", "cpu": "x64" }, "sha512-FGCijXecmC4IedQ0esdYNlMpx0Jxgf4zceCaMu6fkjWyjgn50ZQtMiqZZQ0Q/77yqPxvtkgZAvt5uGw0gAAjig=="],
 
     "@dicedhq/clob": ["@dicedhq/clob@workspace:packages/clob"],
+
+    "@dicedhq/data": ["@dicedhq/data@workspace:packages/data"],
 
     "@dicedhq/example-create-order": ["@dicedhq/example-create-order@workspace:examples/create-order"],
 
