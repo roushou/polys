@@ -1,7 +1,7 @@
 {
-  "name": "@dicedhq/polymarket",
-  "version": "0.2.0",
-  "description": "TypeScript SDK for the Polymarket API (combines CLOB, Gamma and Data-API)",
+  "name": "@dicedhq/data",
+  "version": "0.1.0",
+  "description": "Polymarket Data-API TypeScript library",
   "license": "MIT",
   "type": "module",
   "engines": {
@@ -15,9 +15,6 @@
   },
   "keywords": [
     "polymarket",
-    "order-book",
-    "clob",
-    "gamma",
     "trading",
     "prediction-markets",
     "crypto"
@@ -25,7 +22,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/roushou/polys",
-    "directory": "packages/polymarket"
+    "directory": "packages/data"
   },
   "bugs": {
     "url": "https://github.com/roushou/polys/issues"
@@ -48,12 +45,11 @@
   "scripts": {
     "build": "tsgo",
     "prepublishOnly": "bun run build",
-    "publish:npm": "bun publish --access public"
+    "publish:npm": "bun publish --access public",
+    "publish:jsr": "bunx jsr publish",
+    "publish:dry-run": "bun publish --dry-run && bunx jsr publish --dry-run"
   },
   "dependencies": {
-    "@dicedhq/clob": "workspace:*",
-    "@dicedhq/data": "workspace:*",
-    "@dicedhq/gamma": "workspace:*",
     "ky": "^1.14.0"
   },
   "devDependencies": {
