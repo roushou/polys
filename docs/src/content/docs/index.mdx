@@ -18,7 +18,8 @@ hero:
         target: _blank
 ---
 
-import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import InstallPackage from '../../components/InstallPackage.astro';
 
 :::caution[Experimental]
 This library is currently experimental and under active development. You may encounter bugs or breaking changes. Please report any issues on [GitHub](https://github.com/roushou/polys/issues).
@@ -46,78 +47,15 @@ This library is currently experimental and under active development. You may enc
 <CardGrid>
 	<Card title="@dicedhq/polymarket" icon="star">
 		Unified client combining both CLOB and Gamma APIs for convenience.
-    <Tabs>
-      <TabItem label="npm">
-        ```bash
-        npm install @dicedhq/polymarket viem
-        ```
-      </TabItem>
-      <TabItem label="yarn">
-        ```bash
-        yarn add @dicedhq/polymarket viem
-        ```
-      </TabItem>
-      <TabItem label="pnpm">
-        ```bash
-        pnpm add @dicedhq/polymarket viem
-        ```
-      </TabItem>
-      <TabItem label="bun">
-        ```bash
-        bun add @dicedhq/polymarket viem
-        ```
-      </TabItem>
-    </Tabs>
+    <InstallPackage pkg="@dicedhq/polymarket viem" />
 	</Card>
 	<Card title="@dicedhq/clob" icon="seti:plan">
 		TypeScript client for CLOB API - trade on Polymarket's order book.
-    <Tabs>
-      <TabItem label="npm">
-        ```bash
-        npm install @dicedhq/clob viem
-        ```
-      </TabItem>
-      <TabItem label="yarn">
-        ```bash
-        yarn add @dicedhq/clob viem
-        ```
-      </TabItem>
-      <TabItem label="pnpm">
-        ```bash
-        pnpm add @dicedhq/clob viem
-        ```
-      </TabItem>
-      <TabItem label="bun">
-        ```bash
-        bun add @dicedhq/clob viem
-        ```
-      </TabItem>
-    </Tabs>
+    <InstallPackage pkg="@dicedhq/clob viem" />
 	</Card>
 	<Card title="@dicedhq/gamma" icon="seti:hex">
 		TypeScript client for Gamma API - access market data and events.
-    <Tabs>
-      <TabItem label="npm">
-        ```bash
-        npm install @dicedhq/gamma
-        ```
-      </TabItem>
-      <TabItem label="yarn">
-        ```bash
-        yarn add @dicedhq/gamma
-        ```
-      </TabItem>
-      <TabItem label="pnpm">
-        ```bash
-        pnpm add @dicedhq/gamma
-        ```
-      </TabItem>
-      <TabItem label="bun">
-        ```bash
-        bun add @dicedhq/gamma
-        ```
-      </TabItem>
-    </Tabs>
+    <InstallPackage pkg="@dicedhq/gamma" />
 	</Card>
 </CardGrid>
 

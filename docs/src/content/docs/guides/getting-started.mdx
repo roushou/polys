@@ -3,7 +3,7 @@ title: Getting Started
 description: Learn how to install and set up your project
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import InstallPackage from '../../../components/InstallPackage.astro';
 
 :::caution[Experimental]
 This library is currently experimental and under active development. You may encounter bugs or breaking changes. Please report any issues on [GitHub](https://github.com/roushou/polys/issues).
@@ -17,28 +17,7 @@ Polys is an unofficial TypeScript toolkit for building applications on top of th
 
 ## Installation
 
-<Tabs>
-  <TabItem label="npm">
-    ```bash
-    npm install @dicedhq/polymarket viem
-    ```
-  </TabItem>
-  <TabItem label="yarn">
-    ```bash
-    yarn add @dicedhq/polymarket viem
-    ```
-  </TabItem>
-  <TabItem label="pnpm">
-    ```bash
-    pnpm add @dicedhq/polymarket viem
-    ```
-  </TabItem>
-  <TabItem label="bun">
-    ```bash
-    bun add @dicedhq/polymarket viem
-    ```
-  </TabItem>
-</Tabs>
+<InstallPackage pkg="@dicedhq/polymarket viem" />
 
 Check out the [Installation Guide](/guides/installation) for more detailed instructions.
 

@@ -1,0 +1,29 @@
+---
+import { Code, TabItem, Tabs } from "@astrojs/starlight/components";
+
+interface Props {
+  pkg: string;
+  dev?: boolean;
+}
+
+const { pkg, dev = false } = Astro.props;
+const npmFlag = dev ? " --save-dev" : "";
+const yarnFlag = dev ? " --dev" : "";
+const pnpmFlag = dev ? " --save-dev" : "";
+const bunFlag = dev ? " --dev" : "";
+---
+
+<Tabs>
+  <TabItem label="npm">
+    <Code code={`npm install ${pkg}${npmFlag}`} lang="bash" />
+  </TabItem>
+  <TabItem label="yarn">
+    <Code code={`yarn add ${pkg}${yarnFlag}`} lang="bash" />
+  </TabItem>
+  <TabItem label="pnpm">
+    <Code code={`pnpm add ${pkg}${pnpmFlag}`} lang="bash" />
+  </TabItem>
+  <TabItem label="bun">
+    <Code code={`bun add ${pkg}${bunFlag}`} lang="bash" />
+  </TabItem>
+</Tabs>

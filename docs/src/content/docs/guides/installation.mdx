@@ -3,7 +3,7 @@ title: Installation
 description: Install Polys packages in your project
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import InstallPackage from '../../../components/InstallPackage.astro';
 
 ## Prerequisites
 
@@ -23,28 +23,7 @@ Three packages are provided that you can use independently or together:
 
 The unified client is recommended if you need access to both trading and market data APIs.
 
-<Tabs>
-  <TabItem label="npm">
-    ```bash
-    npm install @dicedhq/polymarket viem
-    ```
-  </TabItem>
-  <TabItem label="yarn">
-    ```bash
-    yarn add @dicedhq/polymarket viem
-    ```
-  </TabItem>
-  <TabItem label="pnpm">
-    ```bash
-    pnpm add @dicedhq/polymarket viem
-    ```
-  </TabItem>
-  <TabItem label="bun">
-    ```bash
-    bun add @dicedhq/polymarket viem
-    ```
-  </TabItem>
-</Tabs>
+<InstallPackage pkg="@dicedhq/polymarket viem" />
 
 ### What's Included
 
@@ -60,28 +39,7 @@ Install only the APIs you need for smaller bundle sizes and more granular depend
 
 For trading operations on Polymarket's order book:
 
-<Tabs>
-  <TabItem label="npm">
-    ```bash
-    npm install @dicedhq/clob viem
-    ```
-  </TabItem>
-  <TabItem label="yarn">
-    ```bash
-    yarn add @dicedhq/clob viem
-    ```
-  </TabItem>
-  <TabItem label="pnpm">
-    ```bash
-    pnpm add @dicedhq/clob viem
-    ```
-  </TabItem>
-  <TabItem label="bun">
-    ```bash
-    bun add @dicedhq/clob viem
-    ```
-  </TabItem>
-</Tabs>
+<InstallPackage pkg="@dicedhq/clob viem" />
 
 **Features:**
 - Create, list, and cancel orders
@@ -93,28 +51,7 @@ For trading operations on Polymarket's order book:
 
 For read-only access to market data and events:
 
-<Tabs>
-  <TabItem label="npm">
-    ```bash
-    npm install @dicedhq/gamma
-    ```
-  </TabItem>
-  <TabItem label="yarn">
-    ```bash
-    yarn add @dicedhq/gamma
-    ```
-  </TabItem>
-  <TabItem label="pnpm">
-    ```bash
-    pnpm add @dicedhq/gamma
-    ```
-  </TabItem>
-  <TabItem label="bun">
-    ```bash
-    bun add @dicedhq/gamma
-    ```
-  </TabItem>
-</Tabs>
+<InstallPackage pkg="@dicedhq/gamma" />
 
 **Features:**
 - Query current markets and prices

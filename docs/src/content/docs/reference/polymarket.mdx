@@ -2,34 +2,13 @@
 title: Polymarket API Reference
 description: Complete reference for the unified Polymarket API client
 ---
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import InstallPackage from '../../../components/InstallPackage.astro';
 
 The `@dicedhq/polymarket` package provides a TypeScript client that combines both CLOB (order book) and Gamma (market data) APIs in a single convenient interface.
 
 ## Installation
 
-<Tabs>
-  <TabItem label="npm">
-    ```bash
-    npm install @dicedhq/polymarket viem
-    ```
-  </TabItem>
-  <TabItem label="yarn">
-    ```bash
-    yarn add @dicedhq/polymarket viem
-    ```
-  </TabItem>
-  <TabItem label="pnpm">
-    ```bash
-    pnpm add @dicedhq/polymarket viem
-    ```
-  </TabItem>
-  <TabItem label="bun">
-    ```bash
-    bun add @dicedhq/polymarket viem
-    ```
-  </TabItem>
-</Tabs>
+<InstallPackage pkg="@dicedhq/polymarket viem" />
 
 ## Features
 
@@ -262,9 +241,6 @@ Consider using individual packages instead of the unified client when:
 - You want more granular dependency management
 
 ```typescript
-// Install individual packages
-// npm install @dicedhq/clob @dicedhq/gamma
-
 import { Clob } from "@dicedhq/clob";
 import { Gamma } from "@dicedhq/gamma";
 
