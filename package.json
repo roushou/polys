@@ -26,7 +26,7 @@
     "check:force": "biome check --write --unsafe",
     "check:types": "tsc --noEmit",
     "ci": "biome ci",
-    "build": "bun run --filter='@dicedhq/data' build && bun run --filter='@dicedhq/gamma' build && bun run --filter='@dicedhq/clob' build && bun run --filter='@dicedhq/polymarket' build",
+    "build": "bun run --filter='@dicedhq/core' build && bun run --filter='@dicedhq/data' build && bun run --filter='@dicedhq/gamma' build && bun run --filter='@dicedhq/clob' build && bun run --filter='@dicedhq/polymarket' build",
     "clean-up": "bun scripts/clean-up.ts"
   },
   "devDependencies": {

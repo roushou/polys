@@ -52,7 +52,7 @@
     "publish:dry-run": "bun publish --dry-run && bunx jsr publish --dry-run"
   },
   "dependencies": {
-    "ky": "^1.14.0"
+    "@dicedhq/core": "workspace:*"
   },
   "devDependencies": {
     "@typescript/native-preview": "^7.0.0-dev.20251112.1"

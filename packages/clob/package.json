@@ -52,6 +52,7 @@
     "publish:dry-run": "bun publish --dry-run && bunx jsr publish --dry-run"
   },
   "dependencies": {
+    "@dicedhq/core": "workspace:*",
     "ky": "^1.14.0"
   },
   "devDependencies": {

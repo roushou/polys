@@ -52,6 +52,7 @@
       "name": "@dicedhq/clob",
       "version": "0.1.1",
       "dependencies": {
+        "@dicedhq/core": "workspace:*",
         "ky": "^1.14.0",
       },
       "devDependencies": {
@@ -61,11 +62,21 @@
         "viem": "^2.38.6",
       },
     },
+    "packages/core": {
+      "name": "@dicedhq/core",
+      "version": "0.1.0",
+      "dependencies": {
+        "ky": "^1.14.0",
+      },
+      "devDependencies": {
+        "@typescript/native-preview": "^7.0.0-dev.20251112.1",
+      },
+    },
     "packages/data": {
       "name": "@dicedhq/data",
       "version": "0.1.0",
       "dependencies": {
-        "ky": "^1.14.0",
+        "@dicedhq/core": "workspace:*",
       },
       "devDependencies": {
         "@typescript/native-preview": "^7.0.0-dev.20251112.1",
@@ -75,7 +86,7 @@
       "name": "@dicedhq/gamma",
       "version": "0.1.0",
       "dependencies": {
-        "ky": "^1.14.0",
+        "@dicedhq/core": "workspace:*",
       },
       "devDependencies": {
         "@typescript/native-preview": "^7.0.0-dev.20251112.1",
@@ -119,6 +130,8 @@
     "@dicedhq/cli": ["@dicedhq/cli@workspace:apps/cli"],
 
     "@dicedhq/clob": ["@dicedhq/clob@workspace:packages/clob"],
+
+    "@dicedhq/core": ["@dicedhq/core@workspace:packages/core"],
 
     "@dicedhq/data": ["@dicedhq/data@workspace:packages/data"],
 
