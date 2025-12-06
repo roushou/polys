@@ -165,11 +165,14 @@ export class OrderApi {
   /**
    * Cancel multiple orders
    */
-  async cancelOrders(_orderIds: string[]): Promise<CancelResponse> {
+  async cancelOrders(orderIds: string[]): Promise<CancelResponse> {
     return this.client.request<CancelResponse>({
       method: "DELETE",
       path: "/orders",
       auth: { kind: "l2" },
+      options: {
+        body: { orderIDs: orderIds },
+      },
     });
   }
 
