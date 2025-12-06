@@ -1,10 +1,10 @@
 {
   "$schema": "https://jsr.io/schema/config-file.v1.json",
-  "name": "@dicedhq/data",
+  "name": "@dicedhq/core",
   "version": "0.1.0",
   "exports": "./src/index.ts",
   "imports": {
-    "@dicedhq/core": "jsr:@dicedhq/core@^0.1.0"
+    "ky": "npm:ky@^1.14.0"
   },
   "publish": {
     "exclude": ["**/*.test.ts"]

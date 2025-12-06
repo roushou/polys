@@ -22,7 +22,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsgo"
+    "build": "tsgo",
+    "publish:jsr": "bunx jsr publish",
+    "publish:dry-run": "bunx jsr publish --dry-run"
   },
   "dependencies": {
     "ky": "^1.14.0"

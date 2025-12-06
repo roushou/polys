@@ -4,6 +4,8 @@
   "version": "0.1.2",
   "exports": "./src/index.ts",
   "imports": {
+    "@dicedhq/core": "jsr:@dicedhq/core@^0.1.0",
+    "ky": "npm:ky@^1.14.0",
     "viem": "npm:viem@^2.38.6"
   },
   "publish": {
