@@ -51,7 +51,6 @@
     "publish:npm": "bun publish --access public",
     "publish:jsr": "bunx jsr publish",
     "publish:dry-run": "bun publish --dry-run && bunx jsr publish --dry-run"
-
   },
   "dependencies": {
     "@dicedhq/clob": "workspace:*",
