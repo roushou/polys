@@ -3,6 +3,9 @@
   "name": "@dicedhq/gamma",
   "version": "0.1.1",
   "exports": "./src/index.ts",
+  "imports": {
+    "@dicedhq/core": "jsr:@dicedhq/core@^0.1.0"
+  },
   "publish": {
     "exclude": ["**/*.test.ts"]
   }
