@@ -1,6 +1,6 @@
 {
   "name": "@dicedhq/gamma",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Polymarket Gamma TypeScript library",
   "license": "MIT",
   "type": "module",

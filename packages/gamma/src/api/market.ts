@@ -1,3 +1,4 @@
+import { safeJsonParse } from "@dicedhq/core";
 import type { BaseClient } from "../client/base.js";
 import type { Event } from "./event.js";
 
@@ -107,10 +108,10 @@ export class MarketApi {
 export function parseMarket(raw: MarketRaw): Market {
   return {
     ...raw,
-    outcomes: JSON.parse(raw.outcomes),
-    outcomePrices: raw.outcomePrices ? JSON.parse(raw.outcomePrices) : [],
-    clobTokenIds: raw.clobTokenIds ? JSON.parse(raw.clobTokenIds) : [],
-    rewards: raw.rewards ? JSON.parse(raw.rewards) : undefined,
+    outcomes: safeJsonParse<string[]>(raw.outcomes, []),
+    outcomePrices: safeJsonParse<string[]>(raw.outcomePrices, []),
+    clobTokenIds: safeJsonParse<string[]>(raw.clobTokenIds, []),
+    rewards: safeJsonParse<GammaReward | undefined>(raw.rewards, undefined),
   };
 }
 
