@@ -1,6 +1,6 @@
 {
   "name": "@dicedhq/polymarket",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "TypeScript SDK for the Polymarket API (combines CLOB, Gamma and Data-API)",
   "license": "MIT",
   "type": "module",
