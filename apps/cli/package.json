@@ -1,0 +1,27 @@
+{
+  "name": "@dicedhq/cli",
+  "version": "0.1.0",
+  "description": "CLI for interacting with Polymarket APIs",
+  "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "Kenji Lau",
+    "email": "hello@kenji.sh",
+    "url": "https://kenji.sh"
+  },
+  "bin": {
+    "polys": "./dist/cli"
+  },
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "build": "bun run build.ts",
+    "build:all": "bun run build.ts --all"
+  },
+  "dependencies": {
+    "@dicedhq/data": "workspace:*",
+    "@dicedhq/gamma": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
