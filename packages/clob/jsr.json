@@ -3,6 +3,9 @@
   "name": "@dicedhq/clob",
   "version": "0.1.1",
   "exports": "./src/index.ts",
+  "imports": {
+    "viem": "npm:viem@^2.38.6"
+  },
   "publish": {
     "exclude": ["**/*.test.ts"]
   }
