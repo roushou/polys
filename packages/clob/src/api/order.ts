@@ -198,10 +198,13 @@ export class OrderApi {
   }
 
   /**
-   * Generate a random salt for order uniqueness
+   * Generate a cryptographically secure random salt for order uniqueness
    */
   private generateSalt(): bigint {
-    return BigInt(Math.round(Math.random() * Date.now()));
+    const bytes = new Uint8Array(8);
+    crypto.getRandomValues(bytes);
+    const view = new DataView(bytes.buffer);
+    return view.getBigUint64(0);
   }
 
   private calculateOrderAmounts({
