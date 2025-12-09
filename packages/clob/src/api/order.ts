@@ -33,9 +33,9 @@ export class OrderApi {
       auth: { kind: "l2" },
       options: {
         params: {
-          id: params?.assetId,
-          market: params?.marketId,
-          asset_id: params?.assetId,
+          id: params.orderId,
+          market: params.marketId,
+          asset_id: params.assetId,
         },
       },
     });

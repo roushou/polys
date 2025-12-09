@@ -79,10 +79,10 @@ export class BaseClient extends BaseHttpClient {
     auth:
       | { kind: "none" }
       | { kind: "l1"; nonce: number; timestamp?: number }
-      | { kind: "l2"; headerArgs?: unknown }
-      | { kind: "l2-with-attribution"; headerArgs?: unknown };
+      | { kind: "l2"; headerArgs?: Record<string, unknown> }
+      | { kind: "l2-with-attribution"; headerArgs?: Record<string, unknown> };
     options?: {
-      body?: unknown;
+      body?: Record<string, unknown> | Record<string, unknown>[];
       params?: Record<string, string | number | boolean | undefined>;
     };
   }): Promise<T> {
@@ -118,8 +118,8 @@ export class BaseClient extends BaseHttpClient {
     auth:
       | { kind: "none" }
       | { kind: "l1"; nonce: number; timestamp?: number }
-      | { kind: "l2"; headerArgs?: unknown }
-      | { kind: "l2-with-attribution"; headerArgs?: unknown },
+      | { kind: "l2"; headerArgs?: Record<string, unknown> }
+      | { kind: "l2-with-attribution"; headerArgs?: Record<string, unknown> },
     method: "GET" | "POST" | "DELETE",
     path: `/${string}`,
   ): Promise<void> {
