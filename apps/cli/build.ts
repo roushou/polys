@@ -39,11 +39,11 @@ async function build(target?: Target): Promise<boolean> {
 
   const output = await Bun.build({
     entrypoints: ["./src/index.ts"],
-    outdir: "./bin",
+    outdir: values.outdir,
     target: "bun",
     minify: true,
     compile: {
-      outfile: "polys",
+      outfile,
     },
   });
 

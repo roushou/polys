@@ -1,0 +1,697 @@
+[cli]
+name = "polys"
+version = "0.1.0"
+description = "CLI for Polymarket Data and Gamma APIs"
+language = "typescript"
+
+# ─────────────────────────────────────────────────────────────
+# Data API
+# ─────────────────────────────────────────────────────────────
+
+[commands.data]
+description = "Polymarket Data API commands"
+
+# ─────────────────────────────────────────────────────────────
+# Data > Builders
+# ─────────────────────────────────────────────────────────────
+
+[commands.data.commands.builders]
+description = "Builder analytics commands"
+
+[commands.data.commands.builders.commands.leaderboard]
+description = "Get builder leaderboard"
+
+[[commands.data.commands.builders.commands.leaderboard.args]]
+name = "time-period"
+type = "string"
+required = true
+description = "Time period: day, week, month, or all"
+
+[[commands.data.commands.builders.commands.leaderboard.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results (default: 25)"
+
+[[commands.data.commands.builders.commands.leaderboard.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset (default: 0)"
+
+[commands.data.commands.builders.commands.volume]
+description = "Get daily builder volume time-series"
+
+[[commands.data.commands.builders.commands.volume.args]]
+name = "time-period"
+type = "string"
+required = true
+description = "Time period: day, week, month, or all"
+
+# ─────────────────────────────────────────────────────────────
+# Data > Holders
+# ─────────────────────────────────────────────────────────────
+
+[commands.data.commands.holders]
+description = "Market holder commands"
+
+[commands.data.commands.holders.commands.list]
+description = "List top holders for markets"
+
+[[commands.data.commands.holders.commands.list.args]]
+name = "market"
+type = "string"
+required = true
+description = "Comma-separated condition IDs"
+
+[[commands.data.commands.holders.commands.list.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results (default: 100, max: 500)"
+
+[[commands.data.commands.holders.commands.list.flags]]
+name = "min-balance"
+type = "int"
+description = "Minimum balance filter (default: 0)"
+
+# ─────────────────────────────────────────────────────────────
+# Data > Users
+# ─────────────────────────────────────────────────────────────
+
+[commands.data.commands.users]
+description = "User data commands"
+
+[commands.data.commands.users.commands.positions]
+description = "List current positions for a user"
+
+[[commands.data.commands.users.commands.positions.args]]
+name = "user"
+type = "string"
+required = true
+description = "User address"
+
+[[commands.data.commands.users.commands.positions.flags]]
+name = "market"
+type = "string"
+description = "Filter by comma-separated condition IDs"
+
+[[commands.data.commands.users.commands.positions.flags]]
+name = "event-id"
+type = "string"
+description = "Filter by comma-separated event IDs"
+
+[[commands.data.commands.users.commands.positions.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results (default: 100)"
+
+[[commands.data.commands.users.commands.positions.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset (default: 0)"
+
+[[commands.data.commands.users.commands.positions.flags]]
+name = "sort-by"
+type = "string"
+description = "Sort field: CURRENT, INITIAL, TOKENS, CASHPNL, PERCENTPNL, TITLE, PRICE, AVGPRICE"
+
+[[commands.data.commands.users.commands.positions.flags]]
+name = "sort-dir"
+type = "string"
+description = "Sort direction: ASC or DESC"
+
+[[commands.data.commands.users.commands.positions.flags]]
+name = "redeemable"
+type = "bool"
+short = "r"
+description = "Filter redeemable positions"
+
+[[commands.data.commands.users.commands.positions.flags]]
+name = "mergeable"
+type = "bool"
+short = "m"
+description = "Filter mergeable positions"
+
+[commands.data.commands.users.commands.trades]
+description = "List trades for a user or markets"
+
+[[commands.data.commands.users.commands.trades.flags]]
+name = "user"
+type = "string"
+short = "u"
+description = "User address"
+
+[[commands.data.commands.users.commands.trades.flags]]
+name = "market"
+type = "string"
+description = "Filter by comma-separated condition IDs"
+
+[[commands.data.commands.users.commands.trades.flags]]
+name = "event-id"
+type = "string"
+description = "Filter by comma-separated event IDs"
+
+[[commands.data.commands.users.commands.trades.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results (default: 100)"
+
+[[commands.data.commands.users.commands.trades.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset (default: 0)"
+
+[[commands.data.commands.users.commands.trades.flags]]
+name = "side"
+type = "string"
+description = "Filter by side: BUY or SELL"
+
+[[commands.data.commands.users.commands.trades.flags]]
+name = "taker-only"
+type = "bool"
+description = "Only include taker trades (default: true)"
+
+[commands.data.commands.users.commands.activity]
+description = "List on-chain activity for a user"
+
+[[commands.data.commands.users.commands.activity.args]]
+name = "user"
+type = "string"
+required = true
+description = "User address"
+
+[[commands.data.commands.users.commands.activity.flags]]
+name = "market"
+type = "string"
+description = "Filter by comma-separated condition IDs"
+
+[[commands.data.commands.users.commands.activity.flags]]
+name = "event-id"
+type = "string"
+description = "Filter by comma-separated event IDs"
+
+[[commands.data.commands.users.commands.activity.flags]]
+name = "activity-type"
+type = "string"
+description = "Filter by activity types: TRADE, SPLIT, MERGE, REDEEM, REWARD, CONVERSION"
+
+[[commands.data.commands.users.commands.activity.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results (default: 100)"
+
+[[commands.data.commands.users.commands.activity.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset (default: 0)"
+
+[[commands.data.commands.users.commands.activity.flags]]
+name = "sort-by"
+type = "string"
+description = "Sort field: TIMESTAMP, TOKENS, CASH"
+
+[[commands.data.commands.users.commands.activity.flags]]
+name = "sort-dir"
+type = "string"
+description = "Sort direction: ASC or DESC"
+
+[[commands.data.commands.users.commands.activity.flags]]
+name = "side"
+type = "string"
+description = "Filter by side: BUY or SELL"
+
+[[commands.data.commands.users.commands.activity.flags]]
+name = "start"
+type = "int"
+description = "Start timestamp"
+
+[[commands.data.commands.users.commands.activity.flags]]
+name = "end"
+type = "int"
+description = "End timestamp"
+
+[commands.data.commands.users.commands.values]
+description = "List total value of a user's positions"
+
+[[commands.data.commands.users.commands.values.args]]
+name = "user"
+type = "string"
+required = true
+description = "User address"
+
+[[commands.data.commands.users.commands.values.flags]]
+name = "market"
+type = "string"
+description = "Filter by comma-separated condition IDs"
+
+[commands.data.commands.users.commands.closed-positions]
+description = "List closed positions for a user"
+
+[[commands.data.commands.users.commands.closed-positions.args]]
+name = "user"
+type = "string"
+required = true
+description = "User address"
+
+[[commands.data.commands.users.commands.closed-positions.flags]]
+name = "market"
+type = "string"
+description = "Filter by comma-separated condition IDs"
+
+[[commands.data.commands.users.commands.closed-positions.flags]]
+name = "event-id"
+type = "string"
+description = "Filter by comma-separated event IDs"
+
+[[commands.data.commands.users.commands.closed-positions.flags]]
+name = "title"
+type = "string"
+description = "Filter by title (max 100 chars)"
+
+[[commands.data.commands.users.commands.closed-positions.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results (default: 100)"
+
+[[commands.data.commands.users.commands.closed-positions.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset (default: 0)"
+
+[[commands.data.commands.users.commands.closed-positions.flags]]
+name = "sort-by"
+type = "string"
+description = "Sort field: REALIZEDPNL, TITLE, PRICE, AVGPRICE, TIMESTAMP"
+
+[[commands.data.commands.users.commands.closed-positions.flags]]
+name = "sort-dir"
+type = "string"
+description = "Sort direction: ASC or DESC"
+
+[commands.data.commands.users.commands.traded-markets]
+description = "Get total markets a user has traded"
+
+[[commands.data.commands.users.commands.traded-markets.args]]
+name = "user"
+type = "string"
+required = true
+description = "User address"
+
+# ─────────────────────────────────────────────────────────────
+# Data > Misc
+# ─────────────────────────────────────────────────────────────
+
+[commands.data.commands.open-interest]
+description = "Get market open interest"
+
+[[commands.data.commands.open-interest.flags]]
+name = "market"
+type = "string"
+description = "Filter by comma-separated condition IDs"
+
+[commands.data.commands.live-volume]
+description = "Get live volume for an event"
+
+[[commands.data.commands.live-volume.args]]
+name = "event-id"
+type = "int"
+required = true
+description = "Event ID"
+
+# ─────────────────────────────────────────────────────────────
+# Gamma API
+# ─────────────────────────────────────────────────────────────
+
+[commands.gamma]
+description = "Polymarket Gamma API commands"
+
+# ─────────────────────────────────────────────────────────────
+# Gamma > Events
+# ─────────────────────────────────────────────────────────────
+
+[commands.gamma.commands.events]
+description = "Event commands"
+
+[commands.gamma.commands.events.commands.get]
+description = "Get a specific event by ID or slug"
+
+[[commands.gamma.commands.events.commands.get.args]]
+name = "id"
+type = "string"
+required = true
+description = "Event ID or slug"
+
+[[commands.gamma.commands.events.commands.get.flags]]
+name = "by-slug"
+type = "bool"
+short = "s"
+description = "Lookup by slug instead of ID"
+
+[commands.gamma.commands.events.commands.list]
+description = "List events with filtering"
+
+[[commands.gamma.commands.events.commands.list.flags]]
+name = "active"
+type = "bool"
+short = "a"
+description = "Filter active events"
+
+[[commands.gamma.commands.events.commands.list.flags]]
+name = "closed"
+type = "bool"
+short = "c"
+description = "Filter closed events"
+
+[[commands.gamma.commands.events.commands.list.flags]]
+name = "tag-id"
+type = "string"
+description = "Filter by tag ID"
+
+[[commands.gamma.commands.events.commands.list.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results (default: 10)"
+
+[[commands.gamma.commands.events.commands.list.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset (default: 0)"
+
+[[commands.gamma.commands.events.commands.list.flags]]
+name = "ascending"
+type = "bool"
+description = "Sort ascending (default: true)"
+
+# ─────────────────────────────────────────────────────────────
+# Gamma > Markets
+# ─────────────────────────────────────────────────────────────
+
+[commands.gamma.commands.markets]
+description = "Market commands"
+
+[commands.gamma.commands.markets.commands.get]
+description = "Get a specific market by ID"
+
+[[commands.gamma.commands.markets.commands.get.args]]
+name = "id"
+type = "string"
+required = true
+description = "Market ID"
+
+[commands.gamma.commands.markets.commands.list]
+description = "List all markets with filtering"
+
+[[commands.gamma.commands.markets.commands.list.flags]]
+name = "active"
+type = "bool"
+short = "a"
+description = "Filter active markets"
+
+[[commands.gamma.commands.markets.commands.list.flags]]
+name = "closed"
+type = "bool"
+short = "c"
+description = "Filter closed markets"
+
+[[commands.gamma.commands.markets.commands.list.flags]]
+name = "archived"
+type = "bool"
+description = "Filter archived markets"
+
+[[commands.gamma.commands.markets.commands.list.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results (default: 10)"
+
+[[commands.gamma.commands.markets.commands.list.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset (default: 0)"
+
+[commands.gamma.commands.markets.commands.list-current]
+description = "List current markets (active, non-closed, non-archived)"
+
+[[commands.gamma.commands.markets.commands.list-current.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results (default: 10)"
+
+[[commands.gamma.commands.markets.commands.list-current.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset (default: 0)"
+
+[commands.gamma.commands.markets.commands.list-clob]
+description = "List CLOB-tradable markets (order book enabled)"
+
+[[commands.gamma.commands.markets.commands.list-clob.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results"
+
+[[commands.gamma.commands.markets.commands.list-clob.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset"
+
+# ─────────────────────────────────────────────────────────────
+# Gamma > Tags
+# ─────────────────────────────────────────────────────────────
+
+[commands.gamma.commands.tags]
+description = "Tag commands"
+
+[commands.gamma.commands.tags.commands.get]
+description = "Get a specific tag by ID or slug"
+
+[[commands.gamma.commands.tags.commands.get.args]]
+name = "id"
+type = "string"
+required = true
+description = "Tag ID or slug"
+
+[[commands.gamma.commands.tags.commands.get.flags]]
+name = "by-slug"
+type = "bool"
+short = "s"
+description = "Lookup by slug instead of ID"
+
+[[commands.gamma.commands.tags.commands.get.flags]]
+name = "include-template"
+type = "bool"
+short = "t"
+description = "Include template data"
+
+[commands.gamma.commands.tags.commands.list]
+description = "List tags with filtering"
+
+[[commands.gamma.commands.tags.commands.list.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results"
+
+[[commands.gamma.commands.tags.commands.list.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset"
+
+[[commands.gamma.commands.tags.commands.list.flags]]
+name = "order"
+type = "string"
+description = "Comma-separated list of fields to order by"
+
+[[commands.gamma.commands.tags.commands.list.flags]]
+name = "ascending"
+type = "bool"
+description = "Sort ascending"
+
+[[commands.gamma.commands.tags.commands.list.flags]]
+name = "include-template"
+type = "bool"
+short = "t"
+description = "Include template data"
+
+[[commands.gamma.commands.tags.commands.list.flags]]
+name = "is-carousel"
+type = "bool"
+description = "Filter carousel tags"
+
+[commands.gamma.commands.tags.commands.related]
+description = "List related tags for a given tag"
+
+[[commands.gamma.commands.tags.commands.related.args]]
+name = "id"
+type = "string"
+required = true
+description = "Tag ID or slug"
+
+[[commands.gamma.commands.tags.commands.related.flags]]
+name = "by-slug"
+type = "bool"
+short = "s"
+description = "Lookup by slug instead of ID"
+
+[[commands.gamma.commands.tags.commands.related.flags]]
+name = "omit-empty"
+type = "bool"
+description = "Omit empty related tags"
+
+[[commands.gamma.commands.tags.commands.related.flags]]
+name = "status"
+type = "string"
+description = "Filter by status: active, closed, or all"
+
+# ─────────────────────────────────────────────────────────────
+# Gamma > Sports
+# ─────────────────────────────────────────────────────────────
+
+[commands.gamma.commands.sports]
+description = "Sports metadata commands"
+
+[commands.gamma.commands.sports.commands.list]
+description = "List sports metadata"
+
+[[commands.gamma.commands.sports.commands.list.flags]]
+name = "sport"
+type = "string"
+description = "Filter by sport identifier"
+
+[[commands.gamma.commands.sports.commands.list.flags]]
+name = "tag"
+type = "string"
+description = "Filter by tag ID"
+
+[[commands.gamma.commands.sports.commands.list.flags]]
+name = "series"
+type = "string"
+description = "Filter by series identifier"
+
+# ─────────────────────────────────────────────────────────────
+# Gamma > Series
+# ─────────────────────────────────────────────────────────────
+
+[commands.gamma.commands.series]
+description = "Series commands"
+
+[commands.gamma.commands.series.commands.get]
+description = "Get a series by ID"
+
+[[commands.gamma.commands.series.commands.get.args]]
+name = "id"
+type = "string"
+required = true
+description = "Series ID"
+
+[[commands.gamma.commands.series.commands.get.flags]]
+name = "include-chat"
+type = "bool"
+description = "Include chat data"
+
+[commands.gamma.commands.series.commands.list]
+description = "List series with filtering"
+
+[[commands.gamma.commands.series.commands.list.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results"
+
+[[commands.gamma.commands.series.commands.list.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset"
+
+[[commands.gamma.commands.series.commands.list.flags]]
+name = "order"
+type = "string"
+description = "Comma-separated list of fields to order by"
+
+[[commands.gamma.commands.series.commands.list.flags]]
+name = "ascending"
+type = "bool"
+description = "Sort ascending"
+
+[[commands.gamma.commands.series.commands.list.flags]]
+name = "slug"
+type = "string"
+description = "Filter by series slug"
+
+[[commands.gamma.commands.series.commands.list.flags]]
+name = "category"
+type = "string"
+description = "Filter by category label"
+
+[[commands.gamma.commands.series.commands.list.flags]]
+name = "closed"
+type = "bool"
+description = "Filter by closed status"
+
+[[commands.gamma.commands.series.commands.list.flags]]
+name = "include-chat"
+type = "bool"
+description = "Include chat data"
+
+[[commands.gamma.commands.series.commands.list.flags]]
+name = "recurrence"
+type = "string"
+description = "Filter by recurrence pattern"
+
+[commands.gamma.commands.series.commands.list-active]
+description = "List active series (non-closed, non-archived)"
+
+[[commands.gamma.commands.series.commands.list-active.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results"
+
+[[commands.gamma.commands.series.commands.list-active.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset"
+
+# ─────────────────────────────────────────────────────────────
+# Gamma > Comments
+# ─────────────────────────────────────────────────────────────
+
+[commands.gamma.commands.comments]
+description = "Comment commands"
+
+[commands.gamma.commands.comments.commands.list]
+description = "List comments with filtering"
+
+[[commands.gamma.commands.comments.commands.list.flags]]
+name = "entity-type"
+type = "string"
+description = "Parent entity type: Event, Series, or market"
+
+[[commands.gamma.commands.comments.commands.list.flags]]
+name = "entity-id"
+type = "int"
+description = "Parent entity ID"
+
+[[commands.gamma.commands.comments.commands.list.flags]]
+name = "limit"
+type = "int"
+description = "Maximum number of results"
+
+[[commands.gamma.commands.comments.commands.list.flags]]
+name = "offset"
+type = "int"
+description = "Pagination offset"
+
+[[commands.gamma.commands.comments.commands.list.flags]]
+name = "order"
+type = "string"
+description = "Comma-separated list of fields to order by"
+
+[[commands.gamma.commands.comments.commands.list.flags]]
+name = "ascending"
+type = "bool"
+description = "Sort ascending"
+
+[[commands.gamma.commands.comments.commands.list.flags]]
+name = "holders-only"
+type = "bool"
+description = "Restrict to position holders only"
+
+[[commands.gamma.commands.comments.commands.list.flags]]
+name = "get-positions"
+type = "bool"
+description = "Include position data"
