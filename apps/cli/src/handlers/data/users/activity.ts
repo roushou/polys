@@ -1,6 +1,6 @@
 import {
-  Data,
   type ActivitySortBy,
+  Data,
   type SortDirection,
   type TradeSide,
 } from "@dicedhq/data";

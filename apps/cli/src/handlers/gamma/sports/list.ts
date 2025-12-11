@@ -1,10 +1,11 @@
+import type { SportsMetadata } from "@dicedhq/gamma";
 import { Gamma } from "@dicedhq/gamma";
 import type { ListOptions } from "../../../commands/gamma/sports/list.js";
 
 export async function run(options: ListOptions): Promise<void> {
   const gamma = new Gamma();
 
-  let sports;
+  let sports: SportsMetadata[] = [];
 
   if (options.sport) {
     const sport = await gamma.sport.listBySport(options.sport);

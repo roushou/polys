@@ -1,6 +1,6 @@
 import {
-  Data,
   type ClosedPositionSortBy,
+  Data,
   type SortDirection,
 } from "@dicedhq/data";
 import type {
