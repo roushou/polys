@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Shared core utilities for Polymarket packages",
   "license": "MIT",
-  "private": true,
   "type": "module",
   "engines": {
     "node": ">=22.x",
@@ -21,10 +20,15 @@
     "src",
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsgo",
+    "prepublishOnly": "bun run build",
+    "publish:npm": "bun publish --access public",
     "publish:jsr": "bunx jsr publish",
-    "publish:dry-run": "bunx jsr publish --dry-run"
+    "publish:dry-run": "bun publish --dry-run && bunx jsr publish --dry-run"
   },
   "dependencies": {
     "ky": "^1.14.0"
