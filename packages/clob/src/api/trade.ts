@@ -1,3 +1,4 @@
+import { NonEmptyString, v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 import type { OrderSide } from "./order.js";
 
@@ -8,11 +9,13 @@ export class TradeApi {
    * List trades
    */
   async listTrades(params?: ListTradesParams): Promise<TradesResponse> {
+    const validated = params ? validate(ListTradesSchema, params) : undefined;
+
     return this.client.request<TradesResponse>({
       method: "GET",
       path: "/trades",
       auth: { kind: "none" },
-      options: { params },
+      options: { params: validated },
     });
   }
 
@@ -20,6 +23,8 @@ export class TradeApi {
    * List all trades for a market
    */
   async listAllTrades(market: string): Promise<Trade[]> {
+    validate(NonEmptyString, market, "market");
+
     const trades: Trade[] = [];
     let nextCursor: string | undefined;
 
@@ -35,6 +40,29 @@ export class TradeApi {
     return trades;
   }
 }
+
+// ============================================================================
+// Parameter Schemas
+// ============================================================================
+
+const ListTradesSchema = v.pipe(
+  v.object({
+    market: v.optional(v.string()),
+    maker_address: v.optional(v.string()),
+    asset_id: v.optional(v.string()),
+    next_cursor: v.optional(v.string()),
+    limit: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))),
+    before: v.optional(v.number()),
+    after: v.optional(v.number()),
+  }),
+  v.metadata({ title: "ListTradesParams" }),
+);
+
+export type ListTradesParams = v.InferInput<typeof ListTradesSchema>;
+
+// ============================================================================
+// Response Types
+// ============================================================================
 
 export type Trade = {
   id: string;
@@ -55,16 +83,6 @@ export type Trade = {
   transaction_hash?: string;
   trader_side?: OrderSide;
   type?: string;
-};
-
-export type ListTradesParams = {
-  market?: string;
-  maker_address?: string;
-  asset_id?: string;
-  next_cursor?: string;
-  limit?: number;
-  before?: number;
-  after?: number;
 };
 
 export type TradesResponse = {

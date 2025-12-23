@@ -1,3 +1,4 @@
+import { v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 
 export class MiscApi {
@@ -18,6 +19,8 @@ export class MiscApi {
    * Get live volume for an event
    */
   async getEventLiveVolume(eventId: number): Promise<GetEventLiveVolume> {
+    validate(EventIdSchema, eventId, "eventId");
+
     return this.client.request<GetEventLiveVolume>({
       method: "GET",
       path: "/live-volume",
@@ -25,6 +28,8 @@ export class MiscApi {
     });
   }
 }
+
+const EventIdSchema = v.pipe(v.number(), v.integer(), v.minValue(0));
 
 export type GetMarketOpenInterest = {
   market: string;

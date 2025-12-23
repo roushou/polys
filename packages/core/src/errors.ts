@@ -36,10 +36,22 @@ export class AuthenticationError extends PolymarketError {
 }
 
 /**
+ * Details for validation errors from schema validation
+ */
+export type ValidationErrorDetails = {
+  path: string;
+  issues: unknown[];
+};
+
+/**
  * Error thrown when request validation fails
  */
-export class ValidationError extends PolymarketError {
-  constructor(message: string, details?: unknown) {
+export class ValidationError<
+  T = ValidationErrorDetails,
+> extends PolymarketError {
+  declare details: T;
+
+  constructor(message: string, details: T) {
     super(message, 400, details);
     this.name = "ValidationError";
     Object.setPrototypeOf(this, ValidationError.prototype);

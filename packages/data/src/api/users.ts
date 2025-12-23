@@ -1,3 +1,4 @@
+import { NonEmptyString, v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 
 export class UsersApi {
@@ -6,147 +7,69 @@ export class UsersApi {
   /**
    * List current positions for a user
    */
-  async positions({
-    user,
-    market,
-    eventId,
-    sizeThreshold = 1,
-    redeemable = false,
-    mergeable = false,
-    limit = 100,
-    offset = 0,
-    sortBy = "TOKENS",
-    sortDirection = "DESC",
-    title,
-  }: ListPositionsParams): Promise<Position[]> {
+  async positions(params: ListPositionsParams): Promise<Position[]> {
+    const validated = validate(ListPositionsSchema, params);
+
     return this.client.request<Position[]>({
       method: "GET",
       path: "/positions",
-      params: {
-        user,
-        market,
-        eventId,
-        sizeThreshold,
-        redeemable,
-        mergeable,
-        limit,
-        offset,
-        sortBy,
-        sortDirection,
-        title,
-      },
+      params: validated,
     });
   }
 
   /**
    * List trades for a user or markets
    */
-  async listTrades({
-    user,
-    market,
-    eventId,
-    takerOnly = true,
-    filterType,
-    filterAmount,
-    limit = 100,
-    offset = 0,
-    side,
-  }: ListTradesParams): Promise<Trade[]> {
+  async listTrades(params: ListTradesParams): Promise<Trade[]> {
+    const validated = validate(ListTradesSchema, params);
+
     return this.client.request<Trade[]>({
       method: "GET",
       path: "/trades",
-      params: {
-        user,
-        market,
-        eventId,
-        takerOnly,
-        filterType,
-        filterAmount,
-        limit,
-        offset,
-        side,
-      },
+      params: validated,
     });
   }
 
   /**
    * List on-chain activity for a user
    */
-  async listActivity({
-    user,
-    market,
-    eventId,
-    type,
-    start,
-    end,
-    sortBy = "TIMESTAMP",
-    sortDirection = "DESC",
-    side,
-    limit = 100,
-    offset = 0,
-  }: ListActivityParams): Promise<Activity[]> {
+  async listActivity(params: ListActivityParams): Promise<Activity[]> {
+    const validated = validate(ListActivitySchema, params);
+
     return this.client.request<Activity[]>({
       method: "GET",
       path: "/activity",
-      params: {
-        user,
-        market,
-        eventId,
-        type,
-        start,
-        end,
-        sortBy,
-        sortDirection,
-        side,
-        limit,
-        offset,
-      },
+      params: validated,
     });
   }
 
   /**
    * List total value of a user's positions
    */
-  async listPositionsValues({
-    user,
-    market,
-  }: ListPositionValueParams): Promise<PositionValue[]> {
+  async listPositionsValues(
+    params: ListPositionValueParams,
+  ): Promise<PositionValue[]> {
+    const validated = validate(ListPositionValueSchema, params);
+
     return this.client.request<PositionValue[]>({
       method: "GET",
       path: "/value",
-      params: {
-        user,
-        market,
-      },
+      params: validated,
     });
   }
 
   /**
    * List closed positions for a user
    */
-  async listClosedPositions({
-    user,
-    market,
-    eventId,
-    title,
-    limit = 100,
-    offset = 0,
-    sortBy = "REALIZEDPNL",
-    sortDirection = "DESC",
-  }: ListClosedPositionsParams): Promise<ClosedPosition[]> {
+  async listClosedPositions(
+    params: ListClosedPositionsParams,
+  ): Promise<ClosedPosition[]> {
+    const validated = validate(ListClosedPositionsSchema, params);
+
     return this.client.request<ClosedPosition[]>({
       method: "GET",
       path: "/closed-positions",
-      params: {
-        user,
-        market,
-        title,
-        eventId,
-        limit,
-        offset,
-        sortBy,
-        sortDirection,
-      },
+      params: validated,
     });
   }
 
@@ -154,6 +77,8 @@ export class UsersApi {
    * Get total markets a user has traded
    */
   async getTradedMarkets(user: string): Promise<TradedMarkets> {
+    validate(NonEmptyString, user, "user");
+
     return this.client.request<TradedMarkets>({
       method: "GET",
       path: "/traded",
@@ -161,6 +86,130 @@ export class UsersApi {
     });
   }
 }
+
+const ListPositionsSchema = v.pipe(
+  v.object({
+    user: NonEmptyString,
+    market: v.optional(v.string()),
+    eventId: v.optional(v.string()),
+    sizeThreshold: v.optional(v.number(), 1),
+    redeemable: v.optional(v.boolean(), false),
+    mergeable: v.optional(v.boolean(), false),
+    limit: v.optional(
+      v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(500)),
+      100,
+    ),
+    offset: v.optional(
+      v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(10000)),
+      0,
+    ),
+    sortBy: v.optional(
+      v.picklist([
+        "CURRENT",
+        "INITIAL",
+        "TOKENS",
+        "CASHPNL",
+        "PERCENTPNL",
+        "TITLE",
+        "RESOLVING",
+        "PRICE",
+        "AVGPRICE",
+      ]),
+      "TOKENS",
+    ),
+    sortDirection: v.optional(v.picklist(["ASC", "DESC"]), "DESC"),
+    title: v.optional(v.pipe(v.string(), v.maxLength(100))),
+  }),
+  v.metadata({ title: "ListPositionsParams" }),
+);
+
+const ListTradesSchema = v.pipe(
+  v.object({
+    user: v.optional(v.string()),
+    market: v.optional(v.string()),
+    eventId: v.optional(v.string()),
+    side: v.optional(v.picklist(["BUY", "SELL"])),
+    takerOnly: v.optional(v.boolean(), true),
+    filterType: v.optional(v.picklist(["CASH", "TOKENS"])),
+    filterAmount: v.optional(v.number()),
+    limit: v.optional(
+      v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(10000)),
+      100,
+    ),
+    offset: v.optional(
+      v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(10000)),
+      0,
+    ),
+  }),
+  v.metadata({ title: "ListTradesParams" }),
+);
+
+const ListActivitySchema = v.pipe(
+  v.object({
+    user: NonEmptyString,
+    market: v.optional(v.string()),
+    eventId: v.optional(v.string()),
+    type: v.optional(v.string()),
+    side: v.optional(v.picklist(["BUY", "SELL"])),
+    start: v.optional(v.number()),
+    end: v.optional(v.number()),
+    limit: v.optional(
+      v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(10000)),
+      100,
+    ),
+    offset: v.optional(
+      v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(10000)),
+      0,
+    ),
+    sortBy: v.optional(
+      v.picklist(["TIMESTAMP", "TOKENS", "CASH"]),
+      "TIMESTAMP",
+    ),
+    sortDirection: v.optional(v.picklist(["ASC", "DESC"]), "DESC"),
+  }),
+  v.metadata({ title: "ListActivityParams" }),
+);
+
+const ListPositionValueSchema = v.pipe(
+  v.object({
+    user: NonEmptyString,
+    market: v.optional(v.string()),
+  }),
+  v.metadata({ title: "ListPositionValueParams" }),
+);
+
+const ListClosedPositionsSchema = v.pipe(
+  v.object({
+    user: NonEmptyString,
+    market: v.optional(v.string()),
+    eventId: v.optional(v.string()),
+    title: v.optional(v.pipe(v.string(), v.maxLength(100))),
+    limit: v.optional(
+      v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(50)),
+      100,
+    ),
+    offset: v.optional(
+      v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(100000)),
+      0,
+    ),
+    sortBy: v.optional(
+      v.picklist(["REALIZEDPNL", "TITLE", "PRICE", "AVGPRICE", "TIMESTAMP"]),
+      "REALIZEDPNL",
+    ),
+    sortDirection: v.optional(v.picklist(["ASC", "DESC"]), "DESC"),
+  }),
+  v.metadata({ title: "ListClosedPositionsParams" }),
+);
+
+export type ListPositionsParams = v.InferInput<typeof ListPositionsSchema>;
+export type ListTradesParams = v.InferInput<typeof ListTradesSchema>;
+export type ListActivityParams = v.InferInput<typeof ListActivitySchema>;
+export type ListPositionValueParams = v.InferInput<
+  typeof ListPositionValueSchema
+>;
+export type ListClosedPositionsParams = v.InferInput<
+  typeof ListClosedPositionsSchema
+>;
 
 export type SortBy =
   | "CURRENT"
@@ -172,22 +221,27 @@ export type SortBy =
   | "RESOLVING"
   | "PRICE"
   | "AVGPRICE";
-
 export type SortDirection = "ASC" | "DESC";
+export type TradeSide = "BUY" | "SELL";
+export type TradeFilterType = "CASH" | "TOKENS";
+export type ActivitySortBy = "TIMESTAMP" | "TOKENS" | "CASH";
+export type ActivityType =
+  | "TRADE"
+  | "SPLIT"
+  | "MERGE"
+  | "REDEEM"
+  | "REWARD"
+  | "CONVERSION";
+export type ClosedPositionSortBy =
+  | "REALIZEDPNL"
+  | "TITLE"
+  | "PRICE"
+  | "AVGPRICE"
+  | "TIMESTAMP";
 
-export type ListPositionsParams = {
-  user: string;
-  market?: string; // comma-separated condition IDs
-  eventId?: string; // comma-separated event IDs
-  sizeThreshold?: number; // default: 1
-  redeemable?: boolean;
-  mergeable?: boolean;
-  limit?: number; // 0-500, default: 100
-  offset?: number; // 0-10000, default: 0
-  sortBy?: SortBy;
-  sortDirection?: SortDirection; // default: DESC
-  title?: string; // max 100 chars
-};
+// ============================================================================
+// Response Types
+// ============================================================================
 
 export type Position = {
   proxyWallet: string;
@@ -217,25 +271,9 @@ export type Position = {
   negativeRisk: boolean;
 };
 
-export type TradeSide = "BUY" | "SELL";
-
-export type TradeFilterType = "CASH" | "TOKENS";
-
-export type ListTradesParams = {
-  user?: string;
-  market?: string; // comma-separated condition IDs
-  eventId?: string; // comma-separated event IDs (mutually exclusive with market)
-  side?: TradeSide;
-  takerOnly?: boolean; // default: true
-  filterType?: TradeFilterType;
-  filterAmount?: number;
-  limit?: number; // 0-10000, default: 100
-  offset?: number; // 0-10000, default: 0
-};
-
 export type Trade = {
   proxyWallet: string;
-  side: TradeSide;
+  side: "BUY" | "SELL";
   asset: string;
   conditionId: string;
   size: number;
@@ -255,35 +293,11 @@ export type Trade = {
   transactionHash?: string;
 };
 
-export type ListActivityParams = {
-  user: string;
-  market?: string; // comma-separated condition IDs
-  eventId?: string; // comma-separated event IDs
-  type?: string; // comma-separated activity types
-  side?: TradeSide;
-  start?: number; // timestamp
-  end?: number; // timestamp
-  limit?: number; // 0-10000, default: 100
-  offset?: number; // 0-10000, default: 0
-  sortBy?: ActivitySortBy; // default: TIMESTAMP
-  sortDirection?: SortDirection; // default: DESC
-};
-
-export type ActivityType =
-  | "TRADE"
-  | "SPLIT"
-  | "MERGE"
-  | "REDEEM"
-  | "REWARD"
-  | "CONVERSION";
-
-export type ActivitySortBy = "TIMESTAMP" | "TOKENS" | "CASH";
-
 export type Activity = {
   proxyWallet: string;
   timestamp: number;
   conditionId: string;
-  type: ActivityType;
+  type: "TRADE" | "SPLIT" | "MERGE" | "REDEEM" | "REWARD" | "CONVERSION";
   size: number;
   usdcSize: number;
   transactionHash?: string;
@@ -302,32 +316,9 @@ export type Activity = {
   profileImageOptimized?: string;
 };
 
-export type ListPositionValueParams = {
-  user: string;
-  market?: string; // comma-separated condition IDs
-};
-
 export type PositionValue = {
   user: string;
   value: number;
-};
-
-export type ClosedPositionSortBy =
-  | "REALIZEDPNL"
-  | "TITLE"
-  | "PRICE"
-  | "AVGPRICE"
-  | "TIMESTAMP";
-
-export type ListClosedPositionsParams = {
-  user: string;
-  market?: string; // comma-separated condition IDs
-  eventId?: string; // comma-separated event IDs
-  title?: string; // max 100 chars
-  limit?: number; // 0-50, default: 10
-  offset?: number; // 0-100000, default: 0
-  sortBy?: ClosedPositionSortBy; // default: REALIZEDPNL
-  sortDirection?: SortDirection; // default: DESC
 };
 
 export type ClosedPosition = {

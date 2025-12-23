@@ -1,3 +1,4 @@
+import { NonEmptyString, v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 import type { Event } from "./event.js";
 import type { Tag } from "./tags.js";
@@ -8,18 +9,14 @@ export class SeriesApi {
   /**
    * Get a series by its id
    */
-  async get({
-    id,
-    includeChat,
-  }: {
-    id: string;
-    includeChat: boolean;
-  }): Promise<Series | undefined> {
+  async get(params: GetSeriesParams): Promise<Series | undefined> {
+    const validated = validate(GetSeriesSchema, params);
+
     return this.client.request<Series>({
       method: "GET",
-      path: `/series/${id}`,
+      path: `/series/${validated.id}`,
       params: {
-        include_chat: includeChat,
+        include_chat: validated.includeChat,
       },
     });
   }
@@ -28,21 +25,25 @@ export class SeriesApi {
    * List all series with pagination and filtering
    */
   async list(params?: ListSeriesParams): Promise<Series[]> {
+    const validated = params ? validate(ListSeriesSchema, params) : undefined;
+
     return this.client.request<Series[]>({
       method: "GET",
       path: "/series",
-      params: {
-        limit: params?.limit,
-        offset: params?.offset,
-        order: params?.order,
-        ascending: params?.ascending,
-        slug: params?.slug,
-        categories_ids: params?.categoriesIds,
-        categories_labels: params?.categoriesLabels,
-        closed: params?.closed,
-        include_chat: params?.includeChat,
-        recurrence: params?.recurrence,
-      },
+      params: validated
+        ? {
+            limit: validated.limit,
+            offset: validated.offset,
+            order: validated.order,
+            ascending: validated.ascending,
+            slug: validated.slug,
+            categories_ids: validated.categoriesIds,
+            categories_labels: validated.categoriesLabels,
+            closed: validated.closed,
+            include_chat: validated.includeChat,
+            recurrence: validated.recurrence,
+          }
+        : undefined,
     });
   }
 
@@ -72,6 +73,8 @@ export class SeriesApi {
     categoryLabel: string,
     params?: { limit?: number; offset?: number },
   ): Promise<Series[]> {
+    validate(NonEmptyString, categoryLabel, "categoryLabel");
+
     return this.list({
       ...params,
       categoriesLabels: [categoryLabel],
@@ -79,37 +82,32 @@ export class SeriesApi {
   }
 }
 
-export type ListSeriesParams = {
-  /** Maximum number of series to return */
-  limit?: number;
+const GetSeriesSchema = v.pipe(
+  v.object({
+    id: NonEmptyString,
+    includeChat: v.boolean(),
+  }),
+  v.metadata({ title: "GetSeriesParams" }),
+);
 
-  /** Offset for pagination */
-  offset?: number;
+const ListSeriesSchema = v.pipe(
+  v.object({
+    limit: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))),
+    offset: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))),
+    order: v.optional(v.string()),
+    ascending: v.optional(v.boolean()),
+    slug: v.optional(v.array(v.string())),
+    categoriesIds: v.optional(v.array(v.number())),
+    categoriesLabels: v.optional(v.array(v.string())),
+    closed: v.optional(v.boolean()),
+    includeChat: v.optional(v.boolean()),
+    recurrence: v.optional(v.string()),
+  }),
+  v.metadata({ title: "ListSeriesParams" }),
+);
 
-  /** Comma-separated list of fields to order by */
-  order?: string;
-
-  /** Sort direction (true for ascending, false for descending) */
-  ascending?: boolean;
-
-  /** Filter by series slugs */
-  slug?: string[];
-
-  /** Filter by category IDs */
-  categoriesIds?: number[];
-
-  /** Filter by category labels */
-  categoriesLabels?: string[];
-
-  /** Filter by closed status */
-  closed?: boolean;
-
-  /** Include chat data */
-  includeChat?: boolean;
-
-  /** Filter by recurrence pattern */
-  recurrence?: string;
-};
+export type GetSeriesParams = v.InferInput<typeof GetSeriesSchema>;
+export type ListSeriesParams = v.InferInput<typeof ListSeriesSchema>;
 
 export type Series = {
   /** Series ID */

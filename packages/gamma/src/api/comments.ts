@@ -1,3 +1,4 @@
+import { v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 
 export class CommentsApi {
@@ -7,19 +8,23 @@ export class CommentsApi {
    * List comments with pagination and filtering
    */
   async list(params?: ListCommentsParams): Promise<Comment[]> {
+    const validated = params ? validate(ListCommentsSchema, params) : undefined;
+
     return this.client.request<Comment[]>({
       method: "GET",
       path: "/comments",
-      params: {
-        limit: params?.limit,
-        offset: params?.offset,
-        order: params?.order,
-        ascending: params?.ascending,
-        parent_entity_type: params?.parentEntityType,
-        parent_entity_id: params?.parentEntityId,
-        get_positions: params?.getPositions,
-        holders_only: params?.holdersOnly,
-      },
+      params: validated
+        ? {
+            limit: validated.limit,
+            offset: validated.offset,
+            order: validated.order,
+            ascending: validated.ascending,
+            parent_entity_type: validated.parentEntityType,
+            parent_entity_id: validated.parentEntityId,
+            get_positions: validated.getPositions,
+            holders_only: validated.holdersOnly,
+          }
+        : undefined,
     });
   }
 
@@ -81,31 +86,21 @@ export class CommentsApi {
   }
 }
 
-export type ListCommentsParams = {
-  /** Maximum number of comments to return */
-  limit?: number;
+const ListCommentsSchema = v.pipe(
+  v.object({
+    limit: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))),
+    offset: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0))),
+    order: v.optional(v.string()),
+    ascending: v.optional(v.boolean()),
+    parentEntityType: v.optional(v.picklist(["Event", "Series", "market"])),
+    parentEntityId: v.optional(v.number()),
+    getPositions: v.optional(v.boolean()),
+    holdersOnly: v.optional(v.boolean()),
+  }),
+  v.metadata({ title: "ListCommentsParams" }),
+);
 
-  /** Offset for pagination */
-  offset?: number;
-
-  /** Comma-separated list of fields to order by */
-  order?: string;
-
-  /** Sort direction (true for ascending, false for descending) */
-  ascending?: boolean;
-
-  /** Filter by parent entity type (Event, Series, or market) */
-  parentEntityType?: "Event" | "Series" | "market";
-
-  /** Filter by parent entity ID */
-  parentEntityId?: number;
-
-  /** Include position data */
-  getPositions?: boolean;
-
-  /** Restrict to position holders only */
-  holdersOnly?: boolean;
-};
+export type ListCommentsParams = v.InferInput<typeof ListCommentsSchema>;
 
 export type Comment = {
   /** Comment ID */

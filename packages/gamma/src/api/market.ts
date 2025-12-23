@@ -1,4 +1,5 @@
 import { safeJsonParse } from "@dicedhq/core";
+import { NonEmptyString, v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 import type { Event } from "./event.js";
 
@@ -9,6 +10,8 @@ export class MarketApi {
    * Get a specific market by ID
    */
   async get(id: string): Promise<Market> {
+    validate(NonEmptyString, id, "id");
+
     const raw = await this.client.request<MarketRaw>({
       method: "GET",
       path: `/markets/${id}`,
@@ -19,23 +22,13 @@ export class MarketApi {
   /**
    * List all markets with pagination. Defaults to first 10 results.
    */
-  async listAll({
-    active,
-    closed,
-    archived,
-    limit = 10,
-    offset = 0,
-  }: {
-    active: boolean;
-    closed: boolean;
-    archived: boolean;
-    limit?: number;
-    offset?: number;
-  }): Promise<Market[]> {
+  async listAll(params: ListAllParams): Promise<Market[]> {
+    const validated = validate(ListAllSchema, params);
+
     const raw = await this.client.request<MarketRaw[]>({
       method: "GET",
       path: "/markets",
-      params: { limit, offset, active, closed, archived },
+      params: validated,
     });
     return raw.map(parseMarket);
   }
@@ -43,19 +36,14 @@ export class MarketApi {
   /**
    * List current markets (active, non-closed, non-archived). Defaults to first 10 results.
    */
-  async listCurrent({
-    limit = 10,
-    offset = 0,
-  }: {
-    limit?: number;
-    offset?: number;
-  } = {}): Promise<Market[]> {
+  async listCurrent(params: PaginationParams = {}): Promise<Market[]> {
+    const validated = validate(PaginationSchema, params);
+
     const raw = await this.client.request<MarketRaw[]>({
       method: "GET",
       path: "/markets",
       params: {
-        limit,
-        offset,
+        ...validated,
         active: true,
         closed: false,
         archived: false,
@@ -85,10 +73,7 @@ export class MarketApi {
   /**
    * List CLOB-tradable markets (markets with order book enabled)
    */
-  async listClobTradable(params?: {
-    limit?: number;
-    offset?: number;
-  }): Promise<Market[]> {
+  async listClobTradable(params?: PaginationParams): Promise<Market[]> {
     const raw = await this.client.request<MarketRaw[]>({
       method: "GET",
       path: "/markets",
@@ -102,6 +87,32 @@ export class MarketApi {
   }
 }
 
+const PaginationSchema = v.pipe(
+  v.object({
+    limit: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0)), 10),
+    offset: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0)), 0),
+  }),
+  v.metadata({ title: "PaginationParams" }),
+);
+
+const ListAllSchema = v.pipe(
+  v.object({
+    active: v.boolean(),
+    closed: v.boolean(),
+    archived: v.boolean(),
+    limit: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0)), 10),
+    offset: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0)), 0),
+  }),
+  v.metadata({ title: "ListAllParams" }),
+);
+
+export type PaginationParams = v.InferInput<typeof PaginationSchema>;
+export type ListAllParams = v.InferInput<typeof ListAllSchema>;
+
+// ============================================================================
+// Helpers
+// ============================================================================
+
 /**
  * Parse a raw market response from the API into a properly typed Market
  */
@@ -114,6 +125,10 @@ export function parseMarket(raw: MarketRaw): Market {
     rewards: safeJsonParse<GammaReward | undefined>(raw.rewards, undefined),
   };
 }
+
+// ============================================================================
+// Types
+// ============================================================================
 
 /**
  * Raw market response from the Gamma API (before parsing)

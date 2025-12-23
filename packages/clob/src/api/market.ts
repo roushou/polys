@@ -1,3 +1,4 @@
+import { NonEmptyString, v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 import type { OrderSide } from "./order.js";
 
@@ -8,6 +9,8 @@ export class MarketApi {
    * Get market information by condition ID
    */
   async get(conditionId: string): Promise<Market> {
+    validate(NonEmptyString, conditionId, "conditionId");
+
     return this.client.request<Market>({
       method: "GET",
       path: `/markets/${conditionId}`,
@@ -52,12 +55,14 @@ export class MarketApi {
     tokenId: string,
     side: "BUY" | "SELL",
   ): Promise<PriceResponse> {
+    const validated = validate(GetPriceSchema, { tokenId, side });
+
     return this.client.request<PriceResponse>({
       method: "GET",
       path: "/price",
       auth: { kind: "none" },
       options: {
-        params: { token_id: tokenId, side },
+        params: { token_id: validated.tokenId, side: validated.side },
       },
     });
   }
@@ -86,6 +91,8 @@ export class MarketApi {
    * Get midpoint price for a specific token
    */
   async getMidpoint(tokenId: string): Promise<MidpointResponse> {
+    validate(NonEmptyString, tokenId, "tokenId");
+
     return this.client.request<MidpointResponse>({
       method: "GET",
       path: "/midpoint",
@@ -100,6 +107,8 @@ export class MarketApi {
    * Get historical price data for a given market token
    */
   async getPriceHistory(params: GetPriceHistoryParams): Promise<MarketPrice[]> {
+    const validated = validate(GetPriceHistorySchema, params);
+
     const response = await this.client.request<Array<{ p: number; t: number }>>(
       {
         method: "GET",
@@ -107,11 +116,11 @@ export class MarketApi {
         auth: { kind: "none" },
         options: {
           params: {
-            market: params.market,
-            startTs: params.startTimestamp,
-            endTs: params.endTimestamp,
-            fidelity: params.fidelity,
-            interval: params.interval,
+            market: validated.market,
+            startTs: validated.startTimestamp,
+            endTs: validated.endTimestamp,
+            fidelity: validated.fidelity,
+            interval: validated.interval,
           },
         },
       },
@@ -126,6 +135,8 @@ export class MarketApi {
    * Get tick size for a given token
    */
   async getTickSize(tokenId: string): Promise<TickSize> {
+    validate(NonEmptyString, tokenId, "tokenId");
+
     const response = await this.client.request<{ minimum_tick_size: number }>({
       method: "GET",
       path: "/tick-size",
@@ -141,6 +152,8 @@ export class MarketApi {
    * Get fee rate bps for a given token
    */
   async getFeeRateBps(tokenId: string): Promise<number> {
+    validate(NonEmptyString, tokenId, "tokenId");
+
     const response = await this.client.request<{ base_fee: number }>({
       method: "GET",
       path: "/fee-rate",
@@ -152,6 +165,37 @@ export class MarketApi {
     return response.base_fee;
   }
 }
+
+// ============================================================================
+// Parameter Schemas
+// ============================================================================
+
+const GetPriceSchema = v.pipe(
+  v.object({
+    tokenId: NonEmptyString,
+    side: v.picklist(["BUY", "SELL"]),
+  }),
+  v.metadata({ title: "GetPriceParams" }),
+);
+
+const GetPriceHistorySchema = v.pipe(
+  v.object({
+    market: NonEmptyString,
+    startTimestamp: v.optional(v.number()),
+    endTimestamp: v.optional(v.number()),
+    fidelity: v.optional(v.number()),
+    interval: v.optional(
+      v.picklist(["1m", "1w", "1d", "6h", "12h", "1h", "max"]),
+    ),
+  }),
+  v.metadata({ title: "GetPriceHistoryParams" }),
+);
+
+export type GetPriceHistoryParams = v.InferInput<typeof GetPriceHistorySchema>;
+
+// ============================================================================
+// Types
+// ============================================================================
 
 export type Market = {
   condition_id: string;
@@ -214,14 +258,6 @@ export type PriceResponse = {
 
 export type MidpointResponse = {
   mid: string;
-};
-
-export type GetPriceHistoryParams = {
-  market: string;
-  startTimestamp?: number;
-  endTimestamp?: number;
-  fidelity?: number;
-  interval?: "1m" | "1w" | "1d" | "6h" | "12h" | "1h" | "max";
 };
 
 export type MarketPrice = {

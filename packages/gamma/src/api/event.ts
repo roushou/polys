@@ -1,3 +1,4 @@
+import { NonEmptyString, v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 import { type Market, type MarketRaw, parseMarket } from "./market.js";
 import type { Tag } from "./tags.js";
@@ -9,6 +10,8 @@ export class EventApi {
    * Get a specific event by id
    */
   async getById(id: string): Promise<Event> {
+    validate(NonEmptyString, id, "id");
+
     const raw = await this.client.request<EventRaw>({
       method: "GET",
       path: `/events/${id}`,
@@ -20,6 +23,8 @@ export class EventApi {
    * Get a specific event by slug
    */
   async getBySlug(slug: string): Promise<Event> {
+    validate(NonEmptyString, slug, "slug");
+
     const raw = await this.client.request<EventRaw>({
       method: "GET",
       path: `/events/slug/${slug}`,
@@ -30,29 +35,35 @@ export class EventApi {
   /**
    * List all events with pagination. Defaults to first 10 results.
    */
-  async list({
-    active,
-    closed,
-    tag_id,
-    limit = 10,
-    offset = 0,
-    ascending = true,
-  }: {
-    active: boolean;
-    closed: boolean;
-    tag_id?: string;
-    limit?: number;
-    offset?: number;
-    ascending?: boolean;
-  }): Promise<Event[]> {
+  async list(params: ListEventsParams): Promise<Event[]> {
+    const validated = validate(ListEventsSchema, params);
+
     const raw = await this.client.request<EventRaw[]>({
       method: "GET",
       path: "/events",
-      params: { active, closed, tag_id, limit, offset, ascending },
+      params: validated,
     });
     return raw.map(transformEventWithMarkets);
   }
 }
+
+const ListEventsSchema = v.pipe(
+  v.object({
+    active: v.boolean(),
+    closed: v.boolean(),
+    tag_id: v.optional(v.string()),
+    limit: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0)), 10),
+    offset: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0)), 0),
+    ascending: v.optional(v.boolean(), true),
+  }),
+  v.metadata({ title: "ListEventsParams" }),
+);
+
+export type ListEventsParams = v.InferInput<typeof ListEventsSchema>;
+
+// ============================================================================
+// Helpers
+// ============================================================================
 
 /**
  * Transform a raw event with markets from snake_case to camelCase
@@ -110,6 +121,10 @@ function transformEventWithMarkets(raw: EventRaw): Event {
     markets: raw.markets?.map(parseMarket),
   };
 }
+
+// ============================================================================
+// Types
+// ============================================================================
 
 export type Event = {
   id: string;

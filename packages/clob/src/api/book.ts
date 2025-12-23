@@ -1,3 +1,4 @@
+import { NonEmptyString, v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 import type { OrderSide } from "./order.js";
 
@@ -8,6 +9,8 @@ export class BookApi {
    * Get order book for a specific token
    */
   async getOrderBook(tokenId: string): Promise<OrderBook> {
+    validate(NonEmptyString, tokenId, "tokenId");
+
     return this.client.request<OrderBook>({
       method: "GET",
       path: "/book",
@@ -24,12 +27,14 @@ export class BookApi {
   async getOrderBooks(
     params: { tokenId: string; side: OrderSide }[],
   ): Promise<OrderBook[]> {
+    const validated = validate(GetOrderBooksSchema, params);
+
     return this.client.request<OrderBook[]>({
       method: "POST",
       path: "/books",
       auth: { kind: "none" },
       options: {
-        body: params.map((param) => ({
+        body: validated.map((param) => ({
           token_id: param.tokenId,
           side: param.side,
         })),
@@ -41,6 +46,8 @@ export class BookApi {
    * Get ticker information for a token
    */
   async getTicker(tokenId: string): Promise<TickerResponse> {
+    validate(NonEmptyString, tokenId, "tokenId");
+
     return this.client.request<TickerResponse>({
       method: "GET",
       path: "/ticker",
@@ -51,6 +58,25 @@ export class BookApi {
     });
   }
 }
+
+// ============================================================================
+// Parameter Schemas
+// ============================================================================
+
+const GetOrderBooksSchema = v.pipe(
+  v.array(
+    v.object({
+      tokenId: NonEmptyString,
+      side: v.picklist(["BUY", "SELL"]),
+    }),
+  ),
+  v.minLength(1, "params must not be empty"),
+  v.metadata({ title: "GetOrderBooksParams" }),
+);
+
+// ============================================================================
+// Types
+// ============================================================================
 
 export type OrderLevel = {
   price: string;

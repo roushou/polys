@@ -1,3 +1,9 @@
+import {
+  NonEmptyString,
+  Positive,
+  v,
+  validate,
+} from "@dicedhq/core/validation";
 import { type Hex, zeroAddress } from "viem";
 import type { BaseClient } from "../client/base.js";
 import { type SignatureType, signOrder } from "../core/eip712.js";
@@ -14,6 +20,8 @@ export class OrderApi {
    * Get an order by ID
    */
   async getOrder(id: string): Promise<OpenOrder> {
+    validate(NonEmptyString, id, "id");
+
     return this.client.request<OpenOrder>({
       method: "GET",
       path: `/data/order/${id}`,
@@ -27,15 +35,17 @@ export class OrderApi {
    * List active orders for a given market
    */
   async listOrders(params: ListOrderParams): Promise<OpenOrder[]> {
+    const validated = validate(ListOrderSchema, params);
+
     return this.client.request<OpenOrder[]>({
       method: "GET",
       path: "/data/orders",
       auth: { kind: "l2" },
       options: {
         params: {
-          id: params.orderId,
-          market: params.marketId,
-          asset_id: params.assetId,
+          id: validated.orderId,
+          market: validated.marketId,
+          asset_id: validated.assetId,
         },
       },
     });
@@ -45,6 +55,8 @@ export class OrderApi {
    * Check if an order is eligible or scoring for Rewards purposes
    */
   async checkOrderRewardScoring(id: string): Promise<boolean> {
+    validate(NonEmptyString, id, "id");
+
     const response = await this.client.request<{ scoring: boolean }>({
       method: "GET",
       path: "/order-scoring",
@@ -60,30 +72,33 @@ export class OrderApi {
    * Create an order
    */
   async createOrder(params: CreateOrderParams): Promise<SignedOrder> {
+    const validated = validate(CreateOrderSchema, params);
+
     const [tickSize, feeRateBps, nonce] = await Promise.all([
-      this.market.getTickSize(params.tokenId),
-      this.market.getFeeRateBps(params.tokenId),
+      this.market.getTickSize(validated.tokenId),
+      this.market.getFeeRateBps(validated.tokenId),
       this.getNonce(),
     ]);
 
     // Build the unsigned order
     const maker = this.client.wallet.account.address;
     const amounts = this.calculateOrderAmounts({
-      price: params.price,
-      side: params.side,
-      size: params.size,
+      price: validated.price,
+      side: validated.side,
+      size: validated.size,
       tickSize,
     });
     const order: Order = {
       signer: maker,
       maker: maker,
-      taker: params.taker === "anyone" ? zeroAddress : params.taker,
-      tokenId: params.tokenId,
+      taker:
+        validated.taker === "anyone" ? zeroAddress : (validated.taker as Hex),
+      tokenId: validated.tokenId,
       nonce: nonce.toString(),
       salt: this.generateSalt().toString(),
       feeRateBps: feeRateBps.toString(),
-      expiration: params.expiration.toString(),
-      side: params.side,
+      expiration: validated.expiration.toString(),
+      side: validated.side,
       signatureType: "eoa",
       makerAmount: amounts.maker,
       takerAmount: amounts.taker,
@@ -152,6 +167,8 @@ export class OrderApi {
    * Cancel an order
    */
   async cancelOrder(id: string): Promise<CancelResponse> {
+    validate(NonEmptyString, id, "id");
+
     return this.client.request<CancelResponse>({
       method: "DELETE",
       path: "/order",
@@ -166,6 +183,8 @@ export class OrderApi {
    * Cancel multiple orders
    */
   async cancelOrders(orderIds: string[]): Promise<CancelResponse> {
+    validate(CancelOrdersSchema, orderIds);
+
     return this.client.request<CancelResponse>({
       method: "DELETE",
       path: "/orders",
@@ -247,6 +266,47 @@ export class OrderApi {
   }
 }
 
+// ============================================================================
+// Parameter Schemas
+// ============================================================================
+
+const ListOrderSchema = v.pipe(
+  v.object({
+    orderId: v.optional(v.string()),
+    marketId: NonEmptyString,
+    assetId: v.optional(v.string()),
+  }),
+  v.metadata({ title: "ListOrderParams" }),
+);
+
+const CreateOrderSchema = v.pipe(
+  v.object({
+    tokenId: NonEmptyString,
+    price: Positive,
+    size: Positive,
+    side: v.picklist(["BUY", "SELL"]),
+    expiration: v.pipe(v.number(), v.minValue(0)),
+    taker: v.union([
+      v.pipe(v.string(), v.startsWith("0x")),
+      v.literal("anyone"),
+    ]),
+  }),
+  v.metadata({ title: "CreateOrderParams" }),
+);
+
+const CancelOrdersSchema = v.pipe(
+  v.array(NonEmptyString),
+  v.minLength(1, "orderIds must not be empty"),
+  v.metadata({ title: "CancelOrdersParams" }),
+);
+
+export type ListOrderParams = v.InferInput<typeof ListOrderSchema>;
+export type CreateOrderParams = v.InferInput<typeof CreateOrderSchema>;
+
+// ============================================================================
+// Response Types (from API, not validated by us)
+// ============================================================================
+
 export type Order = {
   salt: string;
   maker: Hex;
@@ -294,23 +354,6 @@ export type OrderResponse = {
   errorMsg?: string;
   orderID?: string;
   transactionsHashes?: string[];
-};
-
-export type ListOrderParams = {
-  orderId?: string;
-  marketId: string;
-  assetId?: string;
-};
-
-type Taker = Hex | "anyone";
-
-export type CreateOrderParams = {
-  tokenId: string;
-  price: number;
-  side: OrderSide;
-  size: number;
-  expiration: number;
-  taker: Taker;
 };
 
 export type CreateOrderAndPostParams = {

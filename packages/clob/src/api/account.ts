@@ -1,3 +1,4 @@
+import { NonEmptyString, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 
 export class AccountApi {
@@ -10,6 +11,9 @@ export class AccountApi {
     tokenId: string,
     address: string,
   ): Promise<BalanceAllowanceResponse> {
+    validate(NonEmptyString, tokenId, "tokenId");
+    validate(NonEmptyString, address, "address");
+
     return this.client.request<BalanceAllowanceResponse>({
       method: "GET",
       path: "/balance-allowance",

@@ -1,3 +1,4 @@
+import { v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 
 export class BuildersApi {
@@ -6,20 +7,18 @@ export class BuildersApi {
   /**
    * Get builder leaderboard
    */
-  async leaderboard({
-    timePeriod,
-    limit = 25,
-    offset = 0,
-  }: GetLeaderboardParams): Promise<Builder[]> {
+  async leaderboard(params: GetLeaderboardParams): Promise<Builder[]> {
+    const validated = validate(GetLeaderboardSchema, params);
+
     return this.client.request<Builder[]>({
       method: "GET",
       path: "/v1/builders/leaderboard",
       params: {
         // The API expects an uppercase value
         // https://docs.polymarket.com/api-reference/builders/get-aggregated-builder-leaderboard#parameter-time-period
-        timePeriod: timePeriod.toUpperCase(),
-        limit,
-        offset,
+        timePeriod: validated.timePeriod.toUpperCase(),
+        limit: validated.limit,
+        offset: validated.offset,
       },
     });
   }
@@ -28,6 +27,8 @@ export class BuildersApi {
    * Get daily time-series volume data with multiple entries per builder (one per day)
    */
   async volume(timePeriod: TimePeriod): Promise<Builder[]> {
+    validate(TimePeriodSchema, timePeriod, "timePeriod");
+
     return this.client.request<Builder[]>({
       method: "GET",
       path: "/v1/builders/volume",
@@ -40,18 +41,19 @@ export class BuildersApi {
   }
 }
 
-export type TimePeriod = "day" | "week" | "month" | "all";
+const TimePeriodSchema = v.picklist(["day", "week", "month", "all"]);
 
-export type GetLeaderboardParams = {
-  /** The time period to aggregate results over */
-  timePeriod: TimePeriod;
+const GetLeaderboardSchema = v.pipe(
+  v.object({
+    timePeriod: TimePeriodSchema,
+    limit: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0)), 25),
+    offset: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0)), 0),
+  }),
+  v.metadata({ title: "GetLeaderboardParams" }),
+);
 
-  /** Maximum number of items to return (default: 25) */
-  limit?: number;
-
-  /** Offset for pagination (default: 0) */
-  offset?: number;
-};
+export type TimePeriod = v.InferInput<typeof TimePeriodSchema>;
+export type GetLeaderboardParams = v.InferInput<typeof GetLeaderboardSchema>;
 
 export type Builder = {
   rank: string;

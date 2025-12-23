@@ -1,3 +1,4 @@
+import { NonEmptyString, v, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 
 export class HoldersApi {
@@ -6,28 +7,37 @@ export class HoldersApi {
   /**
    * List top holders for markets
    */
-  async listHolders({
-    market,
-    limit = 100,
-    minBalance = 0,
-  }: ListHoldersParams): Promise<MarketHolders> {
+  async listHolders(params: ListHoldersParams): Promise<MarketHolders> {
+    const validated = validate(ListHoldersSchema, params);
+
     return this.client.request<MarketHolders>({
       method: "GET",
       path: "/holders",
       params: {
-        market,
-        limit,
-        minBalance,
+        market: validated.market,
+        limit: validated.limit,
+        minBalance: validated.minBalance,
       },
     });
   }
 }
 
-export type ListHoldersParams = {
-  market: string; // comma-separated condition IDs
-  limit?: number; // 0-500, default: 100
-  minBalance?: number; // 0-999999, default: 1
-};
+const ListHoldersSchema = v.pipe(
+  v.object({
+    market: NonEmptyString,
+    limit: v.optional(
+      v.pipe(v.number(), v.integer(), v.minValue(0), v.maxValue(500)),
+      100,
+    ),
+    minBalance: v.optional(
+      v.pipe(v.number(), v.minValue(0), v.maxValue(999999)),
+      0,
+    ),
+  }),
+  v.metadata({ title: "ListHoldersParams" }),
+);
+
+export type ListHoldersParams = v.InferInput<typeof ListHoldersSchema>;
 
 export type Holder = {
   proxyWallet: string;

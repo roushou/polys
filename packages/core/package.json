@@ -14,6 +14,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./validation": {
+      "types": "./dist/validation/index.d.ts",
+      "import": "./dist/validation/index.js"
     }
   },
   "files": [
@@ -31,7 +35,8 @@
     "publish:dry-run": "bun publish --dry-run && bunx jsr publish --dry-run"
   },
   "dependencies": {
-    "ky": "^1.14.0"
+    "ky": "^1.14.0",
+    "valibot": "^1.2.0"
   },
   "devDependencies": {
     "@typescript/native-preview": "^7.0.0-dev.20251112.1"

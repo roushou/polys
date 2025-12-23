@@ -1,3 +1,4 @@
+import { NonEmptyString, validate } from "@dicedhq/core/validation";
 import type { BaseClient } from "../client/base.js";
 
 export class SportApi {
@@ -18,6 +19,8 @@ export class SportApi {
    * List sports metadata by sport identifier
    */
   async listBySport(sport: string): Promise<SportsMetadata | undefined> {
+    validate(NonEmptyString, sport, "sport");
+
     const allSports = await this.list();
     return allSports.find((s) => s.sport === sport);
   }
@@ -27,6 +30,8 @@ export class SportApi {
    * Returns all sports that contain the specified tag ID
    */
   async listByTag(tagId: string): Promise<SportsMetadata[]> {
+    validate(NonEmptyString, tagId, "tagId");
+
     const allSports = await this.list();
     return allSports.filter((s) => s.tags?.includes(tagId));
   }
@@ -36,6 +41,8 @@ export class SportApi {
    * Returns all sports that match the specified series
    */
   async listBySeries(series: string): Promise<SportsMetadata[]> {
+    validate(NonEmptyString, series, "series");
+
     const allSports = await this.list();
     return allSports.filter((s) => s.series === series);
   }
