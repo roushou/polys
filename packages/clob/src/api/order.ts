@@ -6,7 +6,11 @@ import {
 } from "@dicedhq/core/validation";
 import { type Hex, zeroAddress } from "viem";
 import type { BaseClient } from "../client/base.js";
-import { type SignatureType, signOrder } from "../core/eip712.js";
+import {
+  type SignatureType,
+  signOrder,
+  signatureTypeToNumber,
+} from "../core/eip712.js";
 import { roundTo } from "../utils.js";
 import type { MarketApi, TickSize } from "./market.js";
 
@@ -81,7 +85,9 @@ export class OrderApi {
     ]);
 
     // Build the unsigned order
-    const maker = this.client.wallet.account.address;
+    const signer = this.client.wallet.account.address;
+    const maker = (validated.funderAddress as Hex) ?? signer;
+    const signatureType = validated.signatureType ?? "eoa";
     const amounts = this.calculateOrderAmounts({
       price: validated.price,
       side: validated.side,
@@ -89,8 +95,8 @@ export class OrderApi {
       tickSize,
     });
     const order: Order = {
-      signer: maker,
-      maker: maker,
+      signer,
+      maker,
       taker:
         validated.taker === "anyone" ? zeroAddress : (validated.taker as Hex),
       tokenId: validated.tokenId,
@@ -99,7 +105,7 @@ export class OrderApi {
       feeRateBps: feeRateBps.toString(),
       expiration: validated.expiration.toString(),
       side: validated.side,
-      signatureType: "eoa",
+      signatureType,
       makerAmount: amounts.maker,
       takerAmount: amounts.taker,
     };
@@ -135,7 +141,7 @@ export class OrderApi {
         nonce: order.nonce,
         feeRateBps: order.feeRateBps,
         side: order.side === "BUY" ? "0" : "1",
-        signatureType: 0,
+        signatureType: signatureTypeToNumber(order.signatureType),
         signature: order.signature,
       },
     };
@@ -279,6 +285,8 @@ const ListOrderSchema = v.pipe(
   v.metadata({ title: "ListOrderParams" }),
 );
 
+const SignatureTypeSchema = v.picklist(["eoa", "poly-proxy", "poly-gnosis-safe"]);
+
 const CreateOrderSchema = v.pipe(
   v.object({
     tokenId: NonEmptyString,
@@ -290,6 +298,10 @@ const CreateOrderSchema = v.pipe(
       v.pipe(v.string(), v.startsWith("0x")),
       v.literal("anyone"),
     ]),
+    /** Optional funder address (e.g., a Safe contract). If provided, this becomes the maker address. */
+    funderAddress: v.optional(v.pipe(v.string(), v.startsWith("0x"))),
+    /** Signature type. Defaults to "eoa". Use "poly-gnosis-safe" for Safe wallet signing. */
+    signatureType: v.optional(SignatureTypeSchema),
   }),
   v.metadata({ title: "CreateOrderParams" }),
 );

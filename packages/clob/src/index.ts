@@ -43,3 +43,4 @@ export type {
   SupportedChain,
 } from "./wallet/wallet.js";
 export { createConnectedWallet } from "./wallet/wallet.js";
+export type { SignatureType } from "./core/eip712.js";

@@ -104,7 +104,7 @@ export async function signClobAuth({
   });
 }
 
-function signatureTypeToNumber(signatureType: SignatureType): 0 | 1 | 2 {
+export function signatureTypeToNumber(signatureType: SignatureType): 0 | 1 | 2 {
   switch (signatureType) {
     case "eoa":
       return 0;
