@@ -1,5 +1,5 @@
-import { ValidationError } from "@dicedhq/core";
 import { describe, expect, test } from "bun:test";
+import { ValidationError } from "@dicedhq/core";
 import type { BaseClient } from "../client/base.js";
 import { SeriesApi } from "./series.js";
 

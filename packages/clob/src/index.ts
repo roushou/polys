@@ -32,6 +32,7 @@ export type {
   TradesResponse,
 } from "./api/trade.js";
 export { Clob, type ClobConfig } from "./client/client.js";
+export type { SignatureType } from "./core/eip712.js";
 export type {
   Credentials,
   HeaderPayload,
@@ -43,4 +44,3 @@ export type {
   SupportedChain,
 } from "./wallet/wallet.js";
 export { createConnectedWallet } from "./wallet/wallet.js";
-export type { SignatureType } from "./core/eip712.js";

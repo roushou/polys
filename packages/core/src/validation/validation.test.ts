@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { ValidationError } from "../errors.js";
+import { v } from "./index.js";
 import {
   Integer,
   NonEmptyString,
@@ -7,7 +8,6 @@ import {
   Positive,
 } from "./primitives.js";
 import { validate } from "./validator.js";
-import { v } from "./index.js";
 
 describe("Primitive Schemas", () => {
   describe("NonEmptyString", () => {

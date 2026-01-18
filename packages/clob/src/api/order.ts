@@ -8,8 +8,8 @@ import { type Hex, zeroAddress } from "viem";
 import type { BaseClient } from "../client/base.js";
 import {
   type SignatureType,
-  signOrder,
   signatureTypeToNumber,
+  signOrder,
 } from "../core/eip712.js";
 import { roundTo } from "../utils.js";
 import type { MarketApi, TickSize } from "./market.js";
@@ -285,7 +285,11 @@ const ListOrderSchema = v.pipe(
   v.metadata({ title: "ListOrderParams" }),
 );
 
-const SignatureTypeSchema = v.picklist(["eoa", "poly-proxy", "poly-gnosis-safe"]);
+const SignatureTypeSchema = v.picklist([
+  "eoa",
+  "poly-proxy",
+  "poly-gnosis-safe",
+]);
 
 const CreateOrderSchema = v.pipe(
   v.object({
