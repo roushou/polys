@@ -1,14 +1,22 @@
 import { createConnectedWallet, Polymarket } from "@dicedhq/polymarket";
 
+function getEnvVar(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+  return value;
+}
+
 const wallet = createConnectedWallet({
-  privateKey: process.env.POLYS_PRIVATE_KEY!,
+  privateKey: getEnvVar("POLYS_PRIVATE_KEY"),
   chain: "polygon",
 });
 
 const credentials = {
-  key: process.env.POLYS_POLYMARKET_API_KEY!,
-  secret: process.env.POLYS_POLYMARKET_SECRET!,
-  passphrase: process.env.POLYS_POLYMARKET_PASSPHRASE!,
+  key: getEnvVar("POLYS_POLYMARKET_API_KEY"),
+  secret: getEnvVar("POLYS_POLYMARKET_SECRET"),
+  passphrase: getEnvVar("POLYS_POLYMARKET_PASSPHRASE"),
 };
 
 const client = new Polymarket({

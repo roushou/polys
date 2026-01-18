@@ -190,7 +190,8 @@ describe("OrderApi createOrder behavior", () => {
   const signerAddress = "0x1234567890123456789012345678901234567890" as Hex;
   const funderAddress = "0xABCDEF1234567890123456789012345678901234" as Hex;
   // Use a valid numeric tokenId that can be parsed as BigInt
-  const tokenId = "48331043336612883890938759509493159234702721395746534906027558071024163372528";
+  const tokenId =
+    "48331043336612883890938759509493159234702721395746534906027558071024163372528";
 
   const createMockClient = () => {
     return {

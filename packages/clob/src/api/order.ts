@@ -285,7 +285,11 @@ const ListOrderSchema = v.pipe(
   v.metadata({ title: "ListOrderParams" }),
 );
 
-const SignatureTypeSchema = v.picklist(["eoa", "poly-proxy", "poly-gnosis-safe"]);
+const SignatureTypeSchema = v.picklist([
+  "eoa",
+  "poly-proxy",
+  "poly-gnosis-safe",
+]);
 
 const CreateOrderSchema = v.pipe(
   v.object({
