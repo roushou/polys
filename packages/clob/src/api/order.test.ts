@@ -208,9 +208,9 @@ describe("OrderApi createOrder behavior", () => {
     } as unknown as BaseClient;
   };
 
-  const createMockMarketApi = () => {
+  const createMockMarketApi = (tickSize = "0.01") => {
     return {
-      getTickSize: mock(async () => "0.01"),
+      getTickSize: mock(async () => tickSize),
       getFeeRateBps: mock(async () => 0),
     } as unknown as MarketApi;
   };
@@ -288,6 +288,93 @@ describe("OrderApi createOrder behavior", () => {
     });
 
     expect(order.signatureType).toBe("poly-proxy");
+  });
+
+  test("should use consistent 6 decimal scaling for BUY order amounts", async () => {
+    const mockClient = createMockClient();
+    // tickSize "0.001" means 3 decimals for price
+    const mockMarketApi = createMockMarketApi("0.001");
+    const api = new OrderApi(mockClient, mockMarketApi);
+
+    // price=0.545, size=1.83
+    // shares = 1.83 (rounded to 2 decimals)
+    // cost = 1.83 * 0.545 = 0.99735 (rounded to 5 decimals for tick=3 + size=2)
+    // Both should use 10^6 scaling
+    // sharesRaw = 1.83 * 10^6 = 1830000
+    // costRaw = 0.99735 * 10^6 = 997350
+    const order = await api.createOrder({
+      tokenId,
+      price: 0.545,
+      size: 1.83,
+      side: "BUY",
+      expiration: 0,
+      taker: "anyone",
+    });
+
+    // BUY: maker gives USDC (cost), taker gives shares
+    expect(order.makerAmount).toBe("997350");
+    expect(order.takerAmount).toBe("1830000");
+
+    // Verify price calculation: makerAmount / takerAmount = 0.545...
+    const impliedPrice =
+      parseInt(order.makerAmount, 10) / parseInt(order.takerAmount, 10);
+    expect(impliedPrice).toBeCloseTo(0.545, 3);
+  });
+
+  test("should use consistent 6 decimal scaling for SELL order amounts", async () => {
+    const mockClient = createMockClient();
+    const mockMarketApi = createMockMarketApi("0.001");
+    const api = new OrderApi(mockClient, mockMarketApi);
+
+    const order = await api.createOrder({
+      tokenId,
+      price: 0.545,
+      size: 1.83,
+      side: "SELL",
+      expiration: 0,
+      taker: "anyone",
+    });
+
+    // SELL: maker gives shares, taker gives USDC (cost)
+    expect(order.makerAmount).toBe("1830000");
+    expect(order.takerAmount).toBe("997350");
+
+    // Verify price calculation: takerAmount / makerAmount = 0.545...
+    const impliedPrice =
+      parseInt(order.takerAmount, 10) / parseInt(order.makerAmount, 10);
+    expect(impliedPrice).toBeCloseTo(0.545, 3);
+  });
+
+  test("should produce valid price (between 0 and 1) from order amounts", async () => {
+    const mockClient = createMockClient();
+    const mockMarketApi = createMockMarketApi("0.01");
+    const api = new OrderApi(mockClient, mockMarketApi);
+
+    // Test various prices to ensure they all produce valid implied prices
+    const testCases = [
+      { price: 0.1, size: 5.0 },
+      { price: 0.5, size: 10.0 },
+      { price: 0.99, size: 2.5 },
+      { price: 0.01, size: 100.0 },
+    ];
+
+    for (const { price, size } of testCases) {
+      const order = await api.createOrder({
+        tokenId,
+        price,
+        size,
+        side: "BUY",
+        expiration: 0,
+        taker: "anyone",
+      });
+
+      // For BUY orders: implied price = makerAmount / takerAmount
+      const impliedPrice =
+        parseInt(order.makerAmount, 10) / parseInt(order.takerAmount, 10);
+      expect(impliedPrice).toBeGreaterThan(0);
+      expect(impliedPrice).toBeLessThan(1);
+      expect(impliedPrice).toBeCloseTo(price, 2);
+    }
   });
 });
 

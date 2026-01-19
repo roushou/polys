@@ -246,15 +246,17 @@ export class OrderApi {
     const tickDecimals = tickSize.split(".")[1]?.length || 0;
     const sizeDecimals = 2;
     const amountDecimals = tickDecimals + sizeDecimals;
+    // Polymarket uses 6 decimals for both maker and taker amounts (USDC precision)
+    const tokenDecimals = 6;
 
     const roundedPrice = roundTo(price, tickDecimals);
     const shares = roundTo(size, sizeDecimals);
     const cost = roundTo(shares * roundedPrice, amountDecimals);
 
-    // Convert to raw integers (no decimals) for smart contract
-    // e.g., "2.00" with 6 decimals -> "2000000"
-    const sharesRaw = Math.floor(shares * 10 ** sizeDecimals).toString();
-    const costRaw = Math.floor(cost * 10 ** amountDecimals).toString();
+    // Convert to raw integers using 6 decimals for both amounts
+    // This ensures price = makerAmount / takerAmount produces a valid value
+    const sharesRaw = Math.floor(shares * 10 ** tokenDecimals).toString();
+    const costRaw = Math.floor(cost * 10 ** tokenDecimals).toString();
 
     if (side === "BUY") {
       // BUY: maker gives USDC, gets shares
